@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>סיפורי צדיקים – הרב אריה מאיר</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Frank+Ruhl+Libre:wght@500;700;900&family=Assistant:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+/* layout: one column reading spine, sticky section nav, cards only for the Shabbat sheet and the disc board */
+:root{
+  --bg:#f4f3ef; --surface:#ffffff; --ink:#1d2230; --muted:#5d6274;
+  --line:#dddbd2; --accent:#9a6a0c; --accent-soft:#f3e7cc; --night:#1f2a44;
+  --ok:#2f7a4b; --wait:#8a8f9c;
+  --display:"Frank Ruhl Libre","David",serif; --body:"Assistant","Arial Hebrew",Arial,sans-serif;
+  color-scheme:light;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --bg:#141822; --surface:#1c2130; --ink:#ecebe6; --muted:#a3a8b6; --line:#2e3446;
+  --accent:#e0b04f; --accent-soft:#3a3120; --night:#0e1220; --ok:#5cc184; --wait:#6c7283; color-scheme:dark;}}
+:root[data-theme="dark"]{
+  --bg:#141822; --surface:#1c2130; --ink:#ecebe6; --muted:#a3a8b6; --line:#2e3446;
+  --accent:#e0b04f; --accent-soft:#3a3120; --night:#0e1220; --ok:#5cc184; --wait:#6c7283; color-scheme:dark;}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+body{margin:0;background:var(--bg);color:var(--ink);font:17px/1.65 var(--body)}
+a{color:var(--accent)}
+a:focus-visible,button:focus-visible{outline:3px solid var(--accent);outline-offset:2px;border-radius:4px}
+h1,h2,h3{font-family:var(--display);line-height:1.25;text-wrap:balance;margin:0}
+h2{font-size:1.7rem;margin-bottom:.6rem}
+h3{font-size:1.2rem;margin:1.2rem 0 .3rem}
+p{margin:.5rem 0}
+.wrap{max-width:760px;margin:0 auto;padding:0 18px}
+header.top{background:var(--night);color:#f1ede2;padding:28px 0 22px}
+header.top .eyebrow{color:#e0b04f;font-weight:700;letter-spacing:.02em;font-size:.9rem}
+header.top h1{font-size:2.1rem;margin:.2rem 0 .4rem;color:#fff}
+header.top p{color:#c9c6bd;margin:0}
+.stats{display:flex;gap:10px;flex-wrap:wrap;margin-top:16px}
+.stat{background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.12);border-radius:10px;padding:8px 12px;min-width:92px}
+.stat b{display:block;font:700 1.35rem/1.1 var(--display);color:#fff;font-variant-numeric:tabular-nums}
+.stat span{font-size:.8rem;color:#c9c6bd}
+nav.sec{position:sticky;top:0;z-index:5;background:var(--surface);border-bottom:1px solid var(--line)}
+nav.sec .wrap{display:flex;gap:4px;overflow-x:auto;padding-top:8px;padding-bottom:8px}
+nav.sec a{flex:none;text-decoration:none;color:var(--ink);font-weight:600;font-size:.92rem;padding:6px 12px;border-radius:999px;border:1px solid var(--line)}
+nav.sec a:hover{border-color:var(--accent);color:var(--accent)}
+section{padding:34px 0 10px;scroll-margin-top:56px}
+section+section{border-top:1px solid var(--line)}
+.lede{color:var(--muted)}
+.story{display:grid;grid-template-columns:auto 1fr;gap:4px 14px;padding:14px 0;border-bottom:1px dashed var(--line)}
+.story:last-child{border-bottom:0}
+.num{font:900 1.6rem/1 var(--display);color:var(--accent);padding-top:2px;font-variant-numeric:tabular-nums}
+.story h3{margin:0}
+.meta{font-size:.85rem;color:var(--muted)}
+.meta a{font-weight:600}
+.pill{display:inline-block;font-size:.78rem;font-weight:700;padding:1px 9px;border-radius:999px;background:var(--accent-soft);color:var(--accent);margin-inline-start:6px;vertical-align:middle}
+.note{border-inline-start:4px solid var(--accent);background:var(--accent-soft);padding:10px 14px;border-radius:6px;font-size:.95rem;margin:14px 0}
+/* Shabbat sheet */
+.sheet{background:var(--surface);border:1px solid var(--line);border-radius:6px;padding:26px 22px;box-shadow:0 2px 10px rgba(0,0,0,.05)}
+.sheet .mast{text-align:center;border-bottom:3px double var(--line);padding-bottom:12px;margin-bottom:14px}
+.sheet .mast small{color:var(--muted);display:block}
+.sheet .mast h3{font-size:2rem;margin:.2rem 0;font-weight:900}
+.sheet blockquote{margin:14px 0;padding:10px 16px;font-family:var(--display);font-size:1.15rem;text-align:center;border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+.cols{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px;margin:12px 0}
+.mini{border:1px solid var(--line);border-radius:6px;padding:10px 12px;font-size:.93rem}
+.mini b{font-family:var(--display);font-size:1.02rem}
+.sheet ol{padding-inline-start:22px;margin:.4rem 0}
+.sheet .foot{text-align:center;font-size:.8rem;color:var(--muted);border-top:1px solid var(--line);margin-top:14px;padding-top:8px}
+.btn{font:600 .92rem var(--body);background:var(--accent);color:#fff;border:0;border-radius:8px;padding:8px 16px;cursor:pointer;margin-top:12px}
+[data-theme="dark"] .btn{color:#141822}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .btn{color:#141822}}
+.copied{font-size:.85rem;color:var(--ok);margin-inline-start:8px}
+/* tables */
+.tbl{overflow-x:auto;margin:10px 0}
+table{border-collapse:collapse;width:100%;font-size:.93rem}
+th,td{text-align:start;padding:8px 10px;border-bottom:1px solid var(--line);vertical-align:top}
+th{font-weight:700;color:var(--muted);font-size:.82rem}
+td.t{font-variant-numeric:tabular-nums;white-space:nowrap;color:var(--muted)}
+.chapters td:first-child{font-variant-numeric:tabular-nums;font-weight:700;color:var(--accent);white-space:nowrap}
+pre.copy{white-space:pre-wrap;background:var(--surface);border:1px solid var(--line);border-radius:6px;padding:12px;font:inherit;font-size:.95rem}
+/* events */
+.event{padding:12px 0;border-bottom:1px dashed var(--line)}
+.event:last-child{border-bottom:0}
+.event ul{margin:.3rem 0;padding-inline-start:20px}
+/* disc board */
+.board{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:8px;margin-top:10px}
+.disc{background:var(--surface);border:1px solid var(--line);border-inline-start:4px solid var(--wait);border-radius:6px;padding:7px 10px;font-size:.88rem;line-height:1.35}
+.disc.done{border-inline-start-color:var(--ok)}
+.disc small{display:block;color:var(--muted);font-size:.75rem}
+.disc.done small{color:var(--ok);font-weight:700}
+footer{color:var(--muted);font-size:.85rem;padding:28px 0 40px;text-align:center}
+</style>
+</head>
+<body>
+
+<header class="top">
+  <div class="wrap">
+    <div class="eyebrow">מערכת זיכוי הרבים · פיילוט</div>
+    <h1>סיפורי צדיקים – הרב אריה מאיר</h1>
+    <p>דיסק 35: <strong>חנוכה – מעטים כנגד רבים</strong>. תומלל, נלמד והפך לתוכן לשבת, לפודקאסט ולאירועים.</p>
+    <div class="stats">
+      <div class="stat"><b>1 / 39</b><span>דיסקים תומללו</span></div>
+      <div class="stat"><b>64:17</b><span>דקות בדיסק 35</span></div>
+      <div class="stat"><b>4</b><span>סיפורים</span></div>
+      <div class="stat"><b>4.12.26</b><span>נר ראשון</span></div>
+    </div>
+  </div>
+</header>
+
+<nav class="sec" aria-label="ניווט בדף">
+  <div class="wrap">
+    <a href="#stories">הסיפורים</a>
+    <a href="#shabbat">דף לשבת</a>
+    <a href="#podcast">פודקאסט</a>
+    <a href="#calendar">לוח שנה</a>
+    <a href="#events">אירועים</a>
+    <a href="#analysis">ניתוח</a>
+    <a href="#status">מצב המערכת</a>
+  </div>
+</nav>
+
+<main class="wrap">
+
+<section id="stories">
+  <h2>ארבעה סיפורים, מסר אחד</h2>
+  <p class="lede">הדיסק בנוי סביב שורה אחת מ"על הניסים": רבים ביד מעטים. הרב מראה אותה בארבע תקופות וביבשות שונות. בכל סיפור המאבק הוא בתוך האדם: מעט מצוות, מעט אור, מנצחים הרבה חושך.</p>
+
+  <div class="story">
+    <div class="num">1</div>
+    <div>
+      <h3>החברותא מז'יטומיר <span class="pill">הסיפור המרכזי</span></h3>
+      <p>מנחם פרנק, בחור ישיבה, נגרר צעד אחר צעד מבית המדרש אל חבורת שודדים. בליל חנוכה, באמצע שוד באכסניה, הוא פורץ לחדר של החברותא הישן שלו ומוצא אותו לומד גמרא מול נרות החנוכה. הנרות מעוררים אותו. הוא נוסע לרבי ישראל מרוז'ין, ושנתיים אחר כך חוזר לאשתו מינה ולבנו גד, שמעולם לא פגש.</p>
+      <div class="meta">Track01 · 31:16 · <a href="https://drive.google.com/file/d/1PzHdbU7x9S7ixXXix_yZTdr5M5f7N5hI/view">האזנה בדרייב</a></div>
+    </div>
+  </div>
+
+  <div class="story">
+    <div class="num">2</div>
+    <div>
+      <h3>המרגרינה של אושוויץ</h3>
+      <p>חנוכה 1942. הנאצים זורקים מרגרינה לחלשים, כדי לצפות ביהודים הרעבים נלחמים זה בזה. הרב שבמשלוח זוחל ואוסף כל פירור, והמחנה מזדעזע. ואז הוא קורא: "נס! אפשר להדליק נרות חנוכה!" מבגדיו נעשות פתילות, מכפתורי כסף של אישה נבנית חנוכייה. כשהגרמנים חוזרים, הם לא מוצאים קרב אלא אור.</p>
+      <div class="meta">Track03 · 9:55 · <a href="https://drive.google.com/file/d/1P9WJ95igjEOdE2JGnSVBdLVbQgwX3DBK/view">האזנה בדרייב</a></div>
+    </div>
+  </div>
+
+  <div class="story">
+    <div class="num">3</div>
+    <div>
+      <h3>חנוכיות הכסף מצנעא</h3>
+      <p>האחים סאלם ויחיא עולים מתימן לבד. לפני שנפרדו, אמם נתנה לכל אחד חנוכיית כסף שעשתה בעצמה. בארץ מפרידים ביניהם ו"כור ההיתוך" מוחק להם את השמות ואת היהדות. 24 שנה אחר כך, במילואים בסיני אחרי מלחמת יום הכיפורים, "חיים" רואה חנוכיה זהה לשלו בוערת באוהל של "שלומי", וכך האחים מוצאים זה את זה. שניהם חוזרים ליהדות.</p>
+      <div class="meta">Track04 · 13:43 · <a href="https://drive.google.com/file/d/1Kodn8TFOm6ylt8WB4p4Cby4Jw4xUHi7m/view">האזנה בדרייב</a></div>
+    </div>
+  </div>
+
+  <div class="story">
+    <div class="num">4</div>
+    <div>
+      <h3>החייל היהודי וג'ורג' וושינגטון</h3>
+      <p>ולי פורג', חורף 1777. הצבא האמריקני על סף ייאוש. חייל יהודי שברח מהפריצים בפולין מדליק נר חנוכה ומתפלל לניצחון. הגנרל וושינגטון שואל מה זה, והחייל מסביר: מעטים כנגד רבים. אחרי המלחמה הנשיא מגיע לביתו בניו יורק ומעניק לו מדליית זהב שחרוטה עליה חנוכייה.</p>
+      <div class="meta">Track05 · 9:23 · <a href="https://drive.google.com/file/d/1Ee6p5-svEidTpczrMxoPxHxW9c8dHva2/view">האזנה בדרייב</a></div>
+    </div>
+  </div>
+</section>
+
+<section id="shabbat">
+  <h2>דף לשבת</h2>
+  <p class="lede">לשבת פרשת וישב, שבת חנוכה, כ"ה בכסלו תשפ"ז (5.12.26). להדפסה ולחלוקה ביום חמישי.</p>
+
+  <article class="sheet" id="sheet">
+    <div class="mast">
+      <small>בס"ד · שבת פרשת וישב · שבת חנוכה · תשפ"ז</small>
+      <h3>מעטים כנגד רבים</h3>
+      <small>מתוך "סיפורי צדיקים" של הרב אריה מאיר</small>
+    </div>
+
+    <blockquote>"מָסַרְתָּ גִבּוֹרִים בְּיַד חַלָּשִׁים, וְרַבִּים בְּיַד מְעַטִּים"<br><small>(מתוך "על הניסים")</small></blockquote>
+
+    <h3>החברותא מז'יטומיר</h3>
+    <p>מנחם פרנק ישב ולמד בבית המדרש בז'יטומיר, עד שהתחתן ועבר לגור בברוד, על שולחן חותנו העשיר. המשפחה לחצה: "מה אכפת לך? פעם אחת תעזור לחלק את הכסף של כמה סוחרים." הפעם האחת נעשתה פעם נוספת, והפעמים נעשו הרגל. לאט לאט התברר שהסוחרים הם חבורת שודדים, ומנחם הפך לאחד מהם. הוא עזב את הבית. אשתו מינה נשארה לבד, ועוד לא הספיקה לספר לו שהיא בהיריון.</p>
+    <p>שנים אחר כך, בליל חנוכה, בסופת שלגים, משה החסיד נתקע בדרך אל רבו, רבי ישראל מרוז'ין, ולן באכסניה. באמצע הלילה פרצו שודדים לאכסניה. משה ישב בחדרו מול נרות החנוכה, והתחיל ללמוד בניגון. מנהיג השודדים שמע את הקול ובעט בדלת. משה אמר "שמע ישראל" והתכונן למות. כשפקח את עיניו, ראה את הרוצח בוכה מול הנרות ומול הגמרא הפתוחה. "אתה משה מז'יטומיר? אני מנחם פרנק, החברותא שלך."</p>
+    <p>מנחם שחרר את כולם. למחרת עלה לעגלה של משה ונסע איתו לרוז'ין. שם אמר: "שנים לא הרגשתי את האור היהודי, ופתאום ראיתי גמרא ונרות חנוכה, כאילו העירו אותי מחלום בלהות." שנתיים אחר כך, במסיבת חנוכה בתלמוד התורה בברוד, ילד יתום בשם גד עמד לבד מול החידון. איש גבוה ניגש אליו מפינת האולם: "אני אבא של גד. אתה מרשה לי לעזור לך?" ומאחור עמדה מינה, וראתה איך מאות התפילות שלה פתחו לבעלה את הדרך הביתה.</p>
+
+    <h3>המסר</h3>
+    <p>"מעטים כנגד רבים" הוא לא רק סיפור על המכבים בשדה הקרב. בתוך כל יהודי יש "רבים", החטאים והחושך, ויש "מעטים", כמה מצוות, כמה נקודות טובות. חנוכה מלמד שהמעט מנצח. נר אחד מאיר חדר שלם. ואין יהודי שבורא עולם לא קורא לו: "בוא אליי, בני."</p>
+
+    <div class="cols">
+      <div class="mini"><b>באושוויץ</b><br>רב זחל לאסוף פירורי מרגרינה, לא בשביל לאכול אלא בשביל להדליק נר חנוכה בלב התופת.</div>
+      <div class="mini"><b>בסיני</b><br>שני אחים מתימן, שהופרדו בילדותם, מצאו זה את זה אחרי 24 שנה בזכות חנוכיות הכסף שאמם עשתה.</div>
+      <div class="mini"><b>בוולי פורג'</b><br>חייל יהודי הדליק נר, וחיזק בכך את ג'ורג' וושינגטון ברגע הייאוש.</div>
+    </div>
+
+    <h3>שאלות לשולחן השבת</h3>
+    <ol>
+      <li>מנחם לא נפל בבת אחת. איך "רק פעם אחת" הופך להרגל, וכיצד עוצרים את זה בזמן?</li>
+      <li>מה בדיוק בחדר של משה העיר את מנחם: הנרות, הגמרא, הניגון או הפנים של חבר ישן?</li>
+      <li>מינה לא יכלה להחזיר את בעלה בכוח. מה כן היה בידיה, ומה זה מלמד אותנו?</li>
+      <li>מה "המעט" שלי, הנקודה הטובה שאני רוצה להוסיף בחנוכה הזה?</li>
+    </ol>
+
+    <h3>חידון לילדים</h3>
+    <ol>
+      <li>באיזו עיר למדו מנחם ומשה יחד? <small>(ז'יטומיר)</small></li>
+      <li>אל איזה צדיק נסע משה? <small>(רבי ישראל מרוז'ין)</small></li>
+      <li>מה ראה מנהיג השודדים בחדר של משה? <small>(נרות חנוכה וגמרא פתוחה)</small></li>
+      <li>איך קראו לבן של מנחם ומינה? <small>(גד)</small></li>
+      <li>במה עזר האבא לבנו במסיבת החנוכה? <small>(בחידון)</small></li>
+    </ol>
+
+    <div class="foot">הגיליון מכיל דברי תורה – נא לשמור על קדושתו · להאזנה לסיפור המלא: הפודקאסט "סיפורי צדיקים"</div>
+  </article>
+  <button class="btn" id="copySheet" type="button">העתקת הטקסט של הדף</button><span class="copied" id="copiedMsg" aria-live="polite"></span>
+  <div class="note">בהקלטה הרב מציין את השנה 1860. רבי ישראל מרוז'ין נפטר כבר בשנת 1850 (ג' בחשוון תרי"א), אז בדף הוצאתי את השנה. מומלץ לא לציין אותה גם בפרסומים.</div>
+</section>
+
+<section id="podcast">
+  <h2>פרק פודקאסט</h2>
+  <p class="lede">ההמלצה היא פרק אחד באורך 64 דקות עם פרקים פנימיים. אפשר גם לפצל לארבעה פרקים קצרים, אחד לכל לילה של חנוכה.</p>
+  <h3>מעטים כנגד רבים: ארבעה סיפורי חנוכה</h3>
+  <p><strong>תיאור:</strong> שודד שמתעורר מול נרות חנוכה באכסניה ביערות אוקראינה. רב שזוחל לאסוף מרגרינה באושוויץ. שני אחים מתימן שמוצאים זה את זה אחרי 24 שנה. וחייל יהודי שמחזק את ג'ורג' וושינגטון. בארבעה סיפורים הרב אריה מאיר מראה שהנס של חנוכה קורה גם בתוכנו: מעט אור מנצח הרבה חושך.</p>
+  <div class="tbl"><table class="chapters">
+    <thead><tr><th>זמן</th><th>פרק</th></tr></thead>
+    <tbody>
+      <tr><td>00:00</td><td>החברותא מז'יטומיר</td></tr>
+      <tr><td>22:38</td><td>"מעטים כנגד רבים" – מה אמרו ברוז'ין</td></tr>
+      <tr><td>24:09</td><td>מסיבת החנוכה בברוד</td></tr>
+      <tr><td>31:16</td><td>המרגרינה של אושוויץ</td></tr>
+      <tr><td>41:11</td><td>חנוכיות הכסף מצנעא</td></tr>
+      <tr><td>54:54</td><td>החייל היהודי וג'ורג' וושינגטון</td></tr>
+    </tbody>
+  </table></div>
+  <p class="meta">תגיות: חנוכה, סיפורי צדיקים, רבי ישראל מרוז'ין, תשובה, שואה, עליית יהודי תימן, אמונה</p>
+  <h3>הודעה לוואטסאפ</h3>
+  <pre class="copy" id="wa">🕎 לקראת חנוכה: פרק חדש ב"סיפורי צדיקים" עם הרב אריה מאיר
+"מעטים כנגד רבים" – 4 סיפורים על אור קטן שמנצח חושך גדול:
+• השודד שהתעורר מול נרות החנוכה
+• המרגרינה של אושוויץ
+• חנוכיות הכסף מצנעא
+• החייל היהודי וג'ורג' וושינגטון
+להאזנה: [קישור לפרק]
+שתפו לזיכוי הרבים 🙏</pre>
+  <button class="btn" id="copyWa" type="button">העתקת ההודעה</button><span class="copied" id="copiedWa" aria-live="polite"></span>
+</section>
+
+<section id="calendar">
+  <h2>שיבוץ בלוח השנה</h2>
+  <p class="lede">חנוכה תשפ"ז: מערב שישי 4.12.26 (כ"ה בכסלו) עד מוצאי שבת 12.12.26 (ב' בטבת).</p>
+  <div class="tbl"><table>
+    <thead><tr><th>תאריך</th><th>מה</th><th>תוכן</th></tr></thead>
+    <tbody>
+      <tr><td class="t">ג' 1.12</td><td>פרסום הפרק</td><td>הודעת וואטסאפ וקישור לפרק המלא</td></tr>
+      <tr><td class="t">ה' 3.12</td><td>חלוקת דף לשבת</td><td>"החברותא מז'יטומיר" לשבת וישב–חנוכה</td></tr>
+      <tr><td class="t">ו' 4.12</td><td>נר ראשון</td><td>קטע 22:38: "מה אמרו ברוז'ין"</td></tr>
+      <tr><td class="t">א' 6.12</td><td>נר שלישי</td><td>המרגרינה של אושוויץ</td></tr>
+      <tr><td class="t">ג' 8.12</td><td>נר חמישי</td><td>חנוכיות הכסף מצנעא</td></tr>
+      <tr><td class="t">ה' 10.12</td><td>נר שביעי</td><td>החייל היהודי וג'ורג' וושינגטון. דף לשבת מקץ, זאת חנוכה</td></tr>
+      <tr><td class="t">א' 20.12</td><td>עשרה בטבת</td><td>יום הקדיש הכללי: שוב "המרגרינה של אושוויץ"</td></tr>
+    </tbody>
+  </table></div>
+  <h3>לאורך השנה</h3>
+  <p>ג' בחשוון, יום ההילולא של רבי ישראל מרוז'ין: סיפור 1. יום השואה: סיפור 2. ימי זיכרון ויום הכיפורים: סיפור 3, על לוחמי המילואים בסיני.</p>
+</section>
+
+<section id="events">
+  <h2>אירועים</h2>
+  <div class="event">
+    <h3>ערב "מעטים כנגד רבים" בקהילה</h3>
+    <p>הדלקה משותפת. אחריה השמעה של "החברותא מז'יטומיר" (31 דק') או סיפור חי שלו, ושיח בקבוצות סביב השאלות מהדף לשבת. משך: כשעה וחצי.</p>
+    <ul><li>כל משתתף כותב על פתק את "המעט" שהוא מקבל על עצמו. הפתקים נאספים ליד החנוכייה.</li><li>מועד מוצע: מוצאי שבת 5.12, נר שני.</li></ul>
+  </div>
+  <div class="event">
+    <h3>מסיבת חנוכה לילדים: "אבא, תעזור לי בחידון"</h3>
+    <p>האירוע משחזר את סוף הסיפור: חידון חנוכה שבו כל ילד עונה יחד עם אבא, סבא או מבוגר אחר. הקפידו שאף ילד לא נשאר לבד.</p>
+    <ul><li>שאלות: החידון מהדף לשבת ועוד שאלות על חנוכה.</li><li>פעילות יצירה: לקשט חנוכייה אישית "מעשה ידיים", כמו של האמא מצנעא.</li></ul>
+  </div>
+  <div class="event">
+    <h3>חנוכה עם לוחמי מילואים</h3>
+    <p>הדלקה ביחידה או בבסיס, והשמעה של "חנוכיות הכסף מצנעא", שמתרחש בעצמו במילואים בסיני. אפשר לחלק חנוכיות קטנות.</p>
+  </div>
+  <div class="event">
+    <h3>ערב עיון לעשרה בטבת</h3>
+    <p>"אור בתוך התופת": השמעה של "המרגרינה של אושוויץ" והדלקת נר זיכרון. מתאים לנוער מגיל 12 ומעלה.</p>
+  </div>
+</section>
+
+<section id="analysis">
+  <h2>ניתוח הסיפורים</h2>
+  <div class="tbl"><table>
+    <thead><tr><th>סיפור</th><th>דמויות</th><th>מקומות</th><th>תקופה</th></tr></thead>
+    <tbody>
+      <tr><td>החברותא מז'יטומיר</td><td>מנחם פרנק, מינה, גד, משה החסיד, שבתאי בעל האכסניה, איוון, רבי ישראל מרוז'ין</td><td>ז'יטומיר, ברוד, הדרך לרוז'ין</td><td>המאה ה-19, לפני 1850</td></tr>
+      <tr><td>המרגרינה של אושוויץ</td><td>הרב (בלי שם), הקאפו, אישה עם כפתורי כסף</td><td>אושוויץ</td><td>חנוכה 1942</td></tr>
+      <tr><td>חנוכיות הכסף מצנעא</td><td>יוסף צנעני הצורף, האם, סאלם/שלומי, יחיא/חיים</td><td>צנעא, מחנות העולים, סיני</td><td>העלייה מתימן, ומלחמת יום הכיפורים 1973</td></tr>
+      <tr><td>החייל היהודי וג'ורג' וושינגטון</td><td>חייל יהודי מפולין, ג'ורג' וושינגטון</td><td>ולי פורג', ניו יורק</td><td>מלחמת העצמאות האמריקנית, 1777 והלאה</td></tr>
+    </tbody>
+  </table></div>
+  <h3>נושאים שחוזרים</h3>
+  <p>נר שמעורר נשמה רדומה (סיפורים 1 ו-3). אור שגובר על אכזריות (1 ו-2). ירושה מבית אבא ואמא שמחזירה הביתה (1 ו-3). אמונה ברגע של ייאוש (2 ו-4).</p>
+  <div class="note">הסיפור על ג'ורג' וושינגטון הוא מסורת עממית מוכרת שאין לה תיעוד היסטורי. אם מפרסמים אותו, כדאי להציג אותו כ"מסופר".</div>
+</section>
+
+<section id="status">
+  <h2>מצב המערכת</h2>
+  <p>ב-GitHub Actions הדיסקים מתמללים בעברית עם מודל ivrit-ai, בקצב של בערך פי 4 ממהירות ההאזנה. לדיסק 35 זה לקח כרבע שעה. התמלולים נשמרים בריפו <a href="https://github.com/Roei2p/rav-arie">Roei2p/rav-arie</a>. ההתקדמות מוצגת בלשונית <a href="https://github.com/Roei2p/rav-arie/actions">Actions</a>.</p>
+  <div class="board" id="board"></div>
+</section>
+
+</main>
+<footer>סיפורי צדיקים – הרב אריה מאיר · לזיכוי הרבים</footer>
+
+<script>
+const discs=["1א – בוץ שווה זהב","2ב – הלב","3ג – בת השך","4ד – דוד המלך","5ה – השרשרת","6ו – התפקיד","7ז – זעקה","8ח – חזק","9ט – לעולם לא לבד","10י – יהודי יחודי","11יא – לתת","12יב – ליבו של רשי","13יג – תכלית","14יד – בעלי תשובה","15יד – יוסלה מסלוצק","16יז – החוזה מלובלין","17יח – המהרל מפראג","18יט – המהרשא","19כ – רבי זושא","20ל – רבי עקיבא","21מ – הגלגל","22נ – מסירות נפש","23ס – נוגע ללב","24ס – סוד השמן","25ע – קרבן הלב","28צ – הרוגי מלכות","29ק – סוד האומץ","30ר – אמא","31ר – בת של מלך","32ר – כבוד שמים","33ש – בין המצרים א","34ש – בין המצרים ב","35ת – חנוכה מעטים כנגד רבים","36ת – פה שח לפסח","37ת – פורים שמחת האמונה","38תת – אל מלא רחמים","39תת – שאיפות קטלניות","שמשון לוחם יהודי א","שמשון לוחם יהודי ב"];
+const done=new Set(["35ת – חנוכה מעטים כנגד רבים"]);
+const board=document.getElementById("board");
+discs.forEach(d=>{const el=document.createElement("div");el.className="disc"+(done.has(d)?" done":"");el.innerHTML=d+"<small>"+(done.has(d)?"תומלל · תוכן מוכן":"ממתין")+"</small>";board.appendChild(el);});
+function copy(btnId,srcId,msgId){document.getElementById(btnId).addEventListener("click",async()=>{const m=document.getElementById(msgId);try{await navigator.clipboard.writeText(document.getElementById(srcId).innerText);m.textContent="הועתק";}catch(e){m.textContent="ההעתקה נחסמה. אפשר לסמן ולהעתיק ידנית";}});}
+copy("copySheet","sheet","copiedMsg");copy("copyWa","wa","copiedWa");
+</script>
+</body>
+</html>
