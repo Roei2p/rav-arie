@@ -1,0 +1,47 @@
+name: שמע לאפליקציה
+
+on:
+  push:
+    paths: ["web_audio.txt", ".github/workflows/web-audio.yml"]
+  workflow_dispatch:
+
+concurrency:
+  group: web-audio
+  cancel-in-progress: false
+
+permissions:
+  contents: write
+
+jobs:
+  encode:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: התקנה
+        run: |
+          sudo apt-get update -qq && sudo apt-get install -y -qq ffmpeg
+          pip install -q gdown
+      - name: הורדה וכיווץ לשמע קל (48kbps מונו)
+        run: |
+          git config user.name "rav-arie-bot"; git config user.email "actions@github.com"
+          # כל שורה: <folder_id>|<slug באנגלית/מספר>
+          grep -v '^\s*#' web_audio.txt | grep '|' | while IFS='|' read -r FID SLUG; do
+            FID=$(echo "$FID" | xargs); SLUG=$(echo "$SLUG" | xargs)
+            OUT="web/audio/$SLUG"
+            if [ -f "$OUT/.done" ]; then echo "✓ $SLUG"; continue; fi
+            mkdir -p "tmp/$SLUG" "$OUT"
+            gdown --folder "https://drive.google.com/drive/folders/$FID" -O "tmp/$SLUG"
+            find "tmp/$SLUG" -iname '*.mp3' | sort | while read -r F; do
+              B=$(basename "$F" .mp3 | tr 'A-Z' 'a-z')
+              ffmpeg -nostdin -loglevel error -y -i "$F" -ac 1 -ar 24000 -b:a 48k "$OUT/$B.mp3"
+              ls -la "$OUT/$B.mp3"
+            done
+            touch "$OUT/.done"
+            git add "$OUT"
+            git commit -m "שמע לאפליקציה: $SLUG" || true
+            git pull --rebase -q || true
+            git push -q || true
+          done
