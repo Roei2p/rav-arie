@@ -412,10 +412,10 @@ h1,h2,h3{margin:0;text-wrap:balance}
     <span class="label">הספרייה</span>
     <h1>סיפורי צדיקים</h1>
     <p>האוסף המלא של הרב אריה מאיר, מהדרייב.</p>
-    <div class="libstats"><div><b>39</b><span>דיסקים</span></div><div><b id="doneCount">38</b><span>תומללו</span></div><div><b>42+</b><span>שעות תומללו</span></div></div>
+    <div class="libstats"><div><b>39</b><span>דיסקים</span></div><div><b id="doneCount">39</b><span>תומללו</span></div><div><b>44</b><span>שעות תומללו</span></div></div>
     <div class="progress"><i id="prog"></i></div>
     <div class="pipe">
-      <div><b>1 · תמלול</b>38 מתוך 39 דיסקים</div>
+      <div><b>1 · תמלול</b>כל 39 הדיסקים ✓</div>
       <div><b>2 · למידה</b>סיפורים, דמויות, מסר</div>
       <div><b>3 · תוכן</b>שבת · פודקאסט · אירועים</div>
       <div><b>4 · וידאו</b>4 קליפים מוכנים</div>
@@ -494,7 +494,7 @@ const CLIPS=[
   {ep:3,from:229,to:330,title:"וושינגטון והנר",sub:"החייל היהודי · 1:47",q:"גם כשאנחנו מעטים, בורא עולם יכול לעזור לנו לנצח"}
 ];
 const DISCS=["1א|בוץ שווה זהב","2ב|הלב","3ג|בת השך","4ד|דוד המלך","5ה|השרשרת","6ו|התפקיד","7ז|זעקה","8ח|חזק","9ט|לעולם לא לבד","10י|יהודי יחודי","11יא|לתת","12יב|ליבו של רש\"י","13יג|תכלית","14יד|בעלי תשובה","15יד|יוסלה מסלוצק","16יז|החוזה מלובלין","17יח|המהר\"ל מפראג","18יט|המהרש\"א","19כ|רבי זושא","20ל|רבי עקיבא","21מ|הגלגל","22נ|מסירות נפש","23ס|נוגע ללב","24ס|סוד השמן","25ע|קרבן הלב","28צ|הרוגי מלכות","29ק|סוד האומץ","30ר|אמא","31ר|בת של מלך","32ר|כבוד שמים","33ש|בין המצרים א","34ש|בין המצרים ב","35ת|חנוכה – מעטים כנגד רבים","36ת|פה שח – לפסח","37ת|פורים – שמחת האמונה","38תת|אל מלא רחמים","39תת|שאיפות קטלניות","שמשון|לוחם יהודי א","שמשון|לוחם יהודי ב"];
-const READY=new Set(["35ת"]);const RUN=new Set(["24ס"]);const TRANS=new Set(DISCS.map(d=>d.split("|")[0]).filter(k=>!READY.has(k)&&!RUN.has(k)));const DONE=new Set([...READY,...TRANS]);
+const READY=new Set(["35ת"]);const RUN=new Set([]);const TRANS=new Set(DISCS.map(d=>d.split("|")[0]).filter(k=>!READY.has(k)&&!RUN.has(k)));const DONE=new Set([...READY,...TRANS]);
 
 /* ---------- hero: live menorah lighting ---------- */
 (function(){const c=document.getElementById("heroCanvas"),x=c.getContext("2d"),W=1080,H=1920;let CLIP={dur:12.2,seed:11,theme:"amber"};
