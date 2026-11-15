@@ -2,7 +2,7 @@ name: תמלול דיסקים
 
 on:
   push:
-    paths: ["queue.txt"]
+    paths: ["queue.txt", ".github/workflows/transcribe.yml", "scripts/**"]
   workflow_dispatch:
 
 concurrency:
@@ -46,7 +46,7 @@ jobs:
             if [ -f "transcripts/$NAME/.done" ]; then echo "✓ $NAME כבר הושלם"; continue; fi
             echo "::group::$NAME"
             mkdir -p "audio/$NAME"
-            gdown --folder "https://drive.google.com/drive/folders/$FID" -O "audio/$NAME" --remaining-ok
+            gdown --folder "https://drive.google.com/drive/folders/$FID" -O "audio/$NAME"
             # gdown עשוי ליצור תת-תיקייה; מאחדים את כל ה-mp3 לתיקיית הדיסק
             find "audio/$NAME" -mindepth 2 -iname '*.mp3' -exec mv -n {} "audio/$NAME/" \;
             ls -la "audio/$NAME"
