@@ -21,7 +21,7 @@
   color-scheme:dark;
 }
 *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
-html,body{margin:0;background:var(--bg);color:var(--ink);font:400 16px/1.55 var(--ui)}
+html,body{overflow-x:hidden;margin:0;background:var(--bg);color:var(--ink);font:400 16px/1.55 var(--ui)}
 body{padding-top:var(--safe-t)}
 button{font:inherit;color:inherit;background:none;border:0;cursor:pointer;padding:0}
 a{color:var(--ember)}
@@ -105,7 +105,7 @@ h1,h2,h3{margin:0;text-wrap:balance}
 .scrub{margin-top:16px}
 .scrub input{width:100%;accent-color:var(--ink);direction:ltr}
 .times{display:flex;justify-content:space-between;font-size:.76rem;color:var(--dim);font-variant-numeric:tabular-nums;direction:ltr}
-.ctrls{direction:ltr;display:flex;align-items:center;justify-content:space-between;margin:6px 0 0}
+.ctrls{display:flex;align-items:center;justify-content:space-between;margin:6px 0 0}
 .ctrls button{width:48px;height:48px;display:grid;place-items:center;color:var(--ink)}
 .ctrls svg{width:28px;height:28px}
 .ctrls .main{width:68px;height:68px;border-radius:50%;background:var(--ink);color:#120f0b}
@@ -155,7 +155,8 @@ h1,h2,h3{margin:0;text-wrap:balance}
 .note b{color:var(--ember)}
 
 /* ---------- STUDIO ---------- */
-.studio-grid{display:grid;gap:14px;margin-top:22px}
+.studio-grid{display:grid;grid-template-columns:minmax(0,1fr);gap:14px;margin-top:22px}
+.panel{min-width:0}
 .panel{background:var(--card);border-radius:14px;padding:18px}
 .panel-h{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-bottom:12px}
 .panel-h h2{font:800 1.12rem var(--ui)}
@@ -181,6 +182,12 @@ h1,h2,h3{margin:0;text-wrap:balance}
 .timeline li{display:grid;grid-template-columns:70px 1fr;gap:12px;padding:9px 0;border-top:1px solid var(--line);font-size:.92rem}
 .timeline li span{color:var(--dim);font-variant-numeric:tabular-nums}
 .timeline li b{display:block}
+.reels{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:12px}
+.reel{display:flex;flex-direction:column;gap:6px}
+.reel video{width:100%;aspect-ratio:9/16;border-radius:10px;background:#000;display:block;object-fit:cover}
+.reel b{font-size:.9rem;line-height:1.3}
+.reel small{color:var(--dim);font-size:.76rem}
+.reel .when{color:var(--ember);font-weight:700;font-size:.72rem}
 .clips{display:grid;gap:10px}
 .clip{display:grid;grid-template-columns:56px 1fr auto;gap:12px;align-items:center;padding:10px;border-radius:10px;background:#15120f;border:1px solid var(--line)}
 .clip .ph{width:56px;height:100px;border-radius:6px;overflow:hidden}
@@ -211,6 +218,7 @@ h1,h2,h3{margin:0;text-wrap:balance}
 .disc canvas{width:100%;aspect-ratio:1;border-radius:8px;display:block}
 .disc .st{position:absolute;top:8px;inset-inline-start:8px;font:700 .66rem var(--ui);padding:3px 8px;border-radius:999px;background:rgba(0,0,0,.6);color:var(--dim);backdrop-filter:blur(6px)}
 .disc.done .st{background:var(--ember);color:#1a1206}
+.disc.run .st{background:#2d2519;color:var(--ember)}
 .disc b{display:block;margin-top:7px;font:700 .9rem/1.3 var(--ui)}
 .disc small{color:var(--dim);font-size:.76rem}
 .pipe{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-top:14px}
@@ -341,9 +349,9 @@ h1,h2,h3{margin:0;text-wrap:balance}
     </section>
 
     <section class="panel">
-      <div class="panel-h"><h2>קליפים לרילס ולסטטוס</h2><span class="chip next">השלב הבא</span></div>
-      <div class="clips" id="clips"></div>
-      <p style="color:var(--dim);font-size:.85rem;margin:12px 0 0">כל קליף בפורמט אנכי, 60–90 שניות, עם כתוביות בעברית מתוך התמלול. ההפקה מתבצעת ב-GitHub Actions. לחיצה על ▶ משמיעה את הקטע.</p>
+      <div class="panel-h"><h2>קליפים לרילס ולסטטוס</h2><span class="chip ok">4 מוכנים</span></div>
+      <div class="reels" id="clips"></div>
+      <p style="color:var(--dim);font-size:.85rem;margin:12px 0 0">קליפים אנכיים עם הקול של הרב וכתוביות מוגהות. הקבצים באיכות מלאה (1080×1920) נמצאים בצ'אט ובריפו, בתיקייה web/clips.</p>
     </section>
 
     <section class="panel">
@@ -410,13 +418,13 @@ h1,h2,h3{margin:0;text-wrap:balance}
     <span class="label">הספרייה</span>
     <h1>סיפורי צדיקים</h1>
     <p>האוסף המלא של הרב אריה מאיר, מהדרייב.</p>
-    <div class="libstats"><div><b>39</b><span>דיסקים</span></div><div><b id="doneCount">1</b><span>תומללו</span></div><div><b>~45</b><span>שעות שמע (הערכה)</span></div></div>
+    <div class="libstats"><div><b>39</b><span>דיסקים</span></div><div><b id="doneCount">3</b><span>תומללו</span></div><div><b>~45</b><span>שעות שמע (הערכה)</span></div></div>
     <div class="progress"><i id="prog"></i></div>
     <div class="pipe">
       <div><b>1 · תמלול</b>Actions + ivrit-ai</div>
       <div><b>2 · למידה</b>סיפורים, דמויות, מסר</div>
       <div><b>3 · תוכן</b>שבת · פודקאסט · אירועים</div>
-      <div><b>4 · וידאו</b>קליפים עם כתוביות</div>
+      <div><b>4 · וידאו</b>4 קליפים מוכנים</div>
     </div>
   </div>
   <div class="pad"><div class="lib" id="lib"></div></div>
@@ -451,11 +459,11 @@ h1,h2,h3{margin:0;text-wrap:balance}
     <div class="scrub"><input type="range" id="seek" min="0" max="1000" value="0" aria-label="מיקום בהקלטה"><div class="times"><span id="tCur">0:00</span><span id="tDur">0:00</span></div></div>
     <div class="ctrls">
       <button class="speed" id="speed" aria-label="מהירות">1×</button>
-      <button id="prev" aria-label="הסיפור הקודם"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M6 6h2v12H6zM9.5 12 18 6v12z"/></svg></button>
-      <button id="back15" aria-label="15 שניות אחורה"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 12a8 8 0 1 0 2.3-5.6"/><path d="M4 4v5h5"/><text x="12" y="15.5" font-size="7" text-anchor="middle" fill="currentColor" stroke="none" font-family="Heebo">15</text></svg></button>
-      <button class="main" id="pp" aria-label="נגן או השהה"></button>
-      <button id="fwd15" aria-label="15 שניות קדימה"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M20 12a8 8 0 1 1-2.3-5.6"/><path d="M20 4v5h-5"/><text x="12" y="15.5" font-size="7" text-anchor="middle" fill="currentColor" stroke="none" font-family="Heebo">15</text></svg></button>
       <button id="next" aria-label="הסיפור הבא"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M6 6h2v12H6zM9.5 12 18 6v12z" transform="scale(-1,1) translate(-24,0)"/></svg></button>
+      <button id="back15" aria-label="15 שניות אחורה"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M20 12a8 8 0 1 1-2.3-5.6"/><path d="M20 4v5h-5"/><text x="12" y="15.5" font-size="7" text-anchor="middle" fill="currentColor" stroke="none" font-family="Heebo">15</text></svg></button>
+      <button class="main" id="pp" aria-label="נגן או השהה"></button>
+      <button id="fwd15" aria-label="15 שניות קדימה"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 12a8 8 0 1 0 2.3-5.6"/><path d="M4 4v5h5"/><text x="12" y="15.5" font-size="7" text-anchor="middle" fill="currentColor" stroke="none" font-family="Heebo">15</text></svg></button>
+      <button id="prev" aria-label="הסיפור הקודם"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M6 6h2v12H6zM9.5 12 18 6v12z"/></svg></button>
       <span style="width:48px"></span>
     </div>
     <div class="lyrics">
@@ -486,13 +494,13 @@ const EPS = [
 ];
 const OFF=[0,1876,2471,3294];
 const CLIPS=[
-  {ep:0,from:1041,to:1159,title:"\"אני מנחם פרנק\"",sub:"החברותא מז'יטומיר · 17:21–19:19",q:"אתה משה מז'יטומיר? אני החברותא שלך מבית המדרש"},
-  {ep:1,from:334,to:404,title:"\"נס חנוכה!\"",sub:"המרגרינה של אושוויץ · 5:34–6:44",q:"על ידי המרגרינה אפשר להדליק נרות חנוכה"},
-  {ep:2,from:583,to:689,title:"האחים בסיני",sub:"חנוכיות הכסף מצנעא · 9:43–11:29",q:"לשלומי היה קול של בית אבא. קול שהזכיר את אמא"},
-  {ep:3,from:229,to:330,title:"וושינגטון והנר",sub:"החייל היהודי · 3:49–5:30",q:"גם כשאנחנו מעטים, בורא עולם יכול לעזור לנו לנצח"}
+  {ep:0,from:1041,to:1159,title:"\"אני מנחם פרנק\"",sub:"החברותא מז'יטומיר · 2:00",q:"אתה משה מז'יטומיר? אני החברותא שלך מבית המדרש"},
+  {ep:1,from:334,to:404,title:"\"נס חנוכה!\"",sub:"המרגרינה של אושוויץ · 1:19",q:"על ידי המרגרינה אפשר להדליק נרות חנוכה"},
+  {ep:2,from:583,to:689,title:"האחים בסיני",sub:"חנוכיות הכסף מצנעא · 1:50",q:"לשלומי היה קול של בית אבא. קול שהזכיר את אמא"},
+  {ep:3,from:229,to:330,title:"וושינגטון והנר",sub:"החייל היהודי · 1:47",q:"גם כשאנחנו מעטים, בורא עולם יכול לעזור לנו לנצח"}
 ];
 const DISCS=["1א|בוץ שווה זהב","2ב|הלב","3ג|בת השך","4ד|דוד המלך","5ה|השרשרת","6ו|התפקיד","7ז|זעקה","8ח|חזק","9ט|לעולם לא לבד","10י|יהודי יחודי","11יא|לתת","12יב|ליבו של רש\"י","13יג|תכלית","14יד|בעלי תשובה","15יד|יוסלה מסלוצק","16יז|החוזה מלובלין","17יח|המהר\"ל מפראג","18יט|המהרש\"א","19כ|רבי זושא","20ל|רבי עקיבא","21מ|הגלגל","22נ|מסירות נפש","23ס|נוגע ללב","24ס|סוד השמן","25ע|קרבן הלב","28צ|הרוגי מלכות","29ק|סוד האומץ","30ר|אמא","31ר|בת של מלך","32ר|כבוד שמים","33ש|בין המצרים א","34ש|בין המצרים ב","35ת|חנוכה – מעטים כנגד רבים","36ת|פה שח – לפסח","37ת|פורים – שמחת האמונה","38תת|אל מלא רחמים","39תת|שאיפות קטלניות","שמשון|לוחם יהודי א","שמשון|לוחם יהודי ב"];
-const DONE=new Set(["35ת"]);
+const READY=new Set(["35ת"]);const TRANS=new Set(["2ב","3ג"]);const RUN=new Set(["1א","4ד","5ה","6ו","7ז","8ח","9ט"]);const DONE=new Set([...READY,...TRANS]);
 
 /* ---------- generative flame covers ---------- */
 function rng(seed){let s=seed>>>0||1;return()=>(s=(s*1664525+1013904223)>>>0)/4294967296}
@@ -542,31 +550,29 @@ EPS.forEach((e,i)=>{
 function sizeHero(){const h=document.getElementById("heroCanvas");const r=h.parentElement.getBoundingClientRect();h.width=Math.min(1200,r.width);h.height=Math.round(h.width*r.height/r.width);drawCover(h,EPS[0].pal,7,{n:40,fy:.42,fs:.05})}
 sizeHero();addEventListener("resize",()=>{clearTimeout(window._rz);window._rz=setTimeout(sizeHero,200)});
 
-function renderShelf(){const shelf=document.getElementById("shelf");shelf.innerHTML="";
+const shelf=document.getElementById("shelf");
 [["36ת","פה שח – לפסח","פסח"],["37ת","פורים – שמחת האמונה","פורים"],["20ל","רבי עקיבא","ל\"ג בעומר"],["33ש","בין המצרים א","תמוז–אב"],["17יח","המהר\"ל מפראג","הילולא"],["30ר","אמא","כל השנה"]].forEach(([k,t,s],i)=>{
   const idx=DISCS.findIndex(d=>d.startsWith(k));const el=document.createElement("a");el.className="tile";el.href="#library";
   const c=cv(300,300);drawCover(c,discPal(idx),idx*31+3,{n:18,label:t,tag:"דיסק "+k.replace(/\D/g,"")});el.appendChild(c);
   el.insertAdjacentHTML("beforeend",`<b>${t}</b><small>מתאים ל: ${s}</small>`);shelf.appendChild(el);
-});}
-renderShelf();
+});
 
 /* ---------- library ---------- */
-function renderLib(){const lib=document.getElementById("lib");lib.innerHTML="";
-DISCS.forEach((d,i)=>{const [k,t]=d.split("|");const done=DONE.has(k);
-  const el=document.createElement("div");el.className="disc"+(done?" done":"");
+const lib=document.getElementById("lib");
+DISCS.forEach((d,i)=>{const [k,t]=d.split("|");const done=DONE.has(k);const stTxt=READY.has(k)?"תוכן מוכן":TRANS.has(k)?"תומלל":RUN.has(k)?"בתמלול…":"בתור";
+  const el=document.createElement("div");el.className="disc"+(done?" done":RUN.has(k)?" run":"");
   const c=cv(280,280);drawCover(c,discPal(i),i*31+3,{n:16,label:t,tag:k.startsWith("שמשון")?"שמשון":"דיסק "+k.replace(/\D/g,"")});el.appendChild(c);
-  el.insertAdjacentHTML("beforeend",`<span class="st">${done?"תומלל · תוכן מוכן":"ממתין לתמלול"}</span><b>${t}</b><small>${k.startsWith("שמשון")?"סדרת שמשון":"דיסק "+k}</small>`);lib.appendChild(el)});}
-renderLib();
+  el.insertAdjacentHTML("beforeend",`<span class="st">${stTxt}</span><b>${t}</b><small>${k.startsWith("שמשון")?"סדרת שמשון":"דיסק "+k}</small>`);lib.appendChild(el)});
 document.getElementById("prog").style.width=(DONE.size/DISCS.length*100)+"%";
 
 /* ---------- candles + clips ---------- */
 const cd=document.getElementById("candles");const nights=["ו' 4.12","ש' 5.12","א' 6.12","ב' 7.12","ג' 8.12","ד' 9.12","ה' 10.12","ו' 11.12"];const litN=new Set([0,2,4,6]);
 nights.forEach((n,i)=>cd.insertAdjacentHTML("beforeend",`<div class="candle ${litN.has(i)?"lit":""}"><i></i><b>${i+1}</b>${n}</div>`));
-const clipsEl=document.getElementById("clips");
-CLIPS.forEach((c,i)=>{const el=document.createElement("div");el.className="clip";const ph=document.createElement("div");ph.className="ph";const k=cv(112,200);drawCover(k,EPS[c.ep].pal,c.ep*97+5,{n:12,fy:.5,fs:.12});ph.appendChild(k);el.appendChild(ph);
-  el.insertAdjacentHTML("beforeend",`<div><b>קליפ ${i+1} · ${c.title}</b><small>${c.sub}</small><q>"${c.q}"</q></div>`);
-  const go=document.createElement("button");go.className="go";go.setAttribute("aria-label","השמעת הקטע");go.innerHTML=`<svg viewBox="0 0 24 24" fill="currentColor"><path d="M7 5v14l11-7z"/></svg>`;go.onclick=()=>{play(c.ep,c.from,false);clipEnd=c.to};el.appendChild(go);clipsEl.appendChild(el)});
-
+const clipsEl=document.getElementById("clips");const CLIP_FILES=["clip1-menachem-frank","clip2-margarine","clip3-silver-menorahs","clip4-washington"];const CLIP_WHEN=["נר ראשון · 4.12","נר שלישי · 6.12","נר חמישי · 8.12","נר שביעי · 10.12"];
+CLIPS.forEach((c,i)=>{const el=document.createElement("div");el.className="reel";
+  el.innerHTML=`<video src="clips/${CLIP_FILES[i]}.mp4" poster="clips/${CLIP_FILES[i]}.jpg" controls playsinline preload="none"></video><span class="when">${CLIP_WHEN[i]}</span><b>${c.title}</b><small>${c.sub}</small>`;
+  el.querySelector("video").addEventListener("play",()=>{if(!A.paused)A.pause();document.querySelectorAll(".reel video").forEach(v=>{if(v!==el.querySelector("video"))v.pause()})});
+  clipsEl.appendChild(el)});
 /* ---------- player ---------- */
 const A=document.getElementById("audio");let cur=-1,clipEnd=null,lineEls=[],lastLine=-1;
 const icoPlay=`<svg viewBox="0 0 24 24" fill="currentColor"><path d="M7 5v14l11-7z"/></svg>`,icoPause=`<svg viewBox="0 0 24 24" fill="currentColor"><path d="M7 5h4v14H7zM13 5h4v14h-4z"/></svg>`;
@@ -616,7 +622,7 @@ document.querySelectorAll("[data-copy]").forEach(b=>b.onclick=async()=>{const t=
 function route(){const v=(location.hash||"#home").slice(1);const ok=["home","shabbat","studio","library"].includes(v)?v:"home";
   document.querySelectorAll(".view").forEach(x=>x.classList.toggle("on",x.id==="v-"+ok));document.querySelectorAll(".tabs a").forEach(a=>a.classList.toggle("on",a.dataset.v===ok));scrollTo(0,0)}
 addEventListener("hashchange",route);route();
-document.fonts&&document.fonts.ready.then(()=>{renderShelf();renderLib();if(cur>=0)drawCover(document.getElementById("npCover"),EPS[cur].pal,cur*97+5,{n:30,label:EPS[cur].title,tag:"מעטים כנגד רבים"})});
+document.fonts&&document.fonts.ready.then(()=>{document.querySelectorAll(".tile,.disc").length&&0});
 </script>
 </body>
 </html>
