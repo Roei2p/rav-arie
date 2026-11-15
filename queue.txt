@@ -1,0 +1,3 @@
+# תור תמלול: <folder_id>|<שם הדיסק>
+# הוספת שורה ודחיפה מפעילה את התמלול ב-GitHub Actions
+1ooMvkDSwywYk6IeprEvX92UqMdjcM8W0|35ת- חנוכה מעטים כנגד רבים
