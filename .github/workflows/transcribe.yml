@@ -2,7 +2,7 @@ name: תמלול דיסקים
 
 on:
   push:
-    paths: ["queue.txt", ".github/workflows/transcribe.yml", "scripts/**"]
+    paths: ["queue.txt", ".github/workflows/transcribe.yml", "scripts/transcribe.py"]
   workflow_dispatch:
 
 concurrency:
@@ -13,48 +13,64 @@ permissions:
   contents: write
 
 jobs:
-  transcribe:
+  plan:
     runs-on: ubuntu-latest
-    timeout-minutes: 350
+    outputs:
+      discs: ${{ steps.p.outputs.discs }}
+      any: ${{ steps.p.outputs.any }}
     steps:
       - uses: actions/checkout@v4
+      - id: p
+        run: |
+          python3 - <<'EOF' >> "$GITHUB_OUTPUT"
+          import json, os
+          out = []
+          for line in open("queue.txt", encoding="utf-8"):
+              line = line.strip()
+              if not line or line.startswith("#") or "|" not in line:
+                  continue
+              fid, name = [x.strip() for x in line.split("|", 1)]
+              if not os.path.exists(f"transcripts/{name}/.done"):
+                  out.append({"id": fid, "name": name})
+          print("discs=" + json.dumps(out, ensure_ascii=False))
+          print("any=" + ("true" if out else "false"))
+          EOF
 
+  transcribe:
+    needs: plan
+    if: needs.plan.outputs.any == 'true'
+    runs-on: ubuntu-latest
+    timeout-minutes: 350
+    strategy:
+      fail-fast: false
+      max-parallel: 8
+      matrix:
+        disc: ${{ fromJSON(needs.plan.outputs.discs) }}
+    steps:
+      - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
         with:
           python-version: "3.11"
-
       - name: התקנה
         run: |
           sudo apt-get update -qq && sudo apt-get install -y -qq ffmpeg
           pip install -q faster-whisper gdown
-
       - uses: actions/cache@v4
         with:
           path: ~/.cache/huggingface
           key: hf-ivrit-turbo-ct2
-
-      - name: הגדרת git
+      - name: תמלול
+        env:
+          FID: ${{ matrix.disc.id }}
+          NAME: ${{ matrix.disc.name }}
         run: |
-          git config user.name "rav-arie-bot"
-          git config user.email "actions@github.com"
-
-      - name: הורדה ותמלול לפי התור
-        run: |
-          # כל שורה בתור: <folder_id>|<שם הדיסק>
-          grep -v '^\s*#' queue.txt | grep '|' | while IFS='|' read -r FID NAME; do
-            FID=$(echo "$FID" | xargs); NAME=$(echo "$NAME" | xargs)
-            if [ -f "transcripts/$NAME/.done" ]; then echo "✓ $NAME כבר הושלם"; continue; fi
-            echo "::group::$NAME"
-            mkdir -p "audio/$NAME"
-            gdown --folder "https://drive.google.com/drive/folders/$FID" -O "audio/$NAME"
-            # gdown עשוי ליצור תת-תיקייה; מאחדים את כל ה-mp3 לתיקיית הדיסק
-            find "audio/$NAME" -mindepth 2 -iname '*.mp3' -exec mv -n {} "audio/$NAME/" \;
-            ls -la "audio/$NAME"
-            python scripts/transcribe.py "audio/$NAME" --out transcripts --commit < /dev/null
-            touch "transcripts/$NAME/.done"
-            git add "transcripts/$NAME/.done"
-            git commit -m "הושלם: $NAME" || true
-            git pull --rebase -q || true
-            git push -q || true
-            echo "::endgroup::"
-          done
+          git config user.name "rav-arie-bot"; git config user.email "actions@github.com"
+          mkdir -p "audio/$NAME"
+          gdown --folder "https://drive.google.com/drive/folders/$FID" -O "audio/$NAME"
+          find "audio/$NAME" -mindepth 2 -iname '*.mp3' -exec mv -n {} "audio/$NAME/" \;
+          ls -la "audio/$NAME"
+          python scripts/transcribe.py "audio/$NAME" --out transcripts --commit < /dev/null
+          touch "transcripts/$NAME/.done"
+          git add "transcripts/$NAME/.done"
+          git commit -m "הושלם: $NAME" || true
+          for i in 1 2 3 4 5 6 7 8; do git pull --rebase -q && git push -q && break; sleep $((RANDOM % 15 + 5)); done

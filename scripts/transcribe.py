@@ -117,10 +117,12 @@ def main():
             import subprocess
             subprocess.run(["git", "add", args.out or str(root)], check=True)
             subprocess.run(["git", "commit", "-m", f"תמלול: {mp3.parent.name} / {mp3.stem}"], check=False)
-            for _ in range(3):
+            import random
+            for _ in range(8):
                 subprocess.run(["git", "pull", "--rebase", "-q"], check=False)
                 if subprocess.run(["git", "push", "-q"]).returncode == 0:
                     break
+                time.sleep(random.uniform(5, 20))
 
     print("\nסיום. כל התמלולים נשמרו ליד קבצי השמע.")
 
