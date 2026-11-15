@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html><head><meta charset="utf-8">
+<style>
+@font-face{font-family:Rubik;font-weight:800;src:url(fonts/rubik-hebrew-800-normal.woff2) format("woff2");unicode-range:U+0590-05FF,U+200C-2010,U+20AA,U+25CC,U+FB1D-FB4F}
+@font-face{font-family:Rubik;font-weight:800;src:url(fonts/rubik-latin-800-normal.woff2) format("woff2");unicode-range:U+0000-00FF,U+2013-2027,U+2030-206F}
+@font-face{font-family:Rubik;font-weight:700;src:url(fonts/rubik-hebrew-700-normal.woff2) format("woff2");unicode-range:U+0590-05FF,U+200C-2010,U+20AA,U+25CC,U+FB1D-FB4F}
+@font-face{font-family:Rubik;font-weight:700;src:url(fonts/rubik-latin-700-normal.woff2) format("woff2");unicode-range:U+0000-00FF,U+2013-2027,U+2030-206F}
+@font-face{font-family:Rubik;font-weight:500;src:url(fonts/rubik-hebrew-500-normal.woff2) format("woff2");unicode-range:U+0590-05FF,U+200C-2010,U+20AA,U+25CC,U+FB1D-FB4F}
+@font-face{font-family:Rubik;font-weight:500;src:url(fonts/rubik-latin-500-normal.woff2) format("woff2");unicode-range:U+0000-00FF,U+2013-2027,U+2030-206F}
+@font-face{font-family:Frank;font-weight:900;src:url(fonts/frank-ruhl-libre-hebrew-900-normal.woff2) format("woff2");unicode-range:U+0590-05FF,U+200C-2010,U+20AA,U+25CC,U+FB1D-FB4F}
+@font-face{font-family:Frank;font-weight:900;src:url(fonts/frank-ruhl-libre-latin-900-normal.woff2) format("woff2");unicode-range:U+0000-00FF,U+2013-2027,U+2030-206F}
+body{margin:0;background:#000}
+</style></head>
+<body>
+<canvas id="c" width="1080" height="1920"></canvas>
+<script>
+const W=1080,H=1920,c=document.getElementById("c"),x=c.getContext("2d");
+let CLIP=null;
+const THEMES={
+  amber:{bg:["#14206b","#3b2a8f","#e0703c"],glow:"255,190,90",acc:"#ffd36b"},
+  violet:{bg:["#10184f","#2c2a7a","#7b3f8f"],glow:"255,200,120",acc:"#ffd36b"},
+  teal:{bg:["#0b2f5e","#11607a","#d99b4c"],glow:"255,215,140",acc:"#ffe08a"},
+  royal:{bg:["#0c1b55","#1d48a8","#5aa0e0"],glow:"255,210,120",acc:"#ffd36b"}
+};
+function rng(s){return()=>((s=Math.imul(s^s>>>15,1|s)+0x6D2B79F5|0,((s^s>>>14)>>>0)/4294967296))}
+const ease=t=>t<0?0:t>1?1:1-Math.pow(1-t,3);
+const back=t=>{t=Math.max(0,Math.min(1,t));const c1=1.7,c3=c1+1;return 1+c3*Math.pow(t-1,3)+c1*Math.pow(t-1,2)};
+let parts=[];
+function setup(clip){CLIP=clip;const r=rng(clip.seed||7);parts=[];for(let i=0;i<46;i++)parts.push({x:r()*W,y:r()*H,s:6+r()*26,v:14+r()*40,a:.08+r()*.22,ph:r()*6.28,g:r()<.5});}
+
+/* candle schedule: shamash first, then 8 candles right->left across the clip */
+const SLOT=[4,8,7,6,5,3,2,1,0];
+function litTime(k){const d=CLIP.dur;if(k===0)return 0.8;return 3.5+(k-1)*((d-9)/7);}
+
+function bg(t,th){
+  const g=x.createLinearGradient(0,0,0,H);g.addColorStop(0,th.bg[0]);g.addColorStop(.55,th.bg[1]);g.addColorStop(1,th.bg[2]);x.fillStyle=g;x.fillRect(0,0,W,H);
+  // menorah glow grows with the light
+  let lit=0;for(let k=0;k<9;k++)if(t>=litTime(k))lit++;
+  const gr=x.createRadialGradient(540,1420,0,540,1420,300+lit*70);gr.addColorStop(0,`rgba(${th.glow},${.18+lit*.045})`);gr.addColorStop(1,`rgba(${th.glow},0)`);x.fillStyle=gr;x.fillRect(0,0,W,H);
+  // drifting bokeh
+  for(const p of parts){const y=((p.y-p.v*t)%H+H)%H,xx=p.x+Math.sin(t*.6+p.ph)*24;const a=p.a*(.7+.3*Math.sin(t*1.3+p.ph));
+    const r=x.createRadialGradient(xx,y,0,xx,y,p.s);r.addColorStop(0,p.g?`rgba(255,214,120,${a})`:`rgba(255,255,255,${a})`);r.addColorStop(1,"rgba(255,255,255,0)");x.fillStyle=r;x.beginPath();x.arc(xx,y,p.s,0,6.283);x.fill();}
+}
+
+function flame(fx,fy,t,seed,scale){
+  const f=1+.08*Math.sin(t*9+seed)+.05*Math.sin(t*14.3+seed*2),sw=Math.sin(t*5+seed)*3;
+  const h=60*scale*f,w=21*scale;
+  const g=x.createRadialGradient(fx,fy-h*.35,0,fx,fy-h*.35,h*2.2);g.addColorStop(0,"rgba(255,200,90,.55)");g.addColorStop(1,"rgba(255,200,90,0)");x.fillStyle=g;x.beginPath();x.arc(fx,fy-h*.35,h*2.2,0,6.283);x.fill();
+  x.beginPath();x.moveTo(fx+sw,fy-h);x.bezierCurveTo(fx+w,fy-h*.45,fx+w*.85,fy,fx,fy);x.bezierCurveTo(fx-w*.85,fy,fx-w,fy-h*.45,fx+sw,fy-h);
+  const fg=x.createLinearGradient(0,fy-h,0,fy);fg.addColorStop(0,"#ffb347");fg.addColorStop(.55,"#ffe38a");fg.addColorStop(1,"#fffbe8");x.fillStyle=fg;x.fill();
+}
+
+function menorah(t,th){
+  const gold=x.createLinearGradient(0,1300,0,1760);gold.addColorStop(0,"#ffe6a0");gold.addColorStop(.5,"#e9b545");gold.addColorStop(1,"#b9822a");
+  x.strokeStyle=gold;x.lineCap="round";x.lineWidth=13;
+  const cx=540,cupY=1470,sp=92;
+  for(let k=1;k<=4;k++){x.beginPath();x.arc(cx,cupY,k*sp,0,Math.PI,false);x.stroke();}
+  x.beginPath();x.moveTo(cx,1400);x.lineTo(cx,1690);x.stroke();
+  x.fillStyle=gold;x.beginPath();x.moveTo(cx-130,1745);x.lineTo(cx+130,1745);x.lineTo(cx+60,1690);x.lineTo(cx-60,1690);x.closePath();x.fill();
+  for(let i=0;i<9;i++){
+    const px=cx+(i-4)*sp,py=i===4?1400:cupY;
+    x.fillStyle=gold;x.beginPath();x.ellipse(px,py,26,10,0,0,6.283);x.fill();
+    // candle
+    x.fillStyle="#fff6e4";x.fillRect(px-9,py-78,18,72);x.fillStyle="rgba(0,0,0,.08)";x.fillRect(px+3,py-78,6,72);
+    const k=SLOT.indexOf(i),lt=litTime(k);
+    if(t>=lt){
+      const age=t-lt,sc=Math.min(1,ease(age/0.5));flame(px,py-80,t,i*1.7,sc*(i===4?1.1:1));
+      if(age<0.9){const r=20+age*160,a=1-age/0.9;x.strokeStyle=`rgba(255,226,140,${a*.8})`;x.lineWidth=4;x.beginPath();x.arc(px,py-100,r,0,6.283);x.stroke();
+        for(let s=0;s<8;s++){const an=s*.785+i,rr=r*1.1;x.fillStyle=`rgba(255,240,190,${a})`;x.beginPath();x.arc(px+Math.cos(an)*rr,py-100+Math.sin(an)*rr,5,0,6.283);x.fill();}}
+    } else {x.strokeStyle="#5a4630";x.lineWidth=3;x.beginPath();x.moveTo(px,py-78);x.lineTo(px,py-90);x.stroke();}
+  }
+}
+
+function header(t,th){
+  const a=ease(t/0.6);x.globalAlpha=a;x.textAlign="center";x.direction="rtl";
+  x.font="700 38px Rubik";x.fillStyle=th.acc;x.fillText("סיפורי צדיקים · הרב אריה מאיר",540,170);
+  const sc=t<1.2?back(t/0.9)*.25+.75:1;x.save();x.translate(540,270);x.scale(sc,sc);
+  x.font="900 92px Frank";x.fillStyle="#fff";x.shadowColor="rgba(0,0,0,.35)";x.shadowBlur=24;
+  const words=CLIP.title.split(" ");let lines=[],cur="";for(const w of words){const tt=cur?cur+" "+w:w;if(x.measureText(tt).width>920){lines.push(cur);cur=w}else cur=tt}lines.push(cur);
+  lines.forEach((l,i)=>x.fillText(l,0,i*104));x.restore();x.shadowBlur=0;x.globalAlpha=1;
+  // progress
+  x.fillStyle="rgba(255,255,255,.18)";x.fillRect(90,70,900,6);x.fillStyle=th.acc;x.fillRect(990-900*t/CLIP.dur,70,900*t/CLIP.dur,6);
+}
+
+function captions(t,th){
+  const pg=CLIP.pages.find(p=>t>=p.s&&t<p.e);if(!pg)return;
+  const fin=Math.min(1,(t-pg.s)/0.18),fout=Math.min(1,(pg.e-t)/0.18);x.globalAlpha=Math.max(0,Math.min(fin,fout));
+  x.font="800 78px Rubik";x.direction="rtl";x.textAlign="center";
+  const sp=x.measureText(" ").width,ws=pg.w.map(w=>({...w,wd:x.measureText(w.w).width}));
+  const lines=[];let cur=[],lw=0;for(const w of ws){const add=(cur.length?sp:0)+w.wd;if(lw+add>900&&cur.length){lines.push({ws:cur,lw});cur=[w];lw=w.wd}else{cur.push(w);lw+=add}}lines.push({ws:cur,lw});
+  const y0=1080-(lines.length-1)*52;
+  lines.forEach((L,li)=>{let xx=540+L.lw/2;const y=y0+li*104;
+    for(const w of L.ws){const on=t>=w.t0,now=on&&t<w.t1;
+      x.save();x.translate(xx-w.wd/2,y);const s=now?1+.1*Math.sin(Math.min(1,(t-w.t0)/0.25)*Math.PI):1;x.scale(s,s);
+      x.shadowColor="rgba(0,0,0,.45)";x.shadowBlur=18;x.shadowOffsetY=4;
+      x.fillStyle=now?th.acc:on?"#ffffff":"rgba(255,255,255,.38)";x.fillText(w.w,0,0);x.restore();
+      xx-=w.wd+sp;}
+  });x.globalAlpha=1;
+}
+
+function outro(t,th){
+  const s=CLIP.dur-4.2;if(t<s)return;const a=ease((t-s)/0.7);
+  x.fillStyle=`rgba(8,12,40,${.55*a})`;x.fillRect(0,0,W,H);x.globalAlpha=a;x.textAlign="center";x.direction="rtl";
+  const sc=back((t-s)/0.8)*.2+.8;x.save();x.translate(540,860);x.scale(sc,sc);
+  x.font="900 120px Frank";x.fillStyle="#fff";x.fillText("סיפורי צדיקים",0,0);
+  x.font="700 56px Rubik";x.fillStyle=th.acc;x.fillText("הרב אריה מאיר",0,90);
+  x.font="500 44px Rubik";x.fillStyle="#fff";x.fillText("הסיפור המלא בפודקאסט",0,200);
+  x.restore();
+  const a2=ease((t-s-0.8)/0.6);x.globalAlpha=a2;x.fillStyle=th.acc;const bw=560,bh=96;x.beginPath();x.roundRect(540-bw/2,1130,bw,bh,48);x.fill();
+  x.font="800 48px Rubik";x.fillStyle="#1a1440";x.fillText("שתפו לזיכוי הרבים",540,1194);x.globalAlpha=1;
+}
+
+function render(t){const th=THEMES[CLIP.theme];bg(t,th);menorah(t,th);header(t,th);if(t<CLIP.dur-4.2)captions(t,th);outro(t,th);}
+function frame(t){render(t);return c.toDataURL("image/jpeg",.9);}
+</script></body></html>
