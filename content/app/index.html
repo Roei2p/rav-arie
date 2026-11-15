@@ -1,0 +1,622 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#0d0c0b">
+<title>סיפורי צדיקים</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Heebo:wght@300;400;500;700;800;900&family=Noto+Serif+Hebrew:wght@400;600;800;900&family=Frank+Ruhl+Libre:wght@400;500;700;900&display=swap" rel="stylesheet">
+<style>
+/* direction: a listening app lit by candlelight. single dark world, warm ember accent; serif display for story titles, Heebo for UI. bold moment = generative flame covers. */
+:root{
+  --bg:#0d0c0b; --bg2:#151311; --card:#1c1916; --line:#2b2722;
+  --ink:#f3eee6; --dim:#a69d90; --faint:#6f675d;
+  --ember:#f2b544; --ember2:#ff8a3d;
+  --display:"Noto Serif Hebrew","Frank Ruhl Libre",serif;
+  --ui:"Heebo","Arial Hebrew",Arial,sans-serif;
+  --sheet:"Frank Ruhl Libre","David",serif;
+  --safe-b:env(safe-area-inset-bottom,0px); --safe-t:env(safe-area-inset-top,0px);
+  color-scheme:dark;
+}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{margin:0;background:var(--bg);color:var(--ink);font:400 16px/1.55 var(--ui)}
+body{padding-top:var(--safe-t)}
+button{font:inherit;color:inherit;background:none;border:0;cursor:pointer;padding:0}
+a{color:var(--ember)}
+:focus-visible{outline:2px solid var(--ember);outline-offset:3px;border-radius:6px}
+h1,h2,h3{margin:0;text-wrap:balance}
+.view{display:none;padding:0 0 calc(150px + var(--safe-b))}
+.view.on{display:block}
+.pad{padding:0 20px;max-width:860px;margin:0 auto}
+.label{font:700 .76rem/1.2 var(--ui);letter-spacing:.02em;color:var(--dim)}
+.copybtn{font:600 .85rem var(--ui);border:1px solid var(--line);border-radius:999px;padding:7px 14px;color:var(--ink);transition:border-color .2s}
+.copybtn:hover{border-color:var(--ember)}
+.copybtn.ok{border-color:#4fb37a;color:#7fd8a3}
+
+/* ---------- HOME ---------- */
+.hero{position:relative;overflow:hidden;isolation:isolate}
+.hero canvas{position:absolute;inset:0;width:100%;height:100%;z-index:-2}
+.hero::after{content:"";position:absolute;inset:0;z-index:-1;background:linear-gradient(to bottom,rgba(13,12,11,.05) 0%,rgba(13,12,11,.35) 55%,var(--bg) 100%)}
+.hero .pad{padding-top:64px;padding-bottom:26px;min-height:420px;display:flex;flex-direction:column;justify-content:flex-end}
+.hero .kicker{font:700 .85rem var(--ui);letter-spacing:.03em;color:var(--ember)}
+.hero h1{font:900 clamp(2.6rem,11vw,4.6rem)/.95 var(--display);letter-spacing:-.02em;margin:.35rem 0 .5rem}
+.hero .by{font:500 1.05rem var(--ui);color:#e9e1d4}
+.hero .sub{color:var(--dim);font-size:.92rem;margin-top:.2rem}
+.actions{display:flex;align-items:center;gap:14px;margin-top:22px}
+.bigplay{width:60px;height:60px;border-radius:50%;background:var(--ember);color:#1a1206;display:grid;place-items:center;box-shadow:0 8px 30px rgba(242,181,68,.35);transition:transform .15s}
+.bigplay:active{transform:scale(.94)}
+.bigplay svg{width:26px;height:26px}
+.ghost{text-decoration:none;color:var(--ink);border:1px solid rgba(255,255,255,.25);border-radius:999px;padding:9px 16px;font-weight:600;font-size:.9rem}
+.section-h{display:flex;align-items:baseline;justify-content:space-between;margin:30px 0 10px}
+.section-h h2{font:800 1.35rem var(--ui)}
+.ep{display:grid;grid-template-columns:auto 64px 1fr auto;gap:14px;align-items:center;padding:10px 8px;margin:0 -8px;border-radius:10px;width:calc(100% + 16px);text-align:start;transition:background .2s}
+.ep:hover{background:var(--card)}
+.ep .n{font:500 .95rem var(--ui);color:var(--faint);width:18px;text-align:center;font-variant-numeric:tabular-nums}
+.ep.playing .n{color:var(--ember)}
+.ep canvas{width:64px;height:64px;border-radius:6px;display:block}
+.ep .t{font:700 1.02rem/1.3 var(--ui)}
+.ep.playing .t{color:var(--ember)}
+.ep .s{font-size:.84rem;color:var(--dim);display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.ep .d{font-size:.84rem;color:var(--dim);font-variant-numeric:tabular-nums}
+.thesis{margin:34px 0 6px;padding:22px 0;border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+.thesis q{display:block;font:800 clamp(1.5rem,6vw,2.1rem)/1.25 var(--display);quotes:none}
+.thesis span{display:block;color:var(--dim);font-size:.86rem;margin-top:8px}
+.thesis p{color:#d7cfc3;margin:.8rem 0 0;max-width:60ch}
+.shelf{display:grid;grid-auto-flow:column;grid-auto-columns:150px;gap:14px;overflow-x:auto;padding-bottom:6px;scrollbar-width:none}
+.shelf::-webkit-scrollbar{display:none}
+.tile{text-align:start}
+.tile canvas{width:150px;height:150px;border-radius:8px;display:block;margin-bottom:8px}
+.tile b{display:block;font:700 .92rem/1.3 var(--ui)}
+.tile small{color:var(--dim);font-size:.78rem}
+
+/* ---------- PLAYER BAR ---------- */
+.mini{position:fixed;inset-inline:8px;bottom:calc(66px + var(--safe-b));z-index:20;background:#2a2017;border-radius:10px;display:none;grid-template-columns:44px 1fr auto;gap:10px;align-items:center;padding:8px 10px 10px;box-shadow:0 10px 30px rgba(0,0,0,.5);overflow:hidden}
+.mini.on{display:grid}
+.mini canvas{width:44px;height:44px;border-radius:5px}
+.mini .mt{font:700 .9rem/1.2 var(--ui);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.mini .ms{font-size:.76rem;color:var(--dim)}
+.mini .pp{width:38px;height:38px;display:grid;place-items:center}
+.mini .pp svg{width:24px;height:24px}
+.mini .bar{position:absolute;inset-inline:10px;bottom:3px;height:2px;background:rgba(255,255,255,.15);border-radius:2px}
+.mini .bar i{display:block;height:100%;background:var(--ink);width:0;border-radius:2px}
+.mini .open{text-align:start;min-width:0}
+.tabs{position:fixed;inset-inline:0;bottom:0;z-index:21;background:linear-gradient(to top,#0d0c0b 70%,rgba(13,12,11,.92));display:grid;grid-template-columns:repeat(4,1fr);padding:8px 0 calc(8px + var(--safe-b))}
+.tabs a{display:flex;flex-direction:column;align-items:center;gap:3px;text-decoration:none;color:var(--dim);font-size:.72rem;font-weight:500}
+.tabs a svg{width:23px;height:23px}
+.tabs a.on{color:var(--ink)}
+
+/* ---------- NOW PLAYING ---------- */
+.np{position:fixed;inset:0;z-index:40;background:var(--bg);transform:translateY(100%);transition:transform .38s cubic-bezier(.2,.8,.2,1);display:flex;flex-direction:column;overflow:hidden}
+@media (prefers-reduced-motion:reduce){.np{transition:none}}
+.np.on{transform:none}
+.np-bg{position:absolute;inset:0;z-index:-1;opacity:.55}
+.np-bg canvas{width:100%;height:100%;filter:blur(40px) saturate(1.2)}
+.np-top{display:flex;align-items:center;justify-content:space-between;padding:calc(14px + var(--safe-t)) 18px 6px}
+.np-top button{width:40px;height:40px;display:grid;place-items:center}
+.np-top svg{width:26px;height:26px}
+.np-top .label{text-align:center}
+.np-body{flex:1;overflow-y:auto;padding:0 22px 30px;max-width:620px;width:100%;margin:0 auto}
+.np-cover{width:min(78vw,340px);aspect-ratio:1;margin:12px auto 18px;border-radius:10px;overflow:hidden;box-shadow:0 24px 60px rgba(0,0,0,.6)}
+.np-cover canvas{width:100%;height:100%;display:block}
+.np-title{font:800 1.5rem/1.2 var(--display)}
+.np-sub{color:var(--dim);font-size:.92rem}
+.scrub{margin-top:16px}
+.scrub input{width:100%;accent-color:var(--ink);direction:ltr}
+.times{display:flex;justify-content:space-between;font-size:.76rem;color:var(--dim);font-variant-numeric:tabular-nums;direction:ltr}
+.ctrls{direction:ltr;display:flex;align-items:center;justify-content:space-between;margin:6px 0 0}
+.ctrls button{width:48px;height:48px;display:grid;place-items:center;color:var(--ink)}
+.ctrls svg{width:28px;height:28px}
+.ctrls .main{width:68px;height:68px;border-radius:50%;background:var(--ink);color:#120f0b}
+.ctrls .main svg{width:30px;height:30px}
+.speed{font:700 .86rem var(--ui);color:var(--dim)}
+.lyrics{margin-top:22px;background:rgba(0,0,0,.28);border-radius:14px;padding:18px 18px 22px}
+.lyrics .hd{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px}
+.lyrics .hd b{font:800 1rem var(--ui)}
+.lyrics .hd small{color:var(--faint);font-size:.72rem}
+.lines{max-height:46vh;overflow-y:auto;scroll-behavior:smooth;mask-image:linear-gradient(to bottom,transparent,#000 12%,#000 85%,transparent)}
+.lines p{margin:0;padding:7px 0;font:700 1.18rem/1.45 var(--ui);color:rgba(243,238,230,.38);cursor:pointer;transition:color .25s}
+.lines p.past{color:rgba(243,238,230,.62)}
+.lines p.now{color:#fff}
+.lines p:first-child{margin-top:30px}.lines p:last-child{margin-bottom:60px}
+.about{margin-top:18px;background:var(--card);border-radius:14px;padding:18px}
+.about p{color:#d9d1c4;margin:.4rem 0 0}
+
+/* ---------- SHABBAT ---------- */
+.page-h{padding-top:34px}
+.page-h h1{font:900 2.2rem/1.05 var(--display)}
+.page-h p{color:var(--dim);margin:.4rem 0 0}
+.sheet{margin:22px auto 0;background:#f7f2e7;color:#1d1a15;border-radius:4px;padding:34px 26px 26px;font:400 1.04rem/1.75 var(--sheet);box-shadow:0 30px 70px rgba(0,0,0,.55);max-width:720px;position:relative}
+.sheet::before{content:"";position:absolute;inset:10px;border:1px solid #d8ccb0;pointer-events:none;border-radius:2px}
+.sheet .bsd{position:absolute;top:18px;inset-inline-end:24px;font-size:.8rem;color:#7a6c52}
+.mast{text-align:center;padding-bottom:14px;border-bottom:2px solid #1d1a15;margin-bottom:6px}
+.mast .series{font:700 .8rem var(--ui);letter-spacing:.04em;color:#8a6312}
+.mast h2{font:900 3rem/1 var(--sheet);margin:.3rem 0 .2rem;letter-spacing:-.01em}
+.mast .meta{font-size:.9rem;color:#5c513f}
+.rule{height:4px;border-bottom:1px solid #1d1a15;margin-bottom:16px}
+.sheet blockquote{margin:0 0 16px;text-align:center;font:700 1.25rem/1.4 var(--sheet);color:#8a6312}
+.sheet blockquote small{display:block;font:400 .8rem var(--ui);color:#7a6c52;margin-top:3px}
+.sheet h3{font:900 1.35rem var(--sheet);margin:18px 0 4px}
+.sheet .body{columns:2 300px;column-gap:28px;column-rule:1px solid #d8ccb0}
+.sheet .body p{margin:0 0 .7em;text-align:justify}
+.sheet .body p:first-child::first-letter{font:900 3.2rem/.8 var(--sheet);float:right;margin:6px 0 0 8px;color:#8a6312}
+.lesson{background:#efe5cf;border-radius:3px;padding:14px 16px;margin:16px 0}
+.lesson h3{margin-top:0}
+.trio{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:12px;margin:14px 0}
+.trio div{border-top:3px solid #8a6312;padding-top:8px;font-size:.95rem;line-height:1.55}
+.trio b{display:block;font:900 1.05rem var(--sheet)}
+.two{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:22px}
+.sheet ol{margin:.2rem 0;padding-inline-start:22px}
+.sheet ol li{margin:.25rem 0}
+.sheet ol small{color:#8a6312;font-family:var(--ui);font-size:.78rem}
+.sheet .foot{margin-top:18px;padding-top:10px;border-top:1px solid #1d1a15;text-align:center;font:400 .78rem var(--ui);color:#5c513f}
+.note{margin:18px auto 0;max-width:720px;display:flex;gap:10px;font-size:.88rem;color:var(--dim);background:var(--card);border-radius:10px;padding:12px 14px}
+.note b{color:var(--ember)}
+
+/* ---------- STUDIO ---------- */
+.studio-grid{display:grid;gap:14px;margin-top:22px}
+.panel{background:var(--card);border-radius:14px;padding:18px}
+.panel-h{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-bottom:12px}
+.panel-h h2{font:800 1.12rem var(--ui)}
+.chip{font:700 .7rem var(--ui);letter-spacing:.06em;border-radius:999px;padding:3px 9px;background:#2d2519;color:var(--ember)}
+.chip.ok{background:#16291e;color:#7fd8a3}
+.chip.next{background:#2a1c2b;color:#e0a6e6}
+.kv{display:grid;grid-template-columns:auto 1fr;gap:6px 14px;font-size:.92rem}
+.kv dt{color:var(--dim)}
+.kv dd{margin:0}
+.chapters{list-style:none;margin:10px 0 0;padding:0}
+.chapters li{display:flex;gap:12px;padding:7px 0;border-top:1px solid var(--line);font-size:.92rem}
+.chapters li span{color:var(--ember);font-variant-numeric:tabular-nums;min-width:44px;direction:ltr;text-align:end}
+.wa{background:#0f1a14;border-radius:10px;padding:12px 14px;white-space:pre-wrap;font-size:.92rem;line-height:1.6;color:#dfeee4;border:1px solid #1f3328}
+.candles{display:grid;grid-template-columns:repeat(8,1fr);gap:6px;margin:6px 0 14px;direction:rtl}
+.candle{text-align:center;font-size:.68rem;color:var(--dim)}
+.candle i{display:block;height:46px;margin:0 auto 4px;width:10px;border-radius:2px;background:linear-gradient(#3a332b,#2a251f);position:relative}
+.candle.lit i{background:linear-gradient(#f4e9d2,#c9b892)}
+.candle.lit i::before{content:"";position:absolute;top:-14px;left:50%;width:9px;height:14px;transform:translateX(-50%);border-radius:50% 50% 50% 50%/60% 60% 40% 40%;background:radial-gradient(circle at 50% 70%,#fff6d6,#f2b544 45%,#ff8a3d 80%,transparent 82%);animation:flick 2.4s infinite ease-in-out}
+@keyframes flick{0%,100%{transform:translateX(-50%) scaleY(1)}50%{transform:translateX(-50%) scaleY(.88) skewX(3deg)}}
+@media (prefers-reduced-motion:reduce){.candle.lit i::before{animation:none}}
+.candle b{display:block;color:var(--ink);font-size:.74rem}
+.timeline{list-style:none;margin:0;padding:0}
+.timeline li{display:grid;grid-template-columns:70px 1fr;gap:12px;padding:9px 0;border-top:1px solid var(--line);font-size:.92rem}
+.timeline li span{color:var(--dim);font-variant-numeric:tabular-nums}
+.timeline li b{display:block}
+.clips{display:grid;gap:10px}
+.clip{display:grid;grid-template-columns:56px 1fr auto;gap:12px;align-items:center;padding:10px;border-radius:10px;background:#15120f;border:1px solid var(--line)}
+.clip .ph{width:56px;height:100px;border-radius:6px;overflow:hidden}
+.clip .ph canvas{width:100%;height:100%;display:block}
+.clip b{display:block;font-size:.95rem}
+.clip small{color:var(--dim);font-size:.8rem;display:block}
+.clip q{display:block;quotes:none;font:600 .86rem/1.4 var(--display);color:#e8dfcf;margin-top:4px}
+.clip .go{width:40px;height:40px;border-radius:50%;border:1px solid var(--line);display:grid;place-items:center}
+.clip .go svg{width:18px;height:18px}
+.evt{padding:12px 0;border-top:1px solid var(--line)}
+.evt:first-of-type{border-top:0;padding-top:0}
+.evt b{font-size:1rem}
+.evt p{margin:.2rem 0 0;color:#d4ccbf;font-size:.92rem}
+.evt small{color:var(--ember);font-size:.78rem;font-weight:700}
+.grid-tbl{overflow-x:auto}
+.grid-tbl table{border-collapse:collapse;width:100%;font-size:.88rem;min-width:520px}
+.grid-tbl th,.grid-tbl td{text-align:start;padding:8px;border-top:1px solid var(--line);vertical-align:top}
+.grid-tbl th{color:var(--dim);font-weight:500;font-size:.78rem;border-top:0}
+
+/* ---------- LIBRARY ---------- */
+.libstats{display:flex;gap:22px;margin-top:16px}
+.libstats div b{display:block;font:900 1.8rem/1 var(--display);font-variant-numeric:tabular-nums}
+.libstats div span{color:var(--dim);font-size:.8rem}
+.progress{height:4px;background:var(--line);border-radius:4px;margin:16px 0 4px;overflow:hidden}
+.progress i{display:block;height:100%;background:var(--ember)}
+.lib{display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:16px 14px;margin-top:18px}
+.disc{position:relative}
+.disc canvas{width:100%;aspect-ratio:1;border-radius:8px;display:block}
+.disc .st{position:absolute;top:8px;inset-inline-start:8px;font:700 .66rem var(--ui);padding:3px 8px;border-radius:999px;background:rgba(0,0,0,.6);color:var(--dim);backdrop-filter:blur(6px)}
+.disc.done .st{background:var(--ember);color:#1a1206}
+.disc b{display:block;margin-top:7px;font:700 .9rem/1.3 var(--ui)}
+.disc small{color:var(--dim);font-size:.76rem}
+.pipe{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-top:14px}
+.pipe div{background:var(--card);border-radius:10px;padding:10px;font-size:.78rem;color:var(--dim)}
+.pipe div b{display:block;color:var(--ink);font-size:.86rem;margin-bottom:2px}
+@media (max-width:420px){.pipe{grid-template-columns:repeat(2,1fr)}}
+</style>
+</head>
+<body>
+
+<!-- HOME -->
+<main id="v-home" class="view on">
+  <header class="hero">
+    <canvas id="heroCanvas" aria-hidden="true"></canvas>
+    <div class="pad">
+      <div class="kicker">פודקאסט · דיסק 35</div>
+      <h1>מעטים<br>כנגד רבים</h1>
+      <div class="by">הרב אריה מאיר · סיפורי צדיקים</div>
+      <div class="sub">ארבעה סיפורי חנוכה · 64 דקות</div>
+      <div class="actions">
+        <button class="bigplay" id="playAll" aria-label="נגן הכל"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M7 5v14l11-7z" /></svg></button>
+        <a class="ghost" href="#shabbat">דף לשבת</a>
+        <a class="ghost" href="#studio">סטודיו</a>
+      </div>
+    </div>
+  </header>
+  <div class="pad">
+    <div class="section-h"><h2>פרקים</h2><span class="label">חנוכה תשפ"ז</span></div>
+    <div id="eps"></div>
+
+    <div class="thesis">
+      <q>"מָסַרְתָּ רַבִּים בְּיַד מְעַטִּים"</q>
+      <span>מתוך "על הניסים"</span>
+      <p>הרב מראה את השורה הזאת בארבע תקופות ובארבע ארצות. בכל סיפור המלחמה נמצאת בתוך האדם. מעט מצוות ומעט אור מנצחים הרבה חושך.</p>
+    </div>
+
+    <div class="section-h"><h2>עוד מהאוסף</h2><a class="label" href="#library" style="color:var(--dim);text-decoration:none">לכל 39 הדיסקים ←</a></div>
+    <div class="shelf" id="shelf"></div>
+  </div>
+</main>
+
+<!-- SHABBAT -->
+<main id="v-shabbat" class="view">
+  <div class="pad page-h">
+    <span class="label">דף לשבת · מוכן להדפסה</span>
+    <h1>שבת וישב · שבת חנוכה</h1>
+    <p>כ"ה בכסלו תשפ"ז · 5.12.2026 · לחלוקה ביום חמישי</p>
+    <div style="margin-top:14px"><button class="copybtn" data-copy="sheetText">העתקת הטקסט</button></div>
+  </div>
+  <div class="pad">
+  <article class="sheet" id="sheetText">
+    <span class="bsd">בס"ד</span>
+    <div class="mast">
+      <div class="series">סיפורי צדיקים · הרב אריה מאיר</div>
+      <h2>מעטים כנגד רבים</h2>
+      <div class="meta">גיליון לשבת פרשת וישב · שבת חנוכה · תשפ"ז</div>
+    </div>
+    <div class="rule"></div>
+    <blockquote>"מָסַרְתָּ גִבּוֹרִים בְּיַד חַלָּשִׁים, וְרַבִּים בְּיַד מְעַטִּים"<small>מתוך תפילת "על הניסים"</small></blockquote>
+
+    <h3>החברותא מז'יטומיר</h3>
+    <div class="body">
+      <p>מנחם פרנק ישב ולמד בבית המדרש בז'יטומיר, עד שהתחתן ועבר לגור בברוד, על שולחן חותנו העשיר. המשפחה לחצה: "מה אכפת לך? פעם אחת תעזור לחלק את הכסף של כמה סוחרים." הפעם האחת נעשתה פעם נוספת, והפעמים נעשו הרגל. לאט לאט התברר שהסוחרים הם חבורת שודדים, ומנחם הפך לאחד מהם. הוא עזב את הבית. אשתו מינה נשארה לבד, ועוד לא הספיקה לספר לו שהיא בהיריון.</p>
+      <p>שנים אחר כך, בליל חנוכה, בסופת שלגים, משה החסיד נתקע בדרך אל רבו, רבי ישראל מרוז'ין, ולן באכסניה. באמצע הלילה פרצו שודדים לאכסניה. משה ישב בחדרו מול נרות החנוכה, והתחיל ללמוד בניגון. מנהיג השודדים שמע את הקול ובעט בדלת. משה אמר "שמע ישראל" והתכונן למות. כשפקח את עיניו, ראה את הרוצח בוכה מול הנרות ומול הגמרא הפתוחה. "אתה משה מז'יטומיר? אני מנחם פרנק, החברותא שלך."</p>
+      <p>מנחם שחרר את כולם. למחרת עלה לעגלה של משה ונסע איתו לרוז'ין. "שנים לא הרגשתי את האור היהודי," אמר שם, "ופתאום ראיתי גמרא ונרות חנוכה, כאילו העירו אותי מחלום בלהות."</p>
+      <p>שנתיים אחר כך, במסיבת חנוכה בתלמוד התורה בברוד, ילד בשם גד עמד לבד מול החידון, בלי אבא. איש גבוה ניגש אליו מפינת האולם: "אני אבא של גד. אתה מרשה לי לעזור לך?" ומאחור עמדה מינה, וראתה איך מאות התפילות שלה פתחו לבעלה את הדרך הביתה.</p>
+    </div>
+
+    <div class="lesson">
+      <h3>המסר</h3>
+      <p style="margin:0">"מעטים כנגד רבים" הוא לא רק סיפור על המכבים בשדה הקרב. בתוך כל יהודי יש "רבים", החטאים והחושך, ויש "מעטים", כמה מצוות, כמה נקודות טובות. חנוכה מלמד שהמעט מנצח. נר אחד מאיר חדר שלם. ואין יהודי שבורא עולם לא קורא לו: "בוא אליי, בני."</p>
+    </div>
+
+    <div class="trio">
+      <div><b>באושוויץ</b>רב זחל לאסוף פירורי מרגרינה, לא בשביל לאכול אלא בשביל להדליק נר חנוכה בלב התופת.</div>
+      <div><b>בסיני</b>שני אחים מתימן, שהופרדו בילדותם, מצאו זה את זה אחרי 24 שנה בזכות חנוכיות הכסף שאמם עשתה.</div>
+      <div><b>בוולי פורג'</b>חייל יהודי הדליק נר, וחיזק בכך את ג'ורג' וושינגטון ברגע הייאוש.</div>
+    </div>
+
+    <div class="two">
+      <div>
+        <h3>שאלות לשולחן השבת</h3>
+        <ol>
+          <li>מנחם לא נפל בבת אחת. איך "רק פעם אחת" הופך להרגל, וכיצד עוצרים את זה בזמן?</li>
+          <li>מה בדיוק בחדר של משה העיר את מנחם: הנרות, הגמרא, הניגון או הפנים של חבר ישן?</li>
+          <li>מינה לא יכלה להחזיר את בעלה בכוח. מה כן היה בידיה?</li>
+          <li>מה "המעט" שלי, הנקודה הטובה שאני מוסיף בחנוכה הזה?</li>
+        </ol>
+      </div>
+      <div>
+        <h3>חידון לילדים</h3>
+        <ol>
+          <li>באיזו עיר למדו מנחם ומשה יחד? <small>ז'יטומיר</small></li>
+          <li>אל איזה צדיק נסע משה? <small>רבי ישראל מרוז'ין</small></li>
+          <li>מה ראה מנהיג השודדים בחדר? <small>נרות חנוכה וגמרא פתוחה</small></li>
+          <li>איך קראו לבן של מנחם ומינה? <small>גד</small></li>
+          <li>במה עזר האבא לבנו? <small>בחידון החנוכה</small></li>
+        </ol>
+      </div>
+    </div>
+    <div class="foot">הגיליון מכיל דברי תורה – נא לשמור על קדושתו · הסיפור המלא בפודקאסט "סיפורי צדיקים"</div>
+  </article>
+  <div class="note"><b>!</b><span>בהקלטה הרב מציין את השנה 1860. רבי ישראל מרוז'ין נפטר כבר בשנת 1850 (ג' בחשוון תרי"א), אז בגיליון הושמטה השנה.</span></div>
+  </div>
+</main>
+
+<!-- STUDIO -->
+<main id="v-studio" class="view">
+  <div class="pad page-h">
+    <span class="label">סטודיו · חבילת תוכן לדיסק 35</span>
+    <h1>מהקלטה אחת, עשרה תוצרים</h1>
+    <p>כל מה שצריך כדי להפיץ את הדיסק הזה בחנוכה.</p>
+  </div>
+  <div class="pad studio-grid">
+
+    <section class="panel">
+      <div class="panel-h"><h2>לוח הפצה לחנוכה</h2><span class="chip">4–12.12</span></div>
+      <div class="candles" id="candles"></div>
+      <ul class="timeline">
+        <li><span>ג' 1.12</span><div><b>פרסום הפרק המלא</b>הודעת וואטסאפ וקישור לפרק</div></li>
+        <li><span>ה' 3.12</span><div><b>חלוקת הדף לשבת</b>"החברותא מז'יטומיר" לשבת וישב–חנוכה</div></li>
+        <li><span>ו' 4.12</span><div><b>נר ראשון · קליפ 1</b>"אני מנחם פרנק"</div></li>
+        <li><span>א' 6.12</span><div><b>נר שלישי · קליפ 2</b>"נס חנוכה!" באושוויץ</div></li>
+        <li><span>ג' 8.12</span><div><b>נר חמישי · קליפ 3</b>האחים בסיני</div></li>
+        <li><span>ה' 10.12</span><div><b>נר שביעי · קליפ 4</b>וושינגטון. ודף לשבת מקץ, זאת חנוכה</div></li>
+        <li><span>א' 20.12</span><div><b>עשרה בטבת</b>"המרגרינה של אושוויץ" ליום הקדיש הכללי</div></li>
+      </ul>
+    </section>
+
+    <section class="panel">
+      <div class="panel-h"><h2>קליפים לרילס ולסטטוס</h2><span class="chip next">השלב הבא</span></div>
+      <div class="clips" id="clips"></div>
+      <p style="color:var(--dim);font-size:.85rem;margin:12px 0 0">כל קליף בפורמט אנכי, 60–90 שניות, עם כתוביות בעברית מתוך התמלול. ההפקה מתבצעת ב-GitHub Actions. לחיצה על ▶ משמיעה את הקטע.</p>
+    </section>
+
+    <section class="panel">
+      <div class="panel-h"><h2>פרק לפודקאסט</h2><button class="copybtn" data-copy="podText">העתקה</button></div>
+      <div id="podText">
+        <dl class="kv">
+          <dt>תוכנית</dt><dd>סיפורי צדיקים עם הרב אריה מאיר</dd>
+          <dt>פרק</dt><dd>מעטים כנגד רבים: ארבעה סיפורי חנוכה</dd>
+          <dt>אורך</dt><dd>64:17</dd>
+        </dl>
+        <p style="color:#d9d1c4;font-size:.93rem">שודד שמתעורר מול נרות חנוכה באכסניה ביערות אוקראינה. רב שזוחל לאסוף מרגרינה באושוויץ. שני אחים מתימן שמוצאים זה את זה אחרי 24 שנה. וחייל יהודי שמחזק את ג'ורג' וושינגטון. בארבעה סיפורים הרב אריה מאיר מראה שהנס של חנוכה קורה גם בתוכנו: מעט אור מנצח הרבה חושך.</p>
+        <ul class="chapters">
+          <li><span>00:00</span>החברותא מז'יטומיר</li>
+          <li><span>22:38</span>"מעטים כנגד רבים" – מה אמרו ברוז'ין</li>
+          <li><span>24:09</span>מסיבת החנוכה בברוד</li>
+          <li><span>31:16</span>המרגרינה של אושוויץ</li>
+          <li><span>41:11</span>חנוכיות הכסף מצנעא</li>
+          <li><span>54:54</span>החייל היהודי וג'ורג' וושינגטון</li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="panel">
+      <div class="panel-h"><h2>הודעה לוואטסאפ</h2><button class="copybtn" data-copy="waText">העתקה</button></div>
+      <div class="wa" id="waText">🕎 לקראת חנוכה: פרק חדש ב"סיפורי צדיקים" עם הרב אריה מאיר
+
+*מעטים כנגד רבים*, ארבעה סיפורים על אור קטן שמנצח חושך גדול:
+• השודד שהתעורר מול נרות החנוכה
+• המרגרינה של אושוויץ
+• חנוכיות הכסף מצנעא
+• החייל היהודי וג'ורג' וושינגטון
+
+להאזנה: [קישור]
+שתפו לזיכוי הרבים 🙏</div>
+    </section>
+
+    <section class="panel">
+      <div class="panel-h"><h2>אירועים</h2><span class="chip">4 רעיונות</span></div>
+      <div class="evt"><small>מוצ"ש 5.12 · נר שני</small><br><b>ערב "מעטים כנגד רבים" בקהילה</b><p>הדלקה משותפת, השמעה של "החברותא מז'יטומיר" ושיח סביב השאלות מהגיליון. כל משתתף כותב על פתק את "המעט" שהוא מקבל על עצמו, והפתקים נאספים ליד החנוכייה.</p></div>
+      <div class="evt"><small>בימי החנוכה</small><br><b>"אבא, תעזור לי בחידון": מסיבה לילדים</b><p>חידון חנוכה שבו כל ילד עונה יחד עם אבא או סבא, כמו בסוף הסיפור, ודואגים שאף ילד לא נשאר לבד. בפעילות היצירה מקשטים חנוכייה אישית, כמו של האמא מצנעא.</p></div>
+      <div class="evt"><small>ביחידות ובבסיסים</small><br><b>חנוכה עם לוחמי מילואים</b><p>הדלקה והשמעה של "חנוכיות הכסף מצנעא", שמתרחש בעצמו במילואים בסיני, וחלוקת חנוכיות קטנות.</p></div>
+      <div class="evt"><small>א' 20.12 · עשרה בטבת</small><br><b>"אור בתוך התופת": ערב עיון לנוער</b><p>השמעה של "המרגרינה של אושוויץ" והדלקת נר זיכרון. מתאים מגיל 12.</p></div>
+    </section>
+
+    <section class="panel">
+      <div class="panel-h"><h2>ניתוח הסיפורים</h2><span class="chip">דמויות · מקומות · תקופה</span></div>
+      <div class="grid-tbl"><table>
+        <thead><tr><th>סיפור</th><th>דמויות</th><th>מקומות</th><th>תקופה</th></tr></thead>
+        <tbody>
+          <tr><td>החברותא מז'יטומיר</td><td>מנחם פרנק, מינה, גד, משה החסיד, שבתאי, איוון, רבי ישראל מרוז'ין</td><td>ז'יטומיר, ברוד, רוז'ין</td><td>המאה ה-19, לפני 1850</td></tr>
+          <tr><td>המרגרינה של אושוויץ</td><td>הרב, הקאפו, אישה עם כפתורי כסף</td><td>אושוויץ</td><td>חנוכה 1942</td></tr>
+          <tr><td>חנוכיות הכסף מצנעא</td><td>יוסף צנעני, האם, סאלם/שלומי, יחיא/חיים</td><td>צנעא, מחנות העולים, סיני</td><td>העלייה מתימן · 1973</td></tr>
+          <tr><td>החייל היהודי וושינגטון</td><td>חייל יהודי מפולין, ג'ורג' וושינגטון</td><td>ולי פורג', ניו יורק</td><td>1777 והלאה</td></tr>
+        </tbody>
+      </table></div>
+      <p style="color:var(--dim);font-size:.85rem;margin:12px 0 0">הסיפור על ג'ורג' וושינגטון הוא מסורת עממית בלי תיעוד היסטורי. כדאי להציג אותו כ"מסופר".</p>
+    </section>
+  </div>
+</main>
+
+<!-- LIBRARY -->
+<main id="v-library" class="view">
+  <div class="pad page-h">
+    <span class="label">הספרייה</span>
+    <h1>סיפורי צדיקים</h1>
+    <p>האוסף המלא של הרב אריה מאיר, מהדרייב.</p>
+    <div class="libstats"><div><b>39</b><span>דיסקים</span></div><div><b id="doneCount">1</b><span>תומללו</span></div><div><b>~45</b><span>שעות שמע (הערכה)</span></div></div>
+    <div class="progress"><i id="prog"></i></div>
+    <div class="pipe">
+      <div><b>1 · תמלול</b>Actions + ivrit-ai</div>
+      <div><b>2 · למידה</b>סיפורים, דמויות, מסר</div>
+      <div><b>3 · תוכן</b>שבת · פודקאסט · אירועים</div>
+      <div><b>4 · וידאו</b>קליפים עם כתוביות</div>
+    </div>
+  </div>
+  <div class="pad"><div class="lib" id="lib"></div></div>
+</main>
+
+<!-- MINI PLAYER + TABS -->
+<div class="mini" id="mini">
+  <canvas id="miniCover" width="88" height="88"></canvas>
+  <button class="open" id="openNp"><div class="mt" id="miniT"></div><div class="ms">הרב אריה מאיר</div></button>
+  <button class="pp" id="miniPP" aria-label="נגן או השהה"></button>
+  <div class="bar"><i id="miniBar"></i></div>
+</div>
+<nav class="tabs" aria-label="ניווט">
+  <a href="#home" data-v="home"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 3 3 10v11h6v-6h6v6h6V10z"/></svg>בית</a>
+  <a href="#shabbat" data-v="shabbat"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M8 3v3M16 3v3"/><path d="M8 6c-1 1-1 2 0 3s1 2 0 3M16 6c-1 1-1 2 0 3s1 2 0 3" opacity=".0"/><rect x="6" y="9" width="4" height="12" rx="1"/><rect x="14" y="9" width="4" height="12" rx="1"/><path d="M8 4.5c.8.8.8 1.8 0 2.5-.8-.7-.8-1.7 0-2.5zM16 4.5c.8.8.8 1.8 0 2.5-.8-.7-.8-1.7 0-2.5z" fill="currentColor"/></svg>שבת</a>
+  <a href="#studio" data-v="studio"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></svg>סטודיו</a>
+  <a href="#library" data-v="library"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M5 3v18M10 3v18M15 4l5 16"/></svg>ספרייה</a>
+</nav>
+
+<!-- NOW PLAYING -->
+<div class="np" id="np" role="dialog" aria-label="מנגן עכשיו">
+  <div class="np-bg"><canvas id="npBg" width="200" height="200"></canvas></div>
+  <div class="np-top">
+    <button id="closeNp" aria-label="סגירה"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m6 9 6 6 6-6"/></svg></button>
+    <div class="label">מנגן מתוך · מעטים כנגד רבים</div>
+    <span style="width:40px"></span>
+  </div>
+  <div class="np-body">
+    <div class="np-cover"><canvas id="npCover" width="680" height="680"></canvas></div>
+    <div class="np-title" id="npT"></div>
+    <div class="np-sub">הרב אריה מאיר</div>
+    <div class="scrub"><input type="range" id="seek" min="0" max="1000" value="0" aria-label="מיקום בהקלטה"><div class="times"><span id="tCur">0:00</span><span id="tDur">0:00</span></div></div>
+    <div class="ctrls">
+      <button class="speed" id="speed" aria-label="מהירות">1×</button>
+      <button id="prev" aria-label="הסיפור הקודם"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M6 6h2v12H6zM9.5 12 18 6v12z"/></svg></button>
+      <button id="back15" aria-label="15 שניות אחורה"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 12a8 8 0 1 0 2.3-5.6"/><path d="M4 4v5h5"/><text x="12" y="15.5" font-size="7" text-anchor="middle" fill="currentColor" stroke="none" font-family="Heebo">15</text></svg></button>
+      <button class="main" id="pp" aria-label="נגן או השהה"></button>
+      <button id="fwd15" aria-label="15 שניות קדימה"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M20 12a8 8 0 1 1-2.3-5.6"/><path d="M20 4v5h-5"/><text x="12" y="15.5" font-size="7" text-anchor="middle" fill="currentColor" stroke="none" font-family="Heebo">15</text></svg></button>
+      <button id="next" aria-label="הסיפור הבא"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M6 6h2v12H6zM9.5 12 18 6v12z" transform="scale(-1,1) translate(-24,0)"/></svg></button>
+      <span style="width:48px"></span>
+    </div>
+    <div class="lyrics">
+      <div class="hd"><b>תמלול</b><small>אוטומטי · ivrit-ai · לחצו על שורה כדי לקפוץ אליה</small></div>
+      <div class="lines" id="lines"></div>
+    </div>
+    <div class="about"><span class="label">על הסיפור</span><p id="npAbout"></p></div>
+  </div>
+</div>
+
+<audio id="audio" preload="metadata"></audio>
+
+<script>
+const SEGS = {"track01":[[25.6,"ז'יטומיר."],[28.1,"ז'יטומיר הייתה עיירת יהודית טיפוסית."],[31.7,"לפני כמאתיים שנה,"],[33.9,"ולב העיירה היה בית מדרש, שם ישבו,"],[37.4,"הצטופפו להם עשרות בחורים,"],[39.2,"עשרות יהודים,"],[40.7,"בחברות ולמדו את התורה הקדושה."],[44.4,"מדי זמן נשלף אחד מהבחורים היוצא לשידוך"],[52.2,"והיה חוזר עם בשורת נישואים ועם עתיד חדש."],[55.9,"כך גם קרה למנחם,"],[58.0,"מנחם פרנק."],[60.5,"מנחם פרנק זכה להשתדך עם בת, בת של סוחר,"],[64.9,"סוחר עשיר מהעיר, מעיירה ברוד."],[73.5,"הוא נפרד, עזב את הבית מדרש ועקר לעיירה ברוד בעקבות אשתו."],[80.2,"שם הוא היה סמוך על שולחן החותן שלו."],[84.5,"כך הוא ישב"],[87.0,"זמן מה,"],[88.6,"אבל לאט לאט, בהתחלה הוא שם לב לזה קצת,"],[91.3,"אבל עד זה הלך והתגבר הרמיזות, השתיקה הרועמת."],[97.4,"משפחת אשתו לא היו כל כך מרוצים מכך שהחתן החדש שלהם יושב כל היום ולומד."],[104.3,"הם היו מעדיפים קצת שהוא יעבוד, קצת יעזור להם בעסקים."],[108.3,"אבל הוא,"],[109.9,"הוא עמד על שלו,"],[116.2,"עד לאותו לילה."],[118.0,"באותו לילה אשתו"],[120.7,"נכנסה"],[122.2,"באמצע אלימות ואומרת לו, מנחם, אבא שלח אותי, תראה."],[125.2,"מנחם, תמיד אנחנו אומרים לאבא ואימא לא."],[127.9,"אבל תראה, עכשיו בסך הכול יש איזו חבורה שמה,"],[130.7,"קבוצה של גויים שזקוקים להנהלת חשבונות,"],[135.6,"לחלק קצת הרווחים שהם הרוויחו."],[139.2,"אז בוא, בוא,"],[140.3,"בוא תעזור להם, והם מוכנים לשלם על זה דמי תיווך."],[144.7,"מה אכפת לך? כמה אנחנו צריכים לבקש מאבא שלי טובות?"],[153.2,"מנחם עשה חשבון קצר,"],[155.7,"אמרת לו אולי יהיה לי קצת שקט."],[158.2,"והוא הסכים."],[162.1,"קבוצת הגויים לא הייתה קבוצה של סוחרים צדיקים ותמימים,"],[166.6,"בלשון עדינה."],[168.6,"מה אכפת לך? הם גויים, מנחם. הם גויים, מה אכפת לך?"],[171.7,"מה הזניין שלנו?"],[173.7,"טוב, פעם אחת וזהו."],[178.4,"תוך מחצית השעה נגמר הכל, נסגר הכל."],[184.6,"הם היו מרוצים,"],[186.4,"והם שילמו סכום יפה לכל הדירות."],[197.4,"חודש אחר כך,"],[199.6,"מנחם."],[200.7,"מנחם."],[202.2,"בכתה."],[203.4,"בכתה אשתו עוד פעם אחת."],[205.4,"עוד פעם אחת, מה יקרה?"],[207.7,"מה יקרה?"],[211.2,"אז עוד פעם אחת תתווך שם ותדמה, מה בסך הכל אתה עושה?"],[215.1,"מחלק ביניהם את הכסף"],[217.6,"ומקבל על זה סכום בכלל לא רע."],[228.3,"טוב, זו הפעם האחרונה, אמר מנחם."],[232.5,"אבל זו לא הייתה הפעם האחרונה, עוד לחץ ועוד לחץ."],[236.5,"ולאט לאט"],[238.8,"כבר לא היה צריך ללחוץ."],[240.8,"זה נהפך להרגל,"],[242.4,"להיות המנהל החשבונות"],[244.5,"של אותה חבורה,"],[246.3,"חבורת שודדים."],[248.5,"ולאט לאט מנחם נהפך למנהל החלוקה"],[252.2,"של אותה חבורה."],[257.8,"אדם עושה עבירה קלה, נראה לו כבסדר, לא נורא."],[262.3,"בהתחלה זה חמור, לאט לאט זה יורד ההשפעה, לאחרי זה נהפך לו כהרגל ובכלל כהיתר."],[267.5,"ומנחם התחיל להרגיש שבעצם יש לו פרנסה לא רעה, קצת מהצד."],[292.3,"הדפיקות ההיסטריות בדלת העירו אותם."],[295.1,"מי באמצע הלילה דופק ככה?"],[297.6,"מנחם פתח את הדלת."],[307.0,"בפתח"],[308.4,"עמד לו איוון."],[309.5,"מראשי חבורת השודדים,"],[313.1,"הבגדים שלו היו ספוגים מדם."],[315.5,"מנחם,"],[316.6,"אנחנו עשינו פעולה הלילה."],[318.5,"אנחנו תקפנו רוזן מקומי והתברר,"],[322.4,"התברר לנו שיש לו שומרים שנמצאים איתו במרכבה."],[332.9,"מנחם, אנחנו נמצאים בעיצומו של קרב לא רחוק מכאן."],[337.2,"אנחנו חייבים עזרה."],[339.8,"מנחם נרתע כאילו הוא נכווה, מה קשור? אני לא קשור לזה."],[343.3,"מה אתם רוצים ממני?"],[345.0,"מה הקשר שלי לזה?"],[346.8,"אני בסך הכל הייתי מנהל חלוקה שלכם."],[349.2,"אתה טועם, מנחם, אם אנחנו נפסיד, אם אנחנו ניפול,"],[353.7,"השם שלך יימסר גם מול המשטרה."],[357.6,"תבין, מנחם, אנחנו חייבים כל, כל כוח,"],[360.5,"כל יד, אתה חייב לבוא ולעזור,"],[363.0,"ולו רק לפעם אחת."],[369.1,"מנחם, אתה חייב ללכת איתם."],[372.2,"אתה חייב ללכת איתם, מנחם."],[375.1,"איזו בושה."],[380.4,"אין ברירה."],[382.0,"חייבים ללכת."],[385.5,"והמילים"],[387.7,"עוד התדהדו בראשו כשהוא יצא."],[390.1,"יצא בעקבות איוון."],[393.3,"מובל לידי כוח שטני שהשתלט עליו."],[404.9,"מנחם חזר הביתה."],[407.5,"מיקץ מספר שעות."],[409.4,"הוא הלך, התקלח במשך שעות,"],[414.7,"ונכנס למיטה שותק."],[417.5,"למחרת הוא התעורר ויצא מהבית שלו."],[422.3,"מנחם"],[423.5,"כבר לא היה אותו אדם."],[428.0,"מה קורה איתך בלילות, מנחם?"],[430.4,"שאלה מינה אשתו בדאגה,"],[432.6,"אבל הוא כבר לא ענה."],[434.4,"בזמן האחרון הוא מרבה בשתיקה."],[439.7,"מינה,"],[441.7,"ששמה לב שבעלה נעלם בלילות,"],[445.1,"התחילה ללחוץ,"],[446.7,"לספר איפה אתה נעלם?"],[449.2,"איפה אתה נעלם?"],[450.7,"אני רוצה לדעת."],[454.8,"אבל המבט בעיניו"],[458.6,"של מנחם גרם לה לעצור."],[460.8,"נמאס לי."],[462.3,"נמאס לי מכם, אתם הרחקתם אותי מהתורה,"],[465.7,"הכנסתם אותי מאור לחושך."],[468.1,"כבר אין לי מה להפסיד, סינן מנחם."],[472.0,"ומינה הבינה בפעם הראשונה את הטעות האיומה שהיא עשתה."],[479.7,"זה היה מנחם אחר,"],[481.4,"מנחם עם הרבה חושך,"],[483.3,"שמסתיר את האור בנשמה שלו."],[510.5,"ככל שמחוגי השעון"],[514.0,"התקדמו להם עוד ועוד,"],[516.7,"השינוי"],[518.4,"במנחם הלך והתעצם, ומינה לא יכלה לעצור את זה."],[523.1,"היא מרגישה שהיא מאבדת את בעלה, אבל מה היא תעשה?"],[526.8,"מה היא תעשה? עכשיו זה כבר מאוחר."],[529.3,"היא התחילה לבכות,"],[531.0,"היא התחילה להתפלל השם."],[533.2,"חודשים היא לא התפללה, כמו שצריך."],[539.7,"וסוף סוף היא לוקחת את הסידור,"],[541.6,"ונחל של דמעות מרטיב את הסידור."],[544.6,"בורא עולם תחזיר לי את בעלי,"],[553.8,"אבל כאילו הכל נאטם מסביב."],[555.6,"מנחם עזב את הבית."],[563.4,"מנחם הצטרף לחבורת השודדים,"],[567.4,"ומינה נשארה מאחור,"],[570.1,"בודדה וגלמודה."],[573.1,"היא לא הספיקה,"],[574.8,"היא לא הספיקה לספר למנחם שבבטן שלה היא נושאת הבן שלהם."],[584.5,"אם עד, עד לפני כמה זמן העתיד היה ורוד מבחינתה,"],[589.7,"היום כבר היא לא יודעת לאן, לאיזו מציאות."],[592.5,"הילד שלה יוולד."],[595.5,"ומינה התחילה בתהליך ארוך,"],[598.1,"איטי,"],[602.7,"של תשובה."],[609.0,"כל צעד,"],[610.7,"כל צעד אל השם יתברך,"],[612.8,"חשף בפניה את הטעויות שהיא עשתה,"],[619.6,"את העוצמה של האסון שהיא הנחיתה על עצמה,"],[626.4,"והיא החלה לפתוח"],[628.3,"במעשי חסד, במעשים של זיכוי רבים,"],[631.9,"על מנת לכפר,"],[633.5,"לכפר על עצמה."],[636.8,"אולי לתת לילד של העתיד,"],[639.5,"עתיד טוב יותר."],[641.4,"לילה-לילה אישה בודדה"],[643.7,"מרטיבה את הקר בבכי, עברו להם שנים."],[668.2,"הרחק מברוד,"],[670.1,"בדרך המובילה לרוז'ין."],[673.0,"בדרך המובילה"],[675.9,"אל האדמו״ר,"],[677.4,"רבי ישראל מרוז'ין, זכר צדיק וקדוש לברכה."],[682.7,"סופת הגשמים הייתה איומה,"],[686.7,"והעגלה שהתנודדה לה בחוץ,"],[689.4,"מתנסה להתקדם קדימה, מנסה לפלס לה דרך"],[692.3,"במעבה היער חשבה להישבר."],[697.9,"האיש על העגלה"],[700.0,"הטה אותה אל דרך העפר המוליכה"],[703.2,"אל בית האכסניה כל דקה בחוץ."],[712.4,"משמעה סכנה."],[714.2,"הוא חייב להגיע לאכסניה."],[718.0,"דלת האכסניה נפתחה."],[720.3,"בעל האכסניה, שבתאי,"],[724.6,"הכיר את האיש."],[726.3,"משה, תיכנס."],[727.3,"משה, תיכנס. בוא, מה קרה?"],[728.9,"בשעה כזאת, איך הגעת לכאן?"],[740.7,"הגשמים בחוץ, הסערות,"],[743.2,"סיפרו את סיפורו של משה שנתקע בדרך,"],[745.7,"שהגשמים והשלוליות"],[748.0,"וסופות השלגים"],[751.0,"מנעו ממנו להגיע."],[752.8,"הוא היה צריך להגיע בבוקר לאכסניה, הוא הגיע בערב."],[759.5,"משה חסיד"],[761.4,"ותלמיד של רבי ישראל מרוז'ין,"],[764.4,"כתלמיד נאמן, עשה את הדרך אל רבו,"],[767.3,"כמדי שנה, תמיד הוא היה נעצר שם באכסניה,"],[770.3,"מתארח וממשיך הלאה. גם השנה,"],[775.5,"רק לא היה צפוי כל כך שיגיע בשעות כאלה, הוא לא הספיק אפילו להדליק נר של חנוכה."],[781.8,"משה התפלל ערבית,"],[783.4,"אחר כך הדליק נר של חנוכה."],[786.2,"כולם ישנים,"],[787.7,"חוץ ממשה, שיושב סגור לו בחדר, מביט בנרות החנוכה,"],[792.5,"ולאט לאט"],[794.7,"נרדם."],[796.5,"העייפות"],[797.9,"השתלטה עליו."],[821.6,"נקישות נשמעו בדלת."],[825.2,"הן בהתחלה היו חלושות,"],[827.4,"אבל לאט לאט הן התחזקו."],[829.1,"עוד ועוד נקישות שהלכו והתחזקו ונהפכו לחבטות."],[833.5,"בני הבית שהתעוררו למשמע החבטות נעמדו כמו מסומרים למקומותיהם מפחד."],[839.8,"ולפתע נשמעו זעקות מקפיאות דם מבחוץ."],[844.4,"זעה קרה חילחלה לה במורד גבו של שבתאי בעל האכסניה."],[851.0,"מכת גרזן,"],[852.4,"מכת גרזן בדלת,"],[854.0,"והנה נפרצה הדלת."],[856.3,"וחבורה,"],[857.9,"חבורה של בריונים, חבורה של שודדים, פרצה אל תוך הבית."],[861.8,"בחסות סופת השלגים בחוץ,"],[865.5,"אף אחד לא ישמע כלום,"],[867.3,"אף אחד לא ידע."],[870.4,"והשודדים,"],[871.8,"תוך דקות,"],[874.7,"התנפלו על בני הבית חסרי ישע, היכו אותם מכות באכזריות,"],[878.1,"וקשרו אותם"],[879.6,"אל גרם המדרגות."],[881.5,"אחרי זה, בצומה מאורגנת, הם התחילו להתחלק לשני קבוצות, אחת אוספת שלל,"],[885.3,"והשנייה פורצת, פותחת, שוברת."],[889.4,"כל רהיט בבית, וכך הם עברו חדר-חדר."],[894.6,"למעלה בחדר"],[896.5,"יושב לו משה."],[898.2,"משה היה חיוור כמו מת."],[900.8,"ליבו הולם בחוזקה."],[903.2,"הם לא גילו אותו."],[905.2,"הוא הציץ מחור המנעול, רואה את השודדים,"],[907.4,"מבין שכוונתם,"],[911.0,"כוונתם לרצוח את הקורבנות."],[913.8,"הם אפילו לא טרחו לכסות את הפנים שלהם."],[916.8,"לא הייתה להם כוונה להשאיר אחריהם עדים."],[927.0,"מלאך המוות"],[929.4,"מרחף לו מהלך, סניה."],[933.3,"טוב, מה אני יכול לעשות במצב כזה?"],[935.3,"שאל את עצמו,"],[937.0,"משה."],[938.6,"ומשה"],[940.6,"החל לגרוס"],[942.9,"את הלימוד שלו בניגון חרישי, בדבקות,"],[947.0,"תוך שהוא שם את מבטחו בקדוש ברוך הוא."],[951.6,"ממול נרות חנוכה"],[953.5,"שלחו אליו את עורם,"],[956.1,"ושלהבת הנרות נראית לה כנעל את זילי הלימוד."],[960.3,"ככל שגברה הדבקות של משה,"],[962.9,"ככל שהוא שקע בלימוד,"],[965.1,"ככה גבר קולו,"],[967.2,"והוא לא שם לב"],[968.8,"איך קול הלימוד נשמע אל מחוץ לחדר."],[1005.2,"קולות הניגון,"],[1006.9,"קולות הניגון הגיעו לאוזניו של מנהיג חבורת השודדים,"],[1011.2,"והוא פתח בריצה,"],[1012.9,"הוא פתח בריצה מהירה אל דלת חדרו של משה."],[1021.4,"בעיטה אדירה,"],[1023.4,"והדלת נפרצה לרווחה."],[1029.2,"משה קפץ בבהלה,"],[1031.1,"לרגע הוא קפא,"],[1031.9,"הוא ניצב,"],[1034.7,"הוא ניצב מולו,"],[1036.8,"מנהיג השודדים, רוצח אכזרי וקשוח."],[1041.1,"משה התעשת מיד."],[1044.2,"הוא עצם את עיניו והחל קורא, שמע ישראל,"],[1048.7,"אדוני אלוהינו,"],[1050.4,"אדוני אחד,"],[1052.1,"תוך שהוא מכין את עצמו למוות הקרב ובא."],[1055.6,"דממה השתררה לה בחדר,"],[1058.0,"דממת מוות,"],[1062.2,"ומשה פקח. ולפתע,"],[1068.1,"הוא רואה מולו את הרוצח,"],[1070.2,"לוטש עיניים פעורות לרווחה"],[1073.4,"בנרות החנוכה,"],[1078.0,"בנרות החנוכה שיבהבו כנגדו."],[1084.4,"היום חנוכה?"],[1086.9,"כן,"],[1087.8,"חנוכה,"],[1090.2,"נרות,"],[1091.6,"שמן."],[1096.2,"מה זה?"],[1097.2,"הצביע הרוצח אל הגמרא הפתוחה."],[1100.7,"זו גמרא?"],[1106.2,"מלמל משה."],[1108.5,"והרוצח"],[1109.8,"הפנה את פניו, והנרות, הנרות האירו לו את הפנים,"],[1116.3,"וללא קול החלו דמעות זולגות מעיניו במורד לחיו."],[1124.8,"הרוצח נשא את עיניו,"],[1126.8,"עיניים דומעות,"],[1128.4,"עיניים ספוגות בכאב,"],[1131.5,"והתבונן במשה"],[1133.2,"במבט מוזר."],[1134.9,"אתה משה, נכון?"],[1137.8,"הוא אומר לו, כן."],[1140.0,"משה מז'יתומיר,"],[1141.7,"כן,"],[1144.7,"איך אתה יודע?"],[1146.8,"אתה יודע מי אני?"],[1151.7,"אני החברותא שלך מבית המדרש בז'יתומים."],[1155.1,"אני מנחם פרנק!"],[1157.8,"זה אני!"],[1167.1,"ומשה החל לרעוד בכל גופו."],[1171.6,"דקות ארוכות הם אחזו."],[1174.4,"איש ביד רעהו,"],[1177.5,"במבט"],[1179.4,"שאומר הכל מקץ מספר דקות."],[1204.5,"התנתק מנחם לפתע,"],[1207.7,"ומבטו התחלף."],[1209.4,"מעצב למבט קר,"],[1211.8,"תישאר כאן, אל תצא."],[1214.5,"הוא כינס את כל בני החבורה שלהם ואמר,"],[1217.3,"תקשיבו עכשיו,"],[1219.0,"אלה"],[1219.9,"זה המשפחה שלי."],[1222.8,"אנחנו עוזבים אותם פה, משחררים אותם וחוזרים הביתה."],[1230.1,"השודדים צייתו לכל מה שהוא אמר,"],[1233.2,"ותוך דקות התרוקנה האכסניה מאימת המוות ששרתה בה."],[1246.4,"למחרת בבוקר,"],[1248.3,"רסה משה את דרכו לרוז'ין,"],[1250.8,"תוך שהוא נפרד מבעל האכסניה שלו, הפסיק להודות"],[1254.0,"ולהלל את השם יתברך על נס החנוכה שנעשה לו ולמשפחתו."],[1259.7,"וככה העגלה עושה את דרכה במהירות,"],[1264.6,"כשמשה מנווט את דרך במיומנות."],[1267.9,"אבל אז,"],[1269.0,"אז על אם הדרך, ניצבה לדמות."],[1272.1,"וכשהעגלה התקרבה,"],[1274.5,"הרימה הדמות את ידה,"],[1279.4,"משה עצר את העגלה,"],[1282.0,"ומנחם פרנק עלה עליה."],[1293.1,"העגלה המשיכה לנוע כששני הידידים,"],[1296.7,"החברותה,"],[1298.5,"שוב ביחד, כמו אז בז'יטומיר,"],[1301.9,"ביחד על העגלה בדרך המובילה אל רבם של ישראל,"],[1306.6,"אל רבי ישראל מרוז'ין,"],[1322.4,"שם ברוז'ין מול הרב."],[1325.2,"אמר מנחם,"],[1326.9,"שנים לא הרגשתי את האור, את האור,"],[1330.1,"את האור היהודי,"],[1331.8,"ולפתע נכנסתי לחדר,"],[1334.0,"והייתה שם גמרה,"],[1335.6,"היו שם נרות חנוכה,"],[1338.4,"בתיקות התורה,"],[1339.9,"אור היהדות,"],[1341.7,"נשמה, שבת,"],[1345.2,"משפחה."],[1347.5,"כאילו העירו אותי מאיזה חלום בלהות של שנים."],[1356.9,"כך אמרו ברוז'ין,"],[1358.8,"כך אמרו ברוז'ין."],[1362.0,"בחג החנוכה ניצחו מעטים את הרבים."],[1369.5,"מה זה ניצחו מעטים את הרבים?"],[1371.8,"לא רק במלחמה,"],[1373.5,"אלא בחג החנוכה ניצחו מעטים יהודים עם מעט מעט מעט מעשים טובים,"],[1380.7,"מעט מעט מצוות,"],[1382.5,"מעט מעט אור."],[1384.3,"ניצחו את הרבים, את החטאים,"],[1386.8,"את הרבה חטאים שיש להם,"],[1388.5,"את הרבה החושך שיש להם."],[1390.6,"זה המעטים שניצחו את הרבים."],[1393.9,"כמו שמעטים ניצחו את הרבים בשדה המערכה,"],[1397.3,"גם יהודים עם מעט מעשים טובים והרבה חטאים"],[1401.4,"יכולים המעטים לנצח את הרבים."],[1405.1,"יכול האור, הקצת אור, להניס את החושך."],[1414.3,"בתום חג החנוכה, משה חזר לביתו,"],[1417.4,"לבד."],[1418.7,"מנחם נשאר ברוז'ים."],[1449.3,"שנתיים,"],[1450.8,"שנתיים אחר כך,"],[1454.0,"חג החנוכה."],[1456.7,"בברוד,"],[1459.9,"בתלמוד תורה."],[1464.8,"מסיבת חנוכה."],[1465.9,"כל הילדים,"],[1467.4,"כל הילדים לבושים חגיגית."],[1469.9,"מסיבת חנוכה וחידון חנוכה,"],[1472.0,"הילדים עליזים,"],[1473.8,"נעמדים ליד ההורים שלהם, כולם מצפים, כולם אוהבים את המסיבות,"],[1478.3,"את האור המיוחד שמלווה את החגים."],[1487.6,"האימהות היו"],[1489.8,"מביטות מאחור בגאווה,"],[1492.1,"בהערצה באב ובבן שלו."],[1495.1,"אף אחד כמעט לא שם לב"],[1496.8,"שבקצה השני של האולם עמד לו ילד,"],[1500.4,"ילד עצוב,"],[1504.1,"ילד בלי שמחה,"],[1505.8,"ילד בודד,"],[1506.9,"בלי אבא."],[1508.8,"מתאמץ לענות על החידון לבד,"],[1511.0,"כשכולם עם מבט של שמחה בעיניים,"],[1513.7,"הוא עמד לו עם העיניים הגדולות שלו,"],[1516.9,"והן היו כל כך עצובות."],[1519.3,"מדי פעם,"],[1520.5,"מדי פעם הוא הרשה לעצמו לחטוף איזה מבט אל מקום האימהות."],[1526.3,"טר במבטו אחר אמא, אמא שלו,"],[1531.3,"אבל היא לא הייתה שם,"],[1544.4,"באולם התלמוד תורה החידון בעיצומו."],[1547.3,"כל ילד"],[1548.8,"נשאל מספר שאלות, הוא יכול להיעזר באבא שלו."],[1552.9,"וככה נמשך החידון,"],[1555.2,"ועכשיו הגיעו"],[1556.8,"אל הילד הבודד בפינה,"],[1562.5,"שכאילו נדבק לקיר"],[1564.9,"כמחפש לו הגנה, הוא היה לבד,"],[1568.1,"זה לא קל."],[1570.2,"הוא קיבל את השאלות,"],[1573.0,"הביט בשאלון,"],[1575.7,"הרים את העיניים אל עבר מקום האימהות."],[1578.8,"אמא הגיעה?"],[1581.2,"ואז,"],[1582.4,"אז הוא ראה אותה."],[1584.0,"היא עמדה שם,"],[1585.4,"אימא,"],[1586.7,"עומדת מביטה בו בפנים קורנות."],[1590.3,"אבל,"],[1592.4,"מה היא מסמנת לי?"],[1594.6,"אימא החלה מסמנת לו משהו."],[1596.7,"הוא לא כל כך הבין."],[1601.9,"מה היא מסמנת?"],[1603.9,"ואז אימא הרימה את היד שלה"],[1606.6,"לכיוון האיש,"],[1608.3,"האיש שעמד לו בפינה."],[1611.2,"מניעת השפתיים."],[1612.3,"מינה,"],[1618.8,"מינה עיננה,"],[1622.2,"מנסה לרמוז לילד שלה,"],[1624.7,"שסוף סוף החלום התגשם."],[1628.0,"לילד אין אבא,"],[1629.8,"אמר אחד השמשים לצוות הרבנים, אין מה לעשות, אין לו אבא, אז הוא יצטרך לענות לבד?"],[1636.0,"לילד יש אבא."],[1638.5,"נשמע הכל,"],[1640.3,"וכולם,"],[1641.5,"כולם עשו את מבטם אל האיש הגבוה שהתקרב מפינת האולם."],[1647.4,"אני אבא של גד,"],[1649.2,"אמר האיש,"],[1651.2,"ונעמד"],[1652.8,"מאחורי הילד,"],[1654.8,"מאחורי הבן שלו."],[1657.6,"אתה מרשה לי לעזור לך?"],[1660.6,"הוא לחש בקול רועד,"],[1668.1,"וגד."],[1669.7,"הילד הנהן בדמעות."],[1673.3,"כן,"],[1674.6,"כן,"],[1676.0,"כן אבא,"],[1678.6,"כן."],[1684.0,"ומיחד החלו לענות על החידון,"],[1688.8,"ושם מאחור,"],[1690.7,"בביתה מינה,"],[1692.7,"רואה את כל התפילות שלה."],[1695.5,"מאות תפילות"],[1697.7,"שעשו את הדרך לשמיים וסללו את הדרך"],[1703.7,"למנחם לחזור"],[1705.5,"חזרה הביתה."],[1707.4,"לתקן, לתקן את מה?"],[1710.6,"את מה שהם עוללו לעצמם."],[1719.3,"נס חנוכה,"],[1720.9,"1860,"],[1723.3,"משפחת פרנק"],[1726.5,"חזרה"],[1728.1,"להיות משפחה,"],[1733.5,"מעטים כנגד רבים."],[1736.1,"חג החנוכה בא ואמר ואומר לנו,"],[1739.0,"מעטים ניצחו את הרבים?"],[1741.5,"אל תסתכל רק על שדה המערכה."],[1744.5,"בכל יהודי,"],[1746.0,"בכל יהודי יש נשמה,"],[1748.2,"בכל יהודי יש נפש,"],[1751.3,"גם בך,"],[1752.8,"גם בך."],[1754.7,"יש מלחמה ויש מעטים ויש רבים."],[1760.3,"תדע לך, תדעי לך, גם אם המעשים הטובים,"],[1764.5,"גם אם המצוות הן מעטות,"],[1767.2,"גם אם המעשים הטובים הם מעטים,"],[1769.7,"הם ינצחו את הרבים."],[1772.1,"כי האור היהודי, כי המעט"],[1775.4,"שיש בנשמה, ידחה את החושך."],[1779.7,"חג החנוכה."],[1790.7,"בא חג החנוכה לומר לנו,"],[1792.8,"מעטים כנגד רבים, וזה לא רק החג החנוכה."],[1797.0,"כל יום,"],[1798.4,"כל יום,"],[1800.2,"תכניסו את זה טוב-טוב לנשמה."],[1803.8,"אין יהודי,"],[1805.5,"אין יהודי שבורא עולם לא חפץ בעיקרו,"],[1810.9,"שבורא עולם לא מתפלל, מבקש."],[1814.1,"בוא, בוא אליי, בני."],[1817.0,"תאמין בעצמך."],[1819.2,"גם אם אתה מרגיש את הפחות, אתה מרגיש אסור לך להרגיש ככה."],[1823.1,"כי המעט טוב שבך, על זה תסתכל."],[1826.2,"כי המעטים מנצחים את הרבים."],[1828.9,"גם בך הנקודות הטובות שלך, המצוות שלך,"],[1832.5,"מה שאתם עושים לכבוד השם יתברך,"],[1834.7,"מנצחים את הרבים."],[1840.2,"אז מה שנשאר לנו זה רק להוסיף עוד נקודה טובה,"],[1843.1,"עוד מצווה,"],[1844.3,"עוד אמונה, עוד תורה, עוד אחדות, עוד אהבה לכבוד השם יתברך."],[1850.9,"כי צריך לדעת, אין יהודי בעולם, אין יהודייה בעולם שלא מקושרים אל השם יתברך,"],[1859.0,"שלא בורא להם יבוא ויגאל את כולנו בזכות המעט הזה."],[1865.1,"המעט אור שיש לכל אחד מאיתנו."]],"track03":[[0.7,"בכל דור"],[2.4,"יש מלחמת"],[4.0,"בני אור בבני חושך."],[7.0,"בכל דור"],[8.8,"יש למעשה מלחמה סמויה אולי לפעמים,"],[12.8,"מתחת לפני השטח,"],[15.7,"בין אנשי הנשמה"],[18.7,"לאנשי הגוף."],[21.9,"בכל דור יש מלחמה בין הנצח לבין הזמני לבין החולף."],[27.1,"כך זה היה אפילו בתקופת השואה."],[31.1,"מלחמת העולם השנייה, כל העולם נלחם,"],[34.7,"אבל מבעד לפגזים,"],[37.1,"מבעד ליריות,"],[38.7,"מבעד להריסות,"],[40.4,"מבעד למוות המשתולל,"],[42.8,"התנהלה לה המערכה העיקרית,"],[49.6,"המערכה על הרוחניות,"],[51.7,"על הנפש,"],[53.0,"על הנצח."],[54.5,"מצד אחד נציג הגוף, היצרים והחושך, הגרמנים,"],[59.3,"הנאצים ימח שמם,"],[61.3,"עמלק,"],[62.7,"ומצד שני נציגי הנצח, המצפון והאור היהודים אושוויץ."],[72.0,"1942. כל משלוח"],[79.7,"שהיה מגיע לאושוויץ היה מוצא את עצמו במאבק אכזרי על הסיכוי"],[84.0,"בכלל לשרוד,"],[85.7,"להחזיק מעמד"],[87.5,"במוות הזה."],[90.5,"אותו לילה שהגיע המשלוח היה חנוכה."],[98.2,"ובחנוכה,"],[99.9,"כשהגרמנים הבינו שזה חג של יהודים,"],[105.4,"וכשהם הבינו את המשמעות של החג הזה,"],[109.9,"הם החליטו לארגן משחק,"],[113.2,"משחק אכזרי."],[116.0,"הם החליטו שבחג החנוכה הם ישחקו ביהודים."],[119.5,"מה הם החליטו לעשות?"],[121.3,"הרי כולם היו שם רעבים, רעבים ללחם."],[125.7,"הם החליטו, הם יספקו אוכל דווקא לחלשים."],[131.0,"ואז למעשה כל החזקים, עכשיו זה מלחמת הישרדות,"],[135.6,"זה יהיה תמריץ לחזקים"],[138.3,"לנסות לקחת את האוכל."],[141.1,"והם יעזבו את השטח הגרמני, אם לא יהיו פתאום שומרים,"],[144.4,"אז ודאי שהמחורים החזקים יתנפלו על החלשים ויקחו מהם הכל."],[149.6,"וככה עד מהרה יפרוץ קרב אכזרי,"],[152.9,"ואז הם ייכנסו באמצע ויוכלו לראות, לחזור ככה משחק דמים בשידור חי,"],[164.4,"והם העמידו את"],[165.7,"את היהודים מהמשלוח האחרון,"],[168.7,"והחלו לעבור בין הקהל היהודי המורעב."],[176.0,"אתם יודעים מה הם תכוננו לחלק?"],[178.3,"על מה מדובר?"],[179.2,"על שני גרם מרגרינה לכל אחד."],[182.3,"שני גרם מרגרינה 700 קלוריות."],[186.1,"שני גרם מרגרינה זה חיות למספר ימים."],[190.3,"ואז,"],[191.5,"מי שיקבל מרגרינה זוכה בחיים קרה הגרמני."],[196.8,"מי שיקבל מרגרינה הוא זה שיחיה,"],[199.0,"והוא זה שישרוד."],[201.5,"אתה, אתה,"],[203.0,"אתה שם, זקן,"],[204.9,"תקבל מנה כפולה,"],[206.8,"צחק הקאפו."],[210.2,"הוא פנה אל הרב"],[212.4,"כשהוא אמר,"],[214.1,"אתה, זקן, תקבל מנה כפולה."],[216.5,"וכולם נעמדים, כל היהודים, מביטים אל הרב,"],[219.8,"הרב שתמיד היה לגביהם מקור של חיזוק,"],[222.9,"והם שומעים את הרב ממלמל, נס מן השמיים."],[226.9,"נס מן השמיים, וכולו אחוז התלהבות,"],[230.4,"ומאות עיניים מורעבות ננעצו בו."],[234.8,"הגרמני זרק את פירוי המרגרינה לרצפה,"],[240.2,"וכל כך נהנה לראות את הרב"],[242.2,"משתטח בלוא קומתו ואוסף"],[245.2,"כל פירור של מרגרינה,"],[247.9,"כל פירור של חיות."],[258.8,"אווירת המשבר,"],[260.5,"אווירת הלחץ,"],[262.1,"הייתה תלויה בחלל האוויר."],[264.9,"לגרמנים לא נותר רק מה לצאת למספר דקות,"],[267.7,"לתת זמן ליהודים ככה להתבשל בתוך עצמם ו..."],[271.7,"והחגיגה תתחיל."],[275.2,"ובאמת הם סימנו אחד לשני ויצאו מהאולם הגדול בו היו מרוכזים היהודים."],[285.7,"מצפים לחזור בעוד כמה דקות לראות איך היהודים מתנפלים על הרעב שלהם,"],[290.2,"מתנפלים על כל האנשים המבוגרים ותולשים מהם את האוכל."],[299.8,"זה מה שהם ציפו, בגלל זה הם יצאו."],[302.1,"יצאו,"],[303.6,"משאירים את היהודים להתמודד עם הגורל,"],[308.1,"הגורל האכזר שהם העידו להם."],[320.9,"היהודים בתוכם,"],[322.3,"אף אחד לא הבין."],[324.3,"הרב,"],[325.4,"אתה זה שהיית מקור חיזוק,"],[327.3,"לפני כולנו פתאום אתה נשבר,"],[329.9,"משפיל את עצמך בשביל כמה פירורי מרגרינה,"],[332.8,"מתנפל כאילו לא ראית?"],[334.9,"מה זה?"],[336.4,"הרב, אתה,"],[337.5,"אתה זה שאמרת לנו לשמור על דרך ארץ,"],[341.1,"על היהדות שלנו גם בתוך המוות הזה?"],[344.7,"גם אתה?"],[349.2,"לפתע נשמע קולו של הרב, נשמות טובות, נס!"],[353.6,"נס חנוכה!"],[355.5,"על ידי המרגרינה אפשר להדליק נרות חנוכה, חנוכה היום!"],[359.7,"אפשר להדליק נרות חנוכה, קרא הרב!"],[363.6,"ושקט,"],[365.3,"ושקט השתרר לו באולם."],[369.5,"לפתע הכל היה מובן,"],[372.4,"לפתע הכל היה ברור."],[375.8,"הרב לא קרע ברך עבור אוכל,"],[380.0,"הרב קרע ברך עבור"],[384.1,"נרות חנוכה."],[387.2,"על מנת להאיר לכולם את הנשמה,"],[391.9,"ועתה הכל היה נראה אחרת."],[396.3,"עתה כולם הבינו, הגרמני הגס, שבע מגושם, זרק אוכל לגוף,"],[404.6,"והרבי אסף"],[406.5,"מזון לנשמה."],[411.2,"לפתע הכל השתנה."],[412.8,"לפתע כל האווירה באחת התחלפה לה."],[416.1,"נר של חנוכה."],[417.5,"נר של חנוכה! פשטה הקריאה בכל המחנה."],[420.8,"נר של חנוכה!"],[426.1,"והפנים המעונות זרחו להם,"],[428.8,"והעיניים של כולם זרו באור מיוחד,"],[431.8,"אור של חנוכה,"],[435.6,"אור של אמונה."],[440.9,"והרב פרם את הבגדים שלו העליונים,"],[444.2,"ועשה מהם פתילות."],[447.9,"לא היה אכפת לו שאולי מאבד את המעיל שהגן עליו מהקור הגרמני,"],[455.7,"שהוא מסכן את"],[457.3,"הבריאות שלו, לא היה אכפת לו."],[460.2,"אישה"],[461.1,"הלכה ונתנה את כפתורי הכסף שהיו לה,"],[464.5,"ועד מהרה עמדה חנוכיה מאולתרת עם כפתורי כסף,"],[469.8,"עם פתילות"],[471.4,"ועם מרגרינה להדלקה,"],[475.3,"והרב ברך והדליק"],[479.1,"נרות של חנוכה."],[482.7,"בלב התופת,"],[484.1,"בלב אושוויץ,"],[486.1,"שלהבת קודש בערה לה בלבבות"],[490.4,"של כל היהודים."],[496.2,"משב רוח מקפיא"],[498.3,"חדר אל האולם כשהגרמנים חזרו פנימה."],[502.6,"במקום קרב,"],[504.4,"דמים,"],[505.9,"הם ראו אור בעיניים,"],[507.9,"הם ראו אחדות בלב!"],[511.3,"המפקד הגרמני לא הבין, הזעם חנק את גרונו! הוא לא הבין איך אפשר לעשות דבר כזה! איך אפשר שהעם היהודי יתעלה מעליהם עם כל מה שהשפילו?"],[524.6,"אני אראה לכם, הוא זעק, אתם תשלמו ביוקר!"],[529.3,"ולפתע הוא יצא,"],[531.0,"יצא וברח משם,"],[532.9,"כדי שלא יראו אותו נשבר,"],[535.0,"כי בתוך תוכו הוא ידע את האמת,"],[537.1,"הוא יטט את הגדלות של עם הנצח שמוותר על האוכל,"],[543.6,"מוותר על הגוף שלו למען הנשמה שלו."],[548.4,"ניצחון של הנשמה היה כניצחון של הנצח."],[555.6,"הם פגעו בגוף אבל בנשמה, את הנשמה אי אפשר לכבות."],[562.5,"האור הזה דלק אז ודולק עד היום."],[568.4,"כך זה היה,"],[570.0,"כך זה הווה,"],[570.7,"וכך זה יהיה מעטים כנגד רבינו מעטים כנגד רבינו."]],"track04":[[0.7,"העיר צנעה שבתימן."],[5.4,"הקהילה היהודית שם, בתימן,"],[8.1,"בתקופה שאנחנו מדברים עליה,"],[11.2,"הייתה בלחץ גדול."],[13.3,"באותה תקופה"],[15.0,"היה הנסיך אחמד הוא זה ששלט למעשה בתימן,"],[18.2,"והיה מרד כנגדו."],[20.4,"וכתוצאה מהמרד, שאומנם באמת דוכא, היה חשש בכל אופן לפגיעות ביהודים, היה פחד שעוד פעם יהיה מרד, שעוד פעם יקרה משהו,"],[27.7,"ותמיד, מי אשם? מה שקורה היהודים."],[36.5,"וככה,"],[38.8,"אז באמת באותה תקופה הייתה אוזן קשבת"],[41.4,"לשני האנשים שנראו ככה כבני תורה שהגיעו מארץ ישראל לארץ הקדושה."],[48.7,"והם החלו לשכנע שם יהודים לעזוב את תימן,"],[52.4,"לעלות לארץ המובטחת אל חיי קדושה וטהרה."],[61.3,"יוסף צנעני."],[62.9,"יוסף צנעני היה מתוח מאוד. למה?"],[66.0,"למה הוא היה מתוח? כי השני הבנים שלו,"],[68.1,"סלם ויחיה,"],[70.1,"היו אמורים להיות בין הנושאים."],[72.5,"הם היו בניו היחידים"],[74.2,"של יוסף"],[75.5,"ושל רעייתו המסורה."],[78.5,"הם נעשה היו אומרים לנסוע עם הדודים שלהם,"],[81.3,"כי יוסף היה חייב עדיין לסגור את העסקים שלו, הוא היה צורף ידוע,"],[86.3,"וזה לא פשוט ככה לעזוב את הכל ולנסוע,"],[89.5,"אז הוא אמר, טוב, קודם כל אתם תיסעו עם הדוד,"],[92.9,"ואני אגיע, אני אגיע בהמשך, בסבב הבא."],[96.8,"אפילו בדמיון הפרוע שלהם הם לא דמיינו מה יכול לקרות."],[103.5,"בינתיים בארץ התקבלו דיווחי השליחים בשמחה."],[108.0,"אלפי עולים מתעתדים לעלות ארצה,"],[110.7,"כשהמשמעות היא כוח עבודה."],[113.2,"תוספת של כוח עבודה,"],[114.8,"תוספת של כוח צבאי שהארץ שיבעה לה,"],[117.5,"תנופה כלכלית."],[120.0,"הבעיה היחידה הייתה"],[122.0,"שהעולים שומרים תורה ומצוות ובארץ לא כל כך התלהבו מזה."],[126.8,"אבל כבר נמצא פתרון לכך,"],[131.2,"כך הם אמרו,"],[142.3,"את הפרידה"],[143.9,"את הפרידה מהאימא,"],[150.5,"קשה לתאר במילים."],[152.5,"האימא, האימא המסורה והאהובה,"],[156.1,"תפסה את הילדים כתופסת את החיים. זה היו הילדים שהיא כל כך השקיעה בהם."],[164.6,"הדמעות ירדו"],[166.9,"מעליהם."],[169.0,"סלם,"],[170.3,"סלם תשמור על עצמך."],[172.8,"סלם, אני אבוא אחריכם, אל תדאגו, תשמרו על עצמכם רק."],[177.6,"אני אתפלל עליכם."],[179.0,"תשמר על עצמך,"],[182.5,"אנחנו מבטיחים,"],[184.4,"אמרו האחים כאחד."],[188.8,"ואז האימא הוציאה מהתיק שהיא לקחה איתה."],[192.6,"הוציאה חנוכיית כסף."],[196.2,"כסף טהור."],[198.8,"חנוכיית כסף שהיא עשתה."],[201.3,"מעשה ידיה."],[203.6,"והיא הגישה לסלם,"],[207.0,"בנה הבכור, ואמרה לו, קח סלם,"],[210.0,"זה שלך."],[212.4,"כל פעם שתדליק תזכור אותי."],[215.1,"כל פעם שתדליק תזכור את אבא,"],[217.2,"כל פעם שתדליק"],[219.3,"תזכור את כל מה שנתנו לך."],[225.1,"ואחרי זה,"],[226.5,"היא הסתובבה כלפי יחיא והוציאה חנוכיית כסף"],[230.5,"עוד אחת."],[232.2,"עוד אחת מעשה ידיה."],[234.3,"עוד אחת"],[235.4,"עוד חנוכייה שיצאה למעשה מהלב שלה."],[240.0,"ליבה של אימא."],[242.0,"והיא הגישה את החנוכייה ואמרה ליחיא,"],[246.9,"אל תשכח אף פעם"],[248.7,"מי הטב ומאיפה באת."],[257.0,"יותר מאוחר,"],[258.5,"ארץ ישראל,"],[260.9,"סלם ויחי הם מצאו את עצמם"],[264.0,"במאבק אדיר"],[266.4,"על אמונתם."],[267.8,"הם לא דמיינו בחלומות הפרועים שלהם שיכול להיות מצב כזה."],[279.2,"וכשבאו,"],[282.8,"כשבאו ולקחו"],[285.6,"את סלם,"],[288.3,"בוא תנסה לציון. אם לא, אני מחזיר אותך מיד,"],[290.0,"אמר המדריך"],[293.6,"וסאלם האמין שבסך הכל לוקחים אותו לראות מקום שאם ימצא חן בעיניו"],[301.5,"הוא יוכל לבוא ולהגיד לאחיו"],[303.8,"יחיא להצטרף אליו"],[308.3,"וסאלם עלה לרכב"],[310.9,"והם נסעו"],[312.8,"וככה יחיא וסאלם שהופרדו נשארו לבד במערכה על האמונה שלהם,"],[322.2,"על היהדות שלהם ויום רודף יום"],[325.4,"ויום רודף יום, שנה רדפה שנה,"],[328.6,"וכור ההיתוך בלע את כולם."],[339.2,"כור ההיתוך בלע את כולם אל קרבו,"],[342.4,"ומשאיר בדרך עקבות."],[345.1,"פאות, כיפה, תורה, שבת,"],[354.9,"כך עברו להם"],[356.8,"עשרים וארבע שנים."],[359.1,"עשרים וארבע שנים אחר כך,"],[365.0,"מלחמת יום הכיפורים פורצת."],[370.9,"המלחמה האיומה הזאת."],[378.0,"עם ישראל,"],[378.7,"בהשגחה מהשם יתברך בניסי ניסים מצליח"],[384.1,"מצליח"],[385.6,"למגר את הצבאות הסורים והמצריים."],[389.0,"ובדרום שם במדבר סיני השטח המדברי בתום המלחמה, בתום הקרבות מאויש בחטיבת חייר."],[400.5,"ימי מילואים ארוכים"],[402.7,"ממתינים לחיילים שם בחולות של מדבר סיני."],[409.8,"בין האוהלים"],[411.4,"בין האוהלים של החטיבה בשעת ערב מוקדמת"],[416.0,"נדלק אור מיוחד,"],[420.0,"אורה של חנוכיה,"],[423.8,"חנוכיית כסף."],[428.4,"חנוכיית כסף"],[430.2,"שנעשתה על ידי אימא."],[433.2,"בערה לה בלילה השקט,"],[437.8,"שם,"],[439.2,"שם במדבר מול החנוכיה,"],[441.6,"עמד לו חיים."],[443.0,"חיים מביט באור המרצד,"],[445.3,"והאור ככה מקפץ לו ומרצד למול עיניו."],[449.9,"שעתו הייתה שעת השקט,"],[452.1,"ואז הציפו אותו הזיכרונות,"],[457.4,"תימן,"],[458.5,"אבא, אמא,"],[462.5,"סאלם,"],[465.2,"הניתוק,"],[469.0,"כבר הוא לא יחיה, הוא חיים,"],[473.2,"כבר יש לו משפחה,"],[475.2,"והוא כל כך רחוק"],[479.2,"מאבא שבשמיים."],[481.6,"ולפתע הוא הרגיש איך צער ממלא את כל ישותו,"],[485.3,"והוא הרגיש צורך, אני חייב ללכת,"],[487.5,"להרגיע את הנשמה שלי."],[489.0,"הוא החל צועד להרגיע את הנשמה שלו,"],[491.2,"את הנשמה הסוערת שבתוכו."],[493.5,"והוא הולך והסתובב."],[507.0,"לפתע הוא נעצר."],[509.2,"לפתע הוא נעצר."],[510.8,"זה היה מולו."],[513.3,"הוא התקדם לא מאמין,"],[518.4,"כאילו מפחד להגיע,"],[520.1,"כאילו מפחד ממה שהוא עתיד לגלות עכשיו."],[525.8,"חיים"],[527.1,"עמד"],[528.4,"מול אור מרצד"],[531.2,"של נרות חנוכה"],[533.4,"שבהבו מולו מתוך חנוכיית כסף,"],[538.1,"מתוך חנוכיית כסף"],[540.2,"שנעשתה על ידי אמא."],[546.7,"של מי החנוכיה הזאת?"],[549.2,"הוא קרא בקול משונה."],[551.3,"אפילו הוא עצמו לא זיהה את הקול שלו. של מי החנוכיה הזאת?"],[557.3,"זו החנוכיה של שלומי."],[559.6,"שלומי,"],[560.7,"מי זה שלומי?"],[563.4,"תקראו לו לפה."],[564.8,"מי זה שלומי?"],[581.8,"שניות אחר כך"],[583.5,"הם עמדו זה מול זה."],[588.4,"קראת לי?"],[590.1,"שאל שלומי."],[594.4,"חיים."],[598.7,"חיים הביט."],[600.1,"מבעד לבלורית,"],[603.0,"מבעד לשנים שחלפו."],[608.4,"לשלומי היה קול של בית אבא."],[617.6,"קול שהזכיר את אמא."],[623.6,"סלם!"],[626.1,"סלם!"],[630.9,"צמרמורת אחזה בגופו של שלומי,"],[634.8,"או יותר נכון של סלם."],[637.0,"אחי!"],[646.0,"אני לא יכול לתאר את המילים,"],[649.4,"את המילים שזרמו מגרונו של"],[654.6,"חיים."],[658.0,"אני לא יכול לתאר את ההתרגשות"],[659.7,"שנראתה על פניו של שלומי,"],[661.8,"של סאלם."],[664.1,"אפילו החיילים הקשוחים ביותר התרגשו."],[669.8,"סאלם, ראית את אבא מאז?"],[673.6,"ראית את אמא מאז?"],[677.1,"לא."],[679.7,"ושניהם פרצו בבכי."],[684.1,"שני האחים שגנבו להם את בית אבא,"],[687.3,"ובאו נרות חנוכה,"],[689.4,"והחזירו אותם זה לזה."],[692.5,"אותה חנוכיית כסף"],[694.8,"שאמא עשתה."],[696.5,"אני לא יודע אם זה מעשה ידיה או מעשה הלב שלה."],[702.1,"עברו שנים, שנים אחר כך,"],[704.5,"יחיא וסלם העמיקו את הקשרים שלהם."],[708.0,"הם חיפשו את אבא ואימא שלהם"],[710.4,"ללא הצלחה,"],[714.1,"אבל,"],[717.6,"אבל שניהם,"],[719.1,"שניהם התקרבו ליהדות."],[721.8,"שניהם,"],[725.6,"שניהם הצליחו בעזרת המעט,"],[729.1,"מעט מעשים טובים שלהם."],[731.7,"בעזרת המעט יהדות שעוד נותרה להם,"],[735.1,"להפוך את כל הבית שלהם"],[738.5,"למשכן של תורה."],[743.1,"הם עשו את כל הדרך הביתה"],[745.1,"כדי לא לבייש את יוסף צנעני"],[747.3,"ואת האימא המסורה שבנתה בית יהודי,"],[757.3,"שאת הלב שלה השקיעה בחנוכיית הכסף"],[760.3,"ואותה חנוכיית כסף לא אכזבה."],[764.4,"גם אחרי עשרות שנים"],[766.5,"היא באה ולקחה את האחים והחזיר אותם."],[770.1,"החזירה אותם אחד אל זרועות השני."]],"track05":[[15.5,"אחד המעוזים האחרונים,"],[18.3,"אחד משדה המערכות האחרונות שנשארו באותה תקופה,"],[22.7,"לפני כ-200 שנה,"],[24.2,"אולי קצת יותר."],[26.8,"בארצות הברית,"],[28.8,"עוד לפני שהייתה ארצות הברית התחולל קרב"],[32.2,"בין האנגלים ששלטו בארצות הברית"],[36.1,"לבין גנרל בשם ג'ורג' וושינגטון,"],[39.1,"עם צבא קטן של אזרחים שרצו להפוך את ארצות הברית לדמוקרטיה ולארץ של"],[48.9,"אמריקנית חדשה."],[52.3,"והצבא,"],[53.5,"הצבא האמריקני היה שבור,"],[57.9,"היה כבר על סף ייאוש, הרבה ערקו."],[62.3,"גנרל וושינגטון היה לפני כבר מפלה,"],[68.3,"וכשכולם חנו שם,"],[72.7,"גנרל וושינגטון ידע שמצבו בכי רע הוא התחיל להסתובב בין כולם."],[77.4,"לעודד את כולם, להמריץ את כולם."],[82.3,"דבר שהיה קשה מאוד."],[89.4,"בין החיילים"],[91.0,"היה יהודי אחד."],[94.2,"אותו יהודי"],[96.6,"היגר לארצות הברית,"],[98.0,"אולי שם הוא יוכל למצוא מקום בלי להתקל בפריצים הפולנים."],[106.1,"אותו לילה"],[107.5,"היה ערב חנוכה,"],[109.9,"והיהודי יוצא מהמתחתו חנוכיה."],[116.6,"וכשמסביב הסכנה,"],[118.8,"מסביב המלחמה,"],[124.1,"הוא יצא לעצמו איזה איש של שקט,"],[127.7,"הוציא חנוכיה והתכונן להדליק נר של חנוכה."],[134.8,"מקץ שעה קלה בערה לה פתילה נפלאה"],[141.8,"עם אור של חנוכה."],[144.0,"כשהיהודי מביט, מביט בפתילה,"],[147.3,"מביט באש,"],[148.9,"וזיכרונות מציפים את מוחו."],[153.2,"נזכר באבא,"],[154.6,"אבא שבפולין היה מוכה על ידי הפריצים שכיסו אותו בכל מיני פרוות וביקשו שירקוד לפניהם."],[165.8,"באבא שמביט במבט מושפל"],[169.2,"בבן שלו שמביט"],[171.4,"איך מתעלים באבא."],[176.2,"ברור העולם,"],[177.5,"ריבונו של עולם, עשיתי את כל הדרך כדי שאני לא אצטרך לרקוד עם פרווה של דוב,"],[184.5,"והבן שלי יוכלע, יצטרך להביט בי"],[186.8,"בצער כה עמוק,"],[188.3,"כמו שקרה לי עם אבא שלי,"],[190.8,"אני מבקש ממך, בוראי בונו של עולם, תעזור לי, בונו של עולם."],[194.8,"אולי הצבא פה האמריקני,"],[198.0,"אולי בוראי עולם יהיה זכות שינצח,"],[201.1,"ולו בשביל לתת אולי ליהודים אפשרות לכמה שנים, אני לא יודע לכמה,"],[205.6,"אבל לכמה זמן לפחות אולי יוכלו להיות פה במדינה הזאת בשקט,"],[211.8,"בשקט קצת כמה שנים."],[214.2,"בוראי עולם אולי תעזור לנו שננצח."],[216.6,"ותוך כדי שהוא ככה נושא תפילה,"],[221.5,"לשם יתברך מעמקי דה-ליבה,"],[224.0,"מעמקי הלב שלו,"],[226.0,"מרגיש איזו יד"],[228.0,"אוחזת בכתפו."],[229.8,"הוא הסתובב,"],[231.7,"מולו עמד ג'ורג' וושינגטון,"],[235.3,"הגנרל,"],[237.0,"מביט בו"],[239.5,"ושואל מה אתה עושה, החייל?"],[244.5,"אמר לו החייל היהודי, תראה,"],[246.7,"תראה גנרל וושינגטון,"],[248.5,"כולם מיואשים, כולם חושבים שאתה הולך להפסיד,"],[252.3,"כולם רוצים איך אולי לברוח מפה לערוק."],[255.4,"אבל אני, אני יהודי."],[258.4,"ואני מתפלל להשם יתברך, כי רק השם יתברך הוא מי שקובע בעולם שאתה תנצח, שאנחנו ננצח."],[265.3,"כי אני לא רוצה,"],[267.3,"כי אני לא רוצה עוד להסתובב בעולם לחפש לי מקום."],[270.4,"אני מאמין אולי, אולי בורא עולם,"],[273.2,"אולי בורא עולם בשביל האפשרות הזאת שיהיה כמה זמן"],[276.2,"מדינה לכמה זמן מדינה שתיתן קצת מנוחה ליהודים."],[283.3,"אולי בזכות זה העולם יעזור לנו לנצח את המלחמה."],[291.3,"מה זה? מה הנר הזה?"],[292.8,"שואל ג'ורג' וושינגטון."],[294.9,"והיהודי הסביר לו, זה נר חנוכה,"],[297.8,"בו נלחמו מעטים כנגד רבים,"],[300.7,"וניצחו המעטים כנגד הרבים,"],[303.3,"כי בורא העולם הוא זה שקובע את העניינים."],[305.9,"וג'ורג' וושינגטון,"],[306.9,"אני אומר לך עכשיו, אתה צריך להתחזק."],[309.2,"אתה צריך לדעת שגם כשאנחנו מעטים,"],[311.7,"גם כשקשה לנו, בורא עולם יכול לעזור לנו לנצח,"],[315.7,"ואנחנו ננצח."],[317.1,"אני מאמין באמונה שלמה, ואני מתפלל לאבא שבשמיים, בורא עולם."],[321.3,"תן לנו לנצח."],[323.1,"אני מתפלל לך, ג'ורג' וושינגטון,"],[325.8,"וג'ורג' וושינגטון"],[328.8,"התרגש,"],[330.3,"הסתובב,"],[332.3,"ולפני שחזר"],[333.9,"לאוהל שלו, אמר תודה רבה."],[336.6,"חיזקת אותי."],[338.2,"תודה רבה לך, חייל."],[347.6,"ג'ורג' וושינגטון והצבא שלו"],[350.7,"נלחמו וגם ניצחו."],[357.1,"האנגלים עזבו את ארצות הברית,"],[360.1,"והאמריקנים הקימו שם את ארצות הברית שאנחנו מכירים אותה עד היום."],[366.0,"וג'ורג' וושינגטון היה הנשיא הראשון של ארצות הברית של אמריקה."],[379.3,"החייל היהודי כבר לא חייל אזרח,"],[381.8,"יושב לו בניו יורק, בבית שלו."],[385.4,"חג החנוכה הוא מדליק נר באותה חנוכייה שלו,"],[391.7,"ולפתע נשמעות דפיקות בדלת."],[396.1,"הוא ניגש ופותח את הדלת."],[399.1,"בפתח הדלת עמד לו נשיא ארצות הברית ג'ורג' וושינגטון,"],[406.4,"שעשה את כל הדרך"],[409.4,"על מנת"],[410.9,"לאתר ולמצוא את אותו חייל יהודי שריזק אותו כל כך עז בווליף רייג'"],[422.9,"אז"],[424.6,"בקרב הקשה והמר כשנראה לכאורה שאין סיכוי,"],[428.7,"שהפיח בו תקווה ואמונה שעזרה לו כל כך לנצח."],[435.3,"אז הוא אמר לו תדע לך עזרת לי מאוד באותם רגעים"],[439.1,"ובאתי לתת לך מדליית הוקרה קטנה"],[444.6,"והוא הוציא מדליית זהב"],[447.2,"ושם על השולחן"],[449.9,"ויצא כלעומת שבה."],[452.9,"והיהודי"],[454.0,"ניגש למדליית הזהב,"],[458.0,"מרים אותה"],[459.7,"ואז הוא רואה שבמדליית הזהב"],[462.5,"הייתה חרוטה לחנוכיה,"],[465.6,"חנוכיה יהודית,"],[470.1,"סמל האור,"],[472.1,"סמל האמונה,"],[474.2,"סמל הנצח,"],[475.8,"סמל הניצחון, מעטים כנגד רבים גם בשדה המלחמה וגם בתוכנו."],[483.6,"בתוכנו המעשים הטובים, הנקודות הטובות ואפילו הן מעטות יניסו,"],[489.2,"יסלקו את כל הרע,"],[491.8,"את כל הלא טוב,"],[493.3,"ואנחנו המנצחים."],[518.9,"כי צריך לדעת"],[520.3,"שמים רבים"],[523.2,"לא יכסו את ים האהבה של השם יתברך."],[529.0,"שום עבר שבעולם, שום דבר שבעולם לא ישטוף"],[533.9,"ולא יכסה את ים האהבה של הקדוש ברוך הוא אל בניו ובנותיו."],[539.3,"פה העולם כל כך אוהב אותנו, עד בכך שאומר כל מעשה קטן שלכם יקר בעיניי."],[548.6,"אז בואו בעזרת השם,"],[550.8,"בואו בעזרת השם, ניתן לנשמה שלנו להתנגן,"],[554.9,"להתנגן בניגון האמונה."]]};
+const EPS = [
+  {id:"track01", title:"החברותא מז'יטומיר", dur:1876, pal:[[38,92,62],[22,95,55],[8,80,40]],
+   short:"שודד שמתעורר מול נרות חנוכה ומוצא את החברותא שלו",
+   about:"מנחם פרנק, בחור ישיבה, נגרר צעד אחר צעד אל חבורת שודדים. בליל חנוכה, באמצע שוד באכסניה, הוא פורץ לחדר של החברותא הישן שלו ומוצא אותו לומד גמרא מול הנרות. הנרות מעוררים אותו. הוא נוסע לרבי ישראל מרוז'ין, ושנתיים אחר כך חוזר הביתה לבן שמעולם לא פגש."},
+  {id:"track03", title:"המרגרינה של אושוויץ", dur:595, pal:[[4,70,45],[350,60,30],[20,30,60]],
+   short:"רב זוחל לאסוף פירורים, בשביל נר חנוכה בלב התופת",
+   about:"חנוכה 1942. הנאצים זורקים מרגרינה לחלשים, כדי לצפות ביהודים הרעבים נלחמים זה בזה. הרב אוסף כל פירור, ואז קורא: 'נס! אפשר להדליק נרות חנוכה!' מבגדיו נעשות פתילות ומכפתורי כסף נבנית חנוכייה. כשהגרמנים חוזרים, הם לא מוצאים קרב אלא אור."},
+  {id:"track04", title:"חנוכיות הכסף מצנעא", dur:823, pal:[[190,30,70],[42,85,60],[210,40,35]],
+   short:"שני אחים מתימן מוצאים זה את זה אחרי 24 שנה",
+   about:"לפני שנפרדו, אמם של סאלם ויחיא נתנה לכל אחד מהם חנוכיית כסף שעשתה בעצמה. בארץ מפרידים ביניהם, והיהדות שלהם נמחקת. 24 שנה אחר כך, במילואים בסיני, 'חיים' מזהה חנוכיה זהה לשלו באוהל של 'שלומי'. שני האחים חוזרים זה לזה, ושניהם חוזרים ליהדות."},
+  {id:"track05", title:"החייל היהודי וג'ורג' וושינגטון", dur:563, pal:[[220,55,45],[40,90,58],[230,40,22]],
+   short:"נר חנוכה אחד בוולי פורג' מחזק את המצביא",
+   about:"ולי פורג', 1777. חייל יהודי מדליק נר חנוכה ומתפלל לניצחון. הגנרל וושינגטון שואל מה זה, והחייל מסביר: מעטים כנגד רבים. שנים אחר כך הנשיא מגיע לביתו ומעניק לו מדליית זהב שחרוטה עליה חנוכייה. (מסורת עממית.)"}
+];
+const OFF=[0,1876,2471,3294];
+const CLIPS=[
+  {ep:0,from:1041,to:1159,title:"\"אני מנחם פרנק\"",sub:"החברותא מז'יטומיר · 17:21–19:19",q:"אתה משה מז'יטומיר? אני החברותא שלך מבית המדרש"},
+  {ep:1,from:334,to:404,title:"\"נס חנוכה!\"",sub:"המרגרינה של אושוויץ · 5:34–6:44",q:"על ידי המרגרינה אפשר להדליק נרות חנוכה"},
+  {ep:2,from:583,to:689,title:"האחים בסיני",sub:"חנוכיות הכסף מצנעא · 9:43–11:29",q:"לשלומי היה קול של בית אבא. קול שהזכיר את אמא"},
+  {ep:3,from:229,to:330,title:"וושינגטון והנר",sub:"החייל היהודי · 3:49–5:30",q:"גם כשאנחנו מעטים, בורא עולם יכול לעזור לנו לנצח"}
+];
+const DISCS=["1א|בוץ שווה זהב","2ב|הלב","3ג|בת השך","4ד|דוד המלך","5ה|השרשרת","6ו|התפקיד","7ז|זעקה","8ח|חזק","9ט|לעולם לא לבד","10י|יהודי יחודי","11יא|לתת","12יב|ליבו של רש\"י","13יג|תכלית","14יד|בעלי תשובה","15יד|יוסלה מסלוצק","16יז|החוזה מלובלין","17יח|המהר\"ל מפראג","18יט|המהרש\"א","19כ|רבי זושא","20ל|רבי עקיבא","21מ|הגלגל","22נ|מסירות נפש","23ס|נוגע ללב","24ס|סוד השמן","25ע|קרבן הלב","28צ|הרוגי מלכות","29ק|סוד האומץ","30ר|אמא","31ר|בת של מלך","32ר|כבוד שמים","33ש|בין המצרים א","34ש|בין המצרים ב","35ת|חנוכה – מעטים כנגד רבים","36ת|פה שח – לפסח","37ת|פורים – שמחת האמונה","38תת|אל מלא רחמים","39תת|שאיפות קטלניות","שמשון|לוחם יהודי א","שמשון|לוחם יהודי ב"];
+const DONE=new Set(["35ת"]);
+
+/* ---------- generative flame covers ---------- */
+function rng(seed){let s=seed>>>0||1;return()=>(s=(s*1664525+1013904223)>>>0)/4294967296}
+function hsl(c,a=1){return `hsla(${c[0]},${c[1]}%,${c[2]}%,${a})`}
+function drawCover(cv,pal,seed,opts={}){
+  const ctx=cv.getContext("2d"),w=cv.width,h=cv.height,r=rng(seed);
+  ctx.fillStyle="#0b0a09";ctx.fillRect(0,0,w,h);
+  const g=ctx.createLinearGradient(0,0,w,h);g.addColorStop(0,hsl(pal[2],1));g.addColorStop(1,"#0b0a09");ctx.fillStyle=g;ctx.fillRect(0,0,w,h);
+  ctx.globalCompositeOperation="lighter";
+  const n=opts.n||26;
+  for(let i=0;i<n;i++){
+    const x=w*(.15+r()*.7),y=h*(.35+r()*.65),rad=w*(.08+r()*.38);
+    const c=pal[i%2];const gr=ctx.createRadialGradient(x,y,0,x,y,rad);
+    gr.addColorStop(0,hsl([c[0],c[1],Math.min(85,c[2]+15)],.38*(.4+r()*.6)));gr.addColorStop(1,hsl(c,0));
+    ctx.fillStyle=gr;ctx.beginPath();ctx.ellipse(x,y,rad*.55,rad,0,0,Math.PI*2);ctx.fill();
+  }
+  // central flame
+  const fx=w*.5+(r()-.5)*w*.12,fy=h*(opts.fy||.56),fs=w*(opts.fs||.11);
+  const fg=ctx.createRadialGradient(fx,fy,0,fx,fy,fs*4);fg.addColorStop(0,"rgba(255,246,214,.9)");fg.addColorStop(.25,hsl(pal[0],.55));fg.addColorStop(1,hsl(pal[0],0));
+  ctx.fillStyle=fg;ctx.beginPath();ctx.arc(fx,fy,fs*4,0,Math.PI*2);ctx.fill();
+  ctx.beginPath();ctx.moveTo(fx,fy-fs*1.9);ctx.bezierCurveTo(fx+fs*.9,fy-fs*.6,fx+fs*.7,fy+fs*.6,fx,fy+fs*.75);ctx.bezierCurveTo(fx-fs*.7,fy+fs*.6,fx-fs*.9,fy-fs*.6,fx,fy-fs*1.9);
+  ctx.fillStyle="rgba(255,248,225,.95)";ctx.fill();
+  ctx.globalCompositeOperation="source-over";
+  // grain
+  const img=ctx.getImageData(0,0,w,h),d=img.data;for(let i=0;i<d.length;i+=4){const k=(r()-.5)*18;d[i]+=k;d[i+1]+=k;d[i+2]+=k}ctx.putImageData(img,0,0);
+  // vignette
+  const v=ctx.createRadialGradient(w/2,h/2,w*.25,w/2,h/2,w*.75);v.addColorStop(0,"rgba(0,0,0,0)");v.addColorStop(1,"rgba(0,0,0,.55)");ctx.fillStyle=v;ctx.fillRect(0,0,w,h);
+  if(opts.label){ctx.fillStyle="rgba(255,255,255,.92)";ctx.textAlign="right";ctx.direction="rtl";ctx.font=`900 ${w*.13}px "Noto Serif Hebrew", serif`;
+    const words=opts.label.split(" ");let line="",yy=h*.2;const lines=[];words.forEach(wd=>{const t=line?line+" "+wd:wd;if(ctx.measureText(t).width>w*.84){lines.push(line);line=wd}else line=t});lines.push(line);
+    lines.slice(0,3).forEach((l,i)=>ctx.fillText(l,w*.92,yy+i*w*.145));
+    if(opts.tag){ctx.font=`700 ${w*.055}px Heebo, sans-serif`;ctx.fillStyle="rgba(255,255,255,.6)";ctx.fillText(opts.tag,w*.92,h*.92)}}
+}
+function cv(w,h){const c=document.createElement("canvas");c.width=w;c.height=h;return c}
+const discPal=i=>{const hues=[38,18,200,280,340,160,48,8,220,30];const h=hues[i%hues.length];return[[h,80,58],[(h+24)%360,85,52],[h,45,22]]};
+
+/* ---------- render home ---------- */
+const fmt=s=>{s=Math.max(0,Math.floor(s));return Math.floor(s/60)+":"+String(s%60).padStart(2,"0")};
+const epsEl=document.getElementById("eps");
+EPS.forEach((e,i)=>{
+  const b=document.createElement("button");b.className="ep";b.dataset.i=i;
+  const c=cv(128,128);drawCover(c,e.pal,i*97+5,{n:14});
+  b.innerHTML=`<span class="n">${i+1}</span>`;b.appendChild(c);
+  const tx=document.createElement("div");tx.innerHTML=`<div class="t">${e.title}</div><div class="s">${e.short}</div>`;b.appendChild(tx);
+  const d=document.createElement("span");d.className="d";d.textContent=fmt(e.dur);b.appendChild(d);
+  b.onclick=()=>play(i,0,true);epsEl.appendChild(b);
+});
+function sizeHero(){const h=document.getElementById("heroCanvas");const r=h.parentElement.getBoundingClientRect();h.width=Math.min(1200,r.width);h.height=Math.round(h.width*r.height/r.width);drawCover(h,EPS[0].pal,7,{n:40,fy:.42,fs:.05})}
+sizeHero();addEventListener("resize",()=>{clearTimeout(window._rz);window._rz=setTimeout(sizeHero,200)});
+
+function renderShelf(){const shelf=document.getElementById("shelf");shelf.innerHTML="";
+[["36ת","פה שח – לפסח","פסח"],["37ת","פורים – שמחת האמונה","פורים"],["20ל","רבי עקיבא","ל\"ג בעומר"],["33ש","בין המצרים א","תמוז–אב"],["17יח","המהר\"ל מפראג","הילולא"],["30ר","אמא","כל השנה"]].forEach(([k,t,s],i)=>{
+  const idx=DISCS.findIndex(d=>d.startsWith(k));const el=document.createElement("a");el.className="tile";el.href="#library";
+  const c=cv(300,300);drawCover(c,discPal(idx),idx*31+3,{n:18,label:t,tag:"דיסק "+k.replace(/\D/g,"")});el.appendChild(c);
+  el.insertAdjacentHTML("beforeend",`<b>${t}</b><small>מתאים ל: ${s}</small>`);shelf.appendChild(el);
+});}
+renderShelf();
+
+/* ---------- library ---------- */
+function renderLib(){const lib=document.getElementById("lib");lib.innerHTML="";
+DISCS.forEach((d,i)=>{const [k,t]=d.split("|");const done=DONE.has(k);
+  const el=document.createElement("div");el.className="disc"+(done?" done":"");
+  const c=cv(280,280);drawCover(c,discPal(i),i*31+3,{n:16,label:t,tag:k.startsWith("שמשון")?"שמשון":"דיסק "+k.replace(/\D/g,"")});el.appendChild(c);
+  el.insertAdjacentHTML("beforeend",`<span class="st">${done?"תומלל · תוכן מוכן":"ממתין לתמלול"}</span><b>${t}</b><small>${k.startsWith("שמשון")?"סדרת שמשון":"דיסק "+k}</small>`);lib.appendChild(el)});}
+renderLib();
+document.getElementById("prog").style.width=(DONE.size/DISCS.length*100)+"%";
+
+/* ---------- candles + clips ---------- */
+const cd=document.getElementById("candles");const nights=["ו' 4.12","ש' 5.12","א' 6.12","ב' 7.12","ג' 8.12","ד' 9.12","ה' 10.12","ו' 11.12"];const litN=new Set([0,2,4,6]);
+nights.forEach((n,i)=>cd.insertAdjacentHTML("beforeend",`<div class="candle ${litN.has(i)?"lit":""}"><i></i><b>${i+1}</b>${n}</div>`));
+const clipsEl=document.getElementById("clips");
+CLIPS.forEach((c,i)=>{const el=document.createElement("div");el.className="clip";const ph=document.createElement("div");ph.className="ph";const k=cv(112,200);drawCover(k,EPS[c.ep].pal,c.ep*97+5,{n:12,fy:.5,fs:.12});ph.appendChild(k);el.appendChild(ph);
+  el.insertAdjacentHTML("beforeend",`<div><b>קליפ ${i+1} · ${c.title}</b><small>${c.sub}</small><q>"${c.q}"</q></div>`);
+  const go=document.createElement("button");go.className="go";go.setAttribute("aria-label","השמעת הקטע");go.innerHTML=`<svg viewBox="0 0 24 24" fill="currentColor"><path d="M7 5v14l11-7z"/></svg>`;go.onclick=()=>{play(c.ep,c.from,false);clipEnd=c.to};el.appendChild(go);clipsEl.appendChild(el)});
+
+/* ---------- player ---------- */
+const A=document.getElementById("audio");let cur=-1,clipEnd=null,lineEls=[],lastLine=-1;
+const icoPlay=`<svg viewBox="0 0 24 24" fill="currentColor"><path d="M7 5v14l11-7z"/></svg>`,icoPause=`<svg viewBox="0 0 24 24" fill="currentColor"><path d="M7 5h4v14H7zM13 5h4v14h-4z"/></svg>`;
+function setIcons(){const p=A.paused;document.getElementById("pp").innerHTML=p?icoPlay:icoPause;document.getElementById("miniPP").innerHTML=p?icoPlay:icoPause;document.getElementById("playAll").innerHTML=p||cur<0?icoPlay.replace('<svg','<svg'):icoPause}
+function load(i){
+  cur=i;const e=EPS[i];A.src="audio/"+e.id+".mp3";
+  document.getElementById("npT").textContent=e.title;document.getElementById("miniT").textContent=e.title;document.getElementById("npAbout").textContent=e.about;
+  drawCover(document.getElementById("npCover"),e.pal,i*97+5,{n:30,label:e.title,tag:"מעטים כנגד רבים"});
+  drawCover(document.getElementById("npBg"),e.pal,i*97+5,{n:14});drawCover(document.getElementById("miniCover"),e.pal,i*97+5,{n:10});
+  const L=document.getElementById("lines");L.innerHTML="";lineEls=SEGS[e.id].map(([t,tx])=>{const p=document.createElement("p");p.textContent=tx;p.onclick=()=>{A.currentTime=t;A.play().catch(()=>{})};L.appendChild(p);return p});lastLine=-1;
+  document.querySelectorAll(".ep").forEach(b=>b.classList.toggle("playing",+b.dataset.i===i));
+  document.getElementById("mini").classList.add("on");
+}
+function play(i,t,open){clipEnd=null;if(i!==cur)load(i);const go=()=>{if(t!=null)A.currentTime=t;A.play().catch(err=>{document.getElementById("npAbout").textContent="לא הצלחתי לנגן את הקובץ. נסו שוב."})};if(A.readyState>=1)go();else A.addEventListener("loadedmetadata",go,{once:true});if(open)openNp()}
+function openNp(){document.getElementById("np").classList.add("on")}
+document.getElementById("closeNp").onclick=()=>document.getElementById("np").classList.remove("on");
+document.getElementById("openNp").onclick=openNp;
+const toggle=()=>{if(cur<0){play(0,0,true);return}A.paused?A.play().catch(()=>{}):A.pause()};
+document.getElementById("pp").onclick=toggle;document.getElementById("miniPP").onclick=toggle;
+document.getElementById("playAll").onclick=()=>{if(cur<0)play(0,0,true);else toggle()};
+document.getElementById("back15").onclick=()=>A.currentTime=Math.max(0,A.currentTime-15);
+document.getElementById("fwd15").onclick=()=>A.currentTime=Math.min(A.duration||0,A.currentTime+15);
+document.getElementById("next").onclick=()=>play((cur+1)%EPS.length,0,false);
+document.getElementById("prev").onclick=()=>{if(A.currentTime>5)A.currentTime=0;else play((cur-1+EPS.length)%EPS.length,0,false)};
+const speeds=[1,1.25,1.5,.85];let si=0;document.getElementById("speed").onclick=e=>{si=(si+1)%speeds.length;A.playbackRate=speeds[si];e.target.textContent=speeds[si]+"×"};
+const seek=document.getElementById("seek");let dragging=false;
+seek.oninput=()=>{dragging=true;document.getElementById("tCur").textContent=fmt(seek.value/1000*(A.duration||0))};
+seek.onchange=()=>{A.currentTime=seek.value/1000*(A.duration||0);dragging=false};
+["play","pause"].forEach(ev=>A.addEventListener(ev,setIcons));
+A.addEventListener("ended",()=>{if(cur<EPS.length-1)play(cur+1,0,false)});
+A.addEventListener("timeupdate",()=>{
+  const t=A.currentTime,d=A.duration||EPS[cur].dur;
+  if(clipEnd&&t>=clipEnd){A.pause();clipEnd=null}
+  if(!dragging)seek.value=t/d*1000;document.getElementById("tCur").textContent=fmt(t);document.getElementById("tDur").textContent=fmt(d);
+  document.getElementById("miniBar").style.width=(t/d*100)+"%";
+  const segs=SEGS[EPS[cur].id];let k=-1;for(let j=0;j<segs.length;j++){if(segs[j][0]<=t+.2)k=j;else break}
+  if(k!==lastLine){lineEls.forEach((p,j)=>{p.classList.toggle("now",j===k);p.classList.toggle("past",j<k)});
+    if(k>=0&&document.getElementById("np").classList.contains("on")){const L=document.getElementById("lines");const p=lineEls[k];L.scrollTop=p.offsetTop-L.offsetTop-L.clientHeight*.35}lastLine=k}
+});
+if("mediaSession" in navigator){navigator.mediaSession.setActionHandler("play",()=>A.play());navigator.mediaSession.setActionHandler("pause",()=>A.pause())}
+setIcons();
+
+/* ---------- copy ---------- */
+document.querySelectorAll("[data-copy]").forEach(b=>b.onclick=async()=>{const t=document.getElementById(b.dataset.copy).innerText;const o=b.textContent;try{await navigator.clipboard.writeText(t);b.textContent="הועתק ✓";b.classList.add("ok")}catch(e){b.textContent="ההעתקה נחסמה"}setTimeout(()=>{b.textContent=o;b.classList.remove("ok")},1800)});
+
+/* ---------- routing ---------- */
+function route(){const v=(location.hash||"#home").slice(1);const ok=["home","shabbat","studio","library"].includes(v)?v:"home";
+  document.querySelectorAll(".view").forEach(x=>x.classList.toggle("on",x.id==="v-"+ok));document.querySelectorAll(".tabs a").forEach(a=>a.classList.toggle("on",a.dataset.v===ok));scrollTo(0,0)}
+addEventListener("hashchange",route);route();
+document.fonts&&document.fonts.ready.then(()=>{renderShelf();renderLib();if(cur>=0)drawCover(document.getElementById("npCover"),EPS[cur].pal,cur*97+5,{n:30,label:EPS[cur].title,tag:"מעטים כנגד רבים"})});
+</script>
+</body>
+</html>
