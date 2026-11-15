@@ -62,7 +62,7 @@ def main():
     if not root.exists():
         sys.exit(f"התיקייה לא נמצאה: {root}")
 
-    files = sorted(p for p in root.rglob("*") if p.suffix.lower() == ".mp3")
+    files = sorted(p for p in root.rglob("*") if p.suffix.lower() in (".mp3", ".wav", ".m4a", ".flac", ".wma"))
 
     def dest(mp3: Path, ext: str) -> Path:
         if args.out:

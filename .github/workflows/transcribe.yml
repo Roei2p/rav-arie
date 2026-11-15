@@ -66,8 +66,8 @@ jobs:
         run: |
           git config user.name "rav-arie-bot"; git config user.email "actions@github.com"
           mkdir -p "audio/$NAME"
-          gdown --folder "https://drive.google.com/drive/folders/$FID" -O "audio/$NAME"
-          find "audio/$NAME" -mindepth 2 -iname '*.mp3' -exec mv -n {} "audio/$NAME/" \;
+          for i in 1 2 3 4; do gdown --folder "https://drive.google.com/drive/folders/$FID" -O "audio/$NAME" && break; echo "retry $i"; sleep 20; done
+          find "audio/$NAME" -mindepth 2 \( -iname '*.mp3' -o -iname '*.wav' -o -iname '*.m4a' \) -exec mv -n {} "audio/$NAME/" \;
           ls -la "audio/$NAME"
           python scripts/transcribe.py "audio/$NAME" --out transcripts --commit < /dev/null
           touch "transcripts/$NAME/.done"
