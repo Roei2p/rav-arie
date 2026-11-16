@@ -1,19 +1,19 @@
-name: הפקת קליפים
+name: חיתוך שמע לקליפים
 
 on:
   push:
-    paths: ["clips/**", "scripts/make_clips.py", "fonts/**", ".github/workflows/clips.yml"]
+    paths: ["clips/*.json", "scripts/cut_audio.py", ".github/workflows/clips.yml"]
   workflow_dispatch:
 
 concurrency:
   group: clips
-  cancel-in-progress: true
+  cancel-in-progress: false
 
 permissions:
   contents: write
 
 jobs:
-  render:
+  cut:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -24,22 +24,11 @@ jobs:
         run: |
           sudo apt-get update -qq && sudo apt-get install -y -qq ffmpeg
           pip install -q gdown
-      - name: הורדת השמע המקורי
-        run: |
-          FID=$(python3 -c "import json;print(json.load(open('clips/clips.json'))['drive_folder'])")
-          mkdir -p src && gdown --folder "https://drive.google.com/drive/folders/$FID" -O src
-          mkdir -p audio_src && find src -iname '*.mp3' -exec mv -n {} audio_src/ \;
-          ls -la audio_src
-      - name: הפקה
-        run: python scripts/make_clips.py --audio audio_src --out web/clips
+      - name: חיתוך
+        run: python scripts/cut_audio.py
       - name: שמירה בריפו
         run: |
-          rm -f web/clips/*.ass
           git config user.name "rav-arie-bot"; git config user.email "actions@github.com"
-          git add web/clips
-          git commit -m "קליפים: דיסק 35 (חנוכה)" || true
+          git add web/cuts
+          git commit -m "שמע לקליפים" || true
           for i in 1 2 3 4 5 6 7 8; do git pull --rebase -q && git push -q && break; sleep $((RANDOM % 15 + 5)); done
-      - uses: actions/upload-artifact@v4
-        with:
-          name: clips
-          path: web/clips/*.mp4
