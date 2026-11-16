@@ -88,7 +88,8 @@ function captions(t,th){
   x.font="800 78px Rubik";x.direction="rtl";x.textAlign="center";
   const sp=x.measureText(" ").width,ws=pg.w.map(w=>({...w,wd:x.measureText(w.w).width}));
   const lines=[];let cur=[],lw=0;for(const w of ws){const add=(cur.length?sp:0)+w.wd;if(lw+add>900&&cur.length){lines.push({ws:cur,lw});cur=[w];lw=w.wd}else{cur.push(w);lw+=add}}lines.push({ws:cur,lw});
-  const y0=1080-(lines.length-1)*52;
+  const y0=(CLIP.motif==="candle"?840:1080)-(lines.length-1)*52;
+  if(CLIP.motif==="candle"){const bw=Math.max(...lines.map(L=>L.lw))+80,bh=lines.length*104+40;x.save();x.fillStyle="rgba(10,14,50,.58)";x.shadowColor="rgba(10,14,50,.6)";x.shadowBlur=40;x.beginPath();x.roundRect(540-bw/2,y0-78,bw,bh,36);x.fill();x.restore();}
   lines.forEach((L,li)=>{let xx=540+L.lw/2;const y=y0+li*104;
     for(const w of L.ws){const on=t>=w.t0,now=on&&t<w.t1;
       x.save();x.translate(xx-w.wd/2,y);const s=now?1+.1*Math.sin(Math.min(1,(t-w.t0)/0.25)*Math.PI):1;x.scale(s,s);
