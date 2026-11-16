@@ -39,11 +39,14 @@ def pages_for(clip, maxc=30):
 
 def main():
     cid = sys.argv[1]
-    cfg = json.load(open(f"{ROOT}/clips/clips.json", encoding="utf-8"))
-    clip = next(c for c in cfg["clips"] if c["id"] == cid)
-    theme, seed = THEME[cid]
+    import glob
+    clip = None
+    for p in glob.glob(f"{ROOT}/clips/disc*.json"):
+        for c in json.load(open(p, encoding="utf-8"))["clips"]:
+            if c["id"] == cid: clip = c
+    theme, seed = clip["theme"], clip["seed"]
     dur = round(clip["end"] - clip["start"], 2)
-    data = {"title": clip["title"], "dur": dur, "theme": theme, "seed": seed, "pages": pages_for(clip)}
+    data = {"title": clip["title"], "dur": dur, "theme": theme, "seed": seed, "motif": clip.get("motif", "menorah"), "pages": pages_for(clip)}
     with sync_playwright() as p:
         b = p.chromium.launch(executable_path="/usr/bin/google-chrome", args=["--no-sandbox"])
         pg = b.new_page(viewport={"width": 1080, "height": 1920})
@@ -59,7 +62,7 @@ def main():
             b.close(); return
         os.makedirs(f"{ROOT}/web/anim", exist_ok=True)
         tmp = f"{ROOT}/web/anim/{cid}.part.mp4"
-        audio = f"{ROOT}/web/clips/{cid}.mp4"
+        audio = f"{ROOT}/web/cuts/{cid}.m4a"
         ff = subprocess.Popen(["ffmpeg", "-nostdin", "-y", "-loglevel", "error",
                                "-f", "image2pipe", "-framerate", "30", "-c:v", "mjpeg", "-i", "-",
                                "-i", audio, "-map", "0:v", "-map", "1:a",
