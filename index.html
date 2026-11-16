@@ -3,645 +3,586 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<meta name="theme-color" content="#14206b">
+<meta name="theme-color" content="#0e1550">
 <title>סיפורי צדיקים</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;500;600;700;800;900&family=Frank+Ruhl+Libre:wght@400;500;700;900&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;500;600;700;800;900&family=Frank+Ruhl+Libre:wght@500;700;900&display=swap" rel="stylesheet">
 <style>
-/* direction: festive daylight. warm paper, royal blue + candle gold, Rubik for a friendly voice, Frank Ruhl for story titles. bold moment = live menorah lighting in the hero. */
+/* direction: a festive night-to-gold listening app. 3D gold menorah hero, coverflow albums, tilt cards, shared-element transitions. */
 :root{
-  --bg:#fbf7ef; --bg2:#f4ecdc; --card:#ffffff; --line:#ebe2d2;
-  --ink:#1a1f4b; --dim:#62668a; --faint:#a5a8c0;
-  --blue:#2846d6; --blue2:#1b2f99; --gold:#f2b544; --gold2:#e39a1f; --coral:#ff7a59;
-  --display:"Frank Ruhl Libre","David",serif;
-  --ui:"Rubik","Arial Hebrew",Arial,sans-serif;
-  --sheet:"Frank Ruhl Libre","David",serif;
+  --night:#0e1550; --night2:#1b2a8f; --bg:#f7f3ea; --paper:#fffdf8; --card:#ffffff; --line:#ebe3d4;
+  --ink:#151a45; --dim:#5f6488; --faint:#a6a9c2;
+  --blue:#2a48e0; --gold:#f5b942; --gold2:#e39a1f; --coral:#ff7a59;
+  --display:"Frank Ruhl Libre","David",serif; --ui:"Rubik","Arial Hebrew",Arial,sans-serif;
+  --spring:cubic-bezier(.2,.9,.25,1.15); --ease:cubic-bezier(.2,.8,.2,1);
   --safe-b:env(safe-area-inset-bottom,0px); --safe-t:env(safe-area-inset-top,0px);
-  --shadow:0 1px 2px rgba(26,31,75,.06),0 8px 24px rgba(26,31,75,.08);
+  --sh1:0 1px 2px rgba(21,26,69,.06),0 10px 30px rgba(21,26,69,.10);
+  --sh2:0 2px 6px rgba(21,26,69,.08),0 24px 60px rgba(21,26,69,.18);
   color-scheme:light;
 }
 *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
-html,body{overflow-x:hidden;margin:0;background:var(--bg);color:var(--ink);font:400 16px/1.55 var(--ui)}
-body{padding-top:var(--safe-t)}
-button{font:inherit;color:inherit;background:none;border:0;cursor:pointer;padding:0}
+html,body{margin:0;background:var(--bg);color:var(--ink);font:400 16px/1.55 var(--ui);overflow-x:hidden}
+button{font:inherit;color:inherit;background:none;border:0;padding:0;cursor:pointer}
 a{color:var(--blue)}
 img{display:block;max-width:100%}
-:focus-visible{outline:3px solid var(--gold);outline-offset:3px;border-radius:8px}
+:focus-visible{outline:3px solid var(--gold);outline-offset:3px;border-radius:10px}
 h1,h2,h3{margin:0;text-wrap:balance}
-.view{display:none;padding:0 0 calc(150px + var(--safe-b))}
+.pad{padding:0 20px;max-width:880px;margin:0 auto}
+.view{display:none;padding-bottom:calc(160px + var(--safe-b));min-height:100vh}
 .view.on{display:block}
-.pad{padding:0 20px;max-width:860px;margin:0 auto}
-.label{font:600 .8rem/1.2 var(--ui);color:var(--dim)}
-.copybtn{font:600 .85rem var(--ui);background:var(--bg2);border-radius:999px;padding:8px 16px;color:var(--ink);transition:background .2s}
-.copybtn:hover{background:#ece0c8}
-.copybtn.ok{background:#dff3e6;color:#1d7a45}
+.eyebrow{font:700 .78rem var(--ui);color:var(--blue);background:#e8ecff;display:inline-block;padding:4px 11px;border-radius:999px}
+.h2{font:800 1.45rem/1.2 var(--ui)}
+.muted{color:var(--dim)}
+.chiprow{display:flex;gap:8px;overflow-x:auto;scrollbar-width:none;padding:2px}
+.chiprow::-webkit-scrollbar{display:none}
+.chip{flex:none;font:600 .86rem var(--ui);padding:8px 14px;border-radius:999px;background:var(--card);box-shadow:var(--sh1);transition:all .25s var(--ease)}
+.chip.on{background:var(--ink);color:#fff}
+.btn{text-decoration:none;display:inline-flex;align-items:center;gap:8px;font:700 .92rem var(--ui);padding:11px 18px;border-radius:999px;background:var(--ink);color:#fff;transition:transform .2s var(--spring)}
+.btn:active{transform:scale(.95)}
+.btn.gold{background:var(--gold);color:var(--ink)}
+.btn.soft{background:#efe8da;color:var(--ink)}
+.copied{background:#dff3e6!important;color:#1d7a45!important}
 
-/* ---------- HOME ---------- */
-.hero{position:relative;overflow:hidden;isolation:isolate;background:linear-gradient(#14206b,#3b2a8f 55%,#e0703c);color:#fff;border-radius:0 0 28px 28px}
-.hero canvas{position:absolute;inset:0;width:100%;height:100%;z-index:-1;object-fit:cover;object-position:bottom}
-.hero .pad{padding-top:40px;padding-bottom:30px;min-height:min(132vw,620px);display:flex;flex-direction:column}
-.hero .kicker{display:inline-flex;align-self:flex-start;gap:6px;font:700 .8rem var(--ui);background:rgba(255,255,255,.16);backdrop-filter:blur(8px);padding:6px 12px;border-radius:999px}
-.hero h1{font:900 clamp(2.9rem,12vw,4.8rem)/.98 var(--display);margin:.6rem 0 .5rem;text-shadow:0 4px 24px rgba(10,14,60,.35)}
+/* stagger entrance */
+.st{animation:rise .6s var(--ease) both;animation-delay:calc(var(--i,0) * 55ms)}
+@keyframes rise{from{opacity:0;transform:translateY(18px) scale(.98)}to{opacity:1;transform:none}}
+@media (prefers-reduced-motion:reduce){.st{animation:none}}
+
+/* view transitions */
+::view-transition-old(root),::view-transition-new(root){animation-duration:.42s;animation-timing-function:var(--ease)}
+::view-transition-old(root){animation-name:vt-out}
+::view-transition-new(root){animation-name:vt-in}
+html[data-dir="back"]::view-transition-old(root){animation-name:vt-out-b}
+html[data-dir="back"]::view-transition-new(root){animation-name:vt-in-b}
+@keyframes vt-out{to{opacity:0;transform:translateX(40px) scale(.97);filter:blur(4px)}}
+@keyframes vt-in{from{opacity:0;transform:translateX(-40px) scale(.97);filter:blur(4px)}}
+@keyframes vt-out-b{to{opacity:0;transform:translateX(-40px) scale(.97);filter:blur(4px)}}
+@keyframes vt-in-b{from{opacity:0;transform:translateX(40px) scale(.97);filter:blur(4px)}}
+::view-transition-group(npcover){animation-duration:.5s;animation-timing-function:var(--spring)}
+.tabs,.mini{view-transition-name:chrome}
+::view-transition-old(chrome),::view-transition-new(chrome){animation:none}
+
+/* ---------- HERO ---------- */
+.hero{position:relative;height:min(152vw,760px);overflow:hidden;color:#fff;background:radial-gradient(120% 80% at 50% 100%,#e8834a 0%,#7a3f9a 38%,#1b2a8f 66%,#0e1550 100%);border-radius:0 0 34px 34px;isolation:isolate}
+#h3d{position:absolute;inset:0;width:100%;height:100%;z-index:0}
+.hero .fallback{position:absolute;inset:0;object-fit:cover;opacity:0;z-index:0}
+.hero.nogl .fallback{opacity:1}
+.hero .over{position:relative;z-index:2;padding:calc(26px + var(--safe-t)) 22px 0;max-width:880px;margin:0 auto}
+.hero .kick{display:inline-flex;gap:6px;align-items:center;font:700 .8rem var(--ui);padding:6px 12px;border-radius:999px;background:rgba(255,255,255,.14);backdrop-filter:blur(10px);border:1px solid rgba(255,255,255,.18)}
+.hero h1{font:900 clamp(3rem,13.5vw,5.6rem)/.95 var(--display);margin:.55rem 0 .35rem;letter-spacing:-.01em;text-shadow:0 6px 30px rgba(8,10,50,.45)}
+.hero h1 span{display:inline-block;animation:letter .9s var(--spring) both}
+@keyframes letter{from{opacity:0;transform:translateY(.5em) rotateX(70deg)}to{opacity:1;transform:none}}
 .hero .by{font:600 1.05rem var(--ui);color:var(--gold)}
-.hero .sub{color:rgba(255,255,255,.82);font-size:.95rem;margin-top:.15rem}
-.actions{display:flex;align-items:center;gap:10px;margin-top:20px}
-.bigplay{width:62px;height:62px;border-radius:50%;background:var(--gold);color:var(--ink);display:grid;place-items:center;box-shadow:0 10px 30px rgba(242,181,68,.45);transition:transform .15s}
-.bigplay:active{transform:scale(.94)}
-.bigplay svg{width:26px;height:26px}
-.ghost{text-decoration:none;color:#fff;background:rgba(255,255,255,.16);backdrop-filter:blur(8px);border-radius:999px;padding:10px 16px;font-weight:600;font-size:.92rem}
-.section-h{display:flex;align-items:baseline;justify-content:space-between;margin:30px 0 12px}
-.section-h h2{font:800 1.4rem var(--ui)}
-.ep{display:grid;grid-template-columns:72px 1fr auto;gap:14px;align-items:center;padding:10px;margin-bottom:10px;border-radius:16px;width:100%;text-align:start;background:var(--card);box-shadow:var(--shadow);transition:transform .15s}
-.ep:active{transform:scale(.985)}
-.ep img{width:72px;height:72px;border-radius:12px;object-fit:cover}
-.ep .t{font:700 1.02rem/1.3 var(--ui)}
-.ep.playing .t{color:var(--blue)}
-.ep .s{font-size:.84rem;color:var(--dim);display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
-.ep .d{font-size:.8rem;color:var(--dim);font-variant-numeric:tabular-nums;background:var(--bg2);border-radius:999px;padding:3px 9px}
+.hero .meta{font-size:.9rem;color:rgba(255,255,255,.78)}
+.hero .cta{display:flex;gap:10px;margin-top:18px}
+.hero .cta .btn{background:rgba(255,255,255,.16);backdrop-filter:blur(10px);border:1px solid rgba(255,255,255,.22)}
+.hero .cta .btn.gold{background:var(--gold);color:var(--ink);border:0;box-shadow:0 10px 30px rgba(245,185,66,.45)}
+.hero .hint{position:absolute;bottom:16px;inset-inline:0;text-align:center;font-size:.74rem;color:rgba(255,255,255,.6);z-index:2}
+
+/* ---------- COVERFLOW ---------- */
+.flow-wrap{margin-top:-46px;position:relative;z-index:3}
+.flow{display:flex;gap:0;overflow-x:auto;scroll-snap-type:x mandatory;padding:20px calc(50% - 105px) 34px;perspective:1100px;scrollbar-width:none}
+.flow::-webkit-scrollbar{display:none}
+.alb{flex:none;width:210px;scroll-snap-align:center;transform-style:preserve-3d;transition:transform .12s linear;text-align:center}
+.alb .art{position:relative;width:210px;height:210px;border-radius:22px;overflow:hidden;box-shadow:0 30px 60px rgba(14,21,80,.35);background:#223}
+.alb .art img{width:100%;height:100%;object-fit:cover}
+.alb .art::after{content:"";position:absolute;inset:0;background:linear-gradient(135deg,rgba(255,255,255,.28),rgba(255,255,255,0) 40%)}
+.alb .soon{position:absolute;top:10px;inset-inline-start:10px;font:700 .7rem var(--ui);background:rgba(255,255,255,.9);color:var(--ink);padding:3px 9px;border-radius:999px;z-index:2}
+.alb b{display:block;margin-top:12px;font:800 1.02rem var(--ui)}
+.alb small{color:var(--dim);font-size:.8rem}
+.alb.sel .art{outline:3px solid var(--gold);outline-offset:4px}
+
+/* ---------- ALBUM ---------- */
+.ahead{display:flex;align-items:flex-end;justify-content:space-between;gap:14px;margin-top:6px}
+.ahead h2{font:900 2rem/1.05 var(--display)}
+.ahead p{margin:.2rem 0 0}
+.playall{width:58px;height:58px;flex:none;border-radius:50%;background:var(--gold);display:grid;place-items:center;box-shadow:0 12px 30px rgba(245,185,66,.5);transition:transform .2s var(--spring)}
+.playall:active{transform:scale(.92)}
+.playall svg{width:24px;height:24px}
+.eps{margin-top:16px;display:grid;gap:12px}
+.ep{display:grid;grid-template-columns:76px 1fr auto;gap:14px;align-items:center;padding:10px;border-radius:20px;background:var(--card);box-shadow:var(--sh1);text-align:start;width:100%;transform-style:preserve-3d}
+.ep img{width:76px;height:76px;border-radius:14px;object-fit:cover}
+.ep .t{font:700 1.04rem/1.3 var(--ui)}
+.ep .s{font-size:.85rem;color:var(--dim);display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.ep .d{font:600 .78rem var(--ui);color:var(--dim);background:#f1ebdf;border-radius:999px;padding:4px 10px;font-variant-numeric:tabular-nums}
+.ep.playing{outline:2px solid var(--blue)}
 .ep.playing .d{background:var(--blue);color:#fff}
-.thesis{margin:26px 0 6px;padding:24px 22px;border-radius:22px;background:linear-gradient(135deg,#fff4d6,#ffe1c7);position:relative;overflow:hidden}
-.thesis q{display:block;font:900 clamp(1.6rem,6.5vw,2.2rem)/1.25 var(--display);quotes:none;color:var(--ink)}
-.thesis span{display:block;color:#9a5a12;font-size:.86rem;font-weight:600;margin-top:8px}
-.thesis p{color:#4b4a5e;margin:.8rem 0 0;max-width:60ch}
-.shelf{display:grid;grid-auto-flow:column;grid-auto-columns:148px;gap:14px;overflow-x:auto;padding:4px 2px 10px;scrollbar-width:none}
-.shelf::-webkit-scrollbar{display:none}
-.tile{text-align:start;text-decoration:none;color:var(--ink)}
-.tile img{width:148px;height:148px;border-radius:16px;margin-bottom:8px;box-shadow:var(--shadow)}
-.tile b{display:block;font:700 .92rem/1.3 var(--ui)}
-.tile small{color:var(--dim);font-size:.78rem}
+.thesis{margin:22px 0 0;border-radius:26px;padding:26px 22px;background:linear-gradient(135deg,#fff3d1,#ffe0cf 60%,#f9d6e8);position:relative;overflow:hidden;box-shadow:var(--sh1)}
+.thesis q{display:block;quotes:none;font:900 clamp(1.5rem,6.3vw,2.2rem)/1.25 var(--display)}
+.thesis span{display:block;margin-top:8px;color:#94540e;font:600 .85rem var(--ui)}
+.thesis p{margin:.8rem 0 0;color:#4a4860}
+.row{display:grid;grid-auto-flow:column;grid-auto-columns:min(72%,300px);gap:14px;overflow-x:auto;scroll-snap-type:x mandatory;padding:6px 2px 14px;scrollbar-width:none}
+.row::-webkit-scrollbar{display:none}
+.row>*{scroll-snap-align:start}
+.qcard img{width:100%;aspect-ratio:1;border-radius:20px;box-shadow:var(--sh2)}
+.reel video{width:100%;aspect-ratio:9/16;border-radius:20px;background:#0e1550;box-shadow:var(--sh2);object-fit:cover}
+.reel b{display:block;margin-top:8px;font-size:.95rem}
+.reel small{color:var(--blue);font-weight:700;font-size:.76rem}
+.row.reels{grid-auto-columns:min(46%,200px)}
+.sec{margin-top:30px}
+.sec-h{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:10px}
 
-/* ---------- PLAYER BAR ---------- */
-.mini{position:fixed;inset-inline:10px;bottom:calc(70px + var(--safe-b));z-index:20;background:var(--ink);color:#fff;border-radius:16px;display:none;grid-template-columns:44px 1fr auto;gap:10px;align-items:center;padding:8px 10px 11px;box-shadow:0 14px 34px rgba(26,31,75,.35);overflow:hidden}
-.mini.on{display:grid}
-.mini img{width:44px;height:44px;border-radius:9px}
-.mini .mt{font:700 .9rem/1.2 var(--ui);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.mini .ms{font-size:.76rem;color:rgba(255,255,255,.65)}
-.mini .pp{width:40px;height:40px;display:grid;place-items:center;background:var(--gold);color:var(--ink);border-radius:50%}
-.mini .pp svg{width:20px;height:20px}
-.mini .bar{position:absolute;inset-inline:12px;bottom:4px;height:3px;background:rgba(255,255,255,.18);border-radius:3px}
-.mini .bar i{display:block;height:100%;background:var(--gold);width:0;border-radius:3px}
+/* tilt */
+.tilt{transition:transform .5s var(--ease);will-change:transform}
+.tilt.live{transition:transform .08s linear}
+.glare{position:absolute;inset:0;border-radius:inherit;pointer-events:none;background:radial-gradient(circle at var(--gx,50%) var(--gy,50%),rgba(255,255,255,.45),rgba(255,255,255,0) 55%);opacity:0;transition:opacity .3s}
+.tilt.live .glare{opacity:1}
+
+/* ---------- PLAYER ---------- */
+.mini{position:fixed;inset-inline:10px;bottom:calc(74px + var(--safe-b));z-index:30;display:none;grid-template-columns:46px 1fr auto;gap:10px;align-items:center;padding:8px 10px 12px;border-radius:18px;background:rgba(21,26,69,.92);backdrop-filter:blur(16px);color:#fff;box-shadow:0 18px 40px rgba(14,21,80,.4);overflow:hidden}
+.mini.on{display:grid;animation:rise .5s var(--spring)}
+.mini img{width:46px;height:46px;border-radius:10px}
 .mini .open{text-align:start;min-width:0;color:#fff}
-.tabs{position:fixed;inset-inline:0;bottom:0;z-index:21;background:rgba(251,247,239,.92);backdrop-filter:blur(14px);border-top:1px solid var(--line);display:grid;grid-template-columns:repeat(4,1fr);padding:8px 0 calc(8px + var(--safe-b))}
-.tabs a{display:flex;flex-direction:column;align-items:center;gap:3px;text-decoration:none;color:var(--faint);font-size:.74rem;font-weight:600}
-.tabs a svg{width:23px;height:23px}
-.tabs a.on{color:var(--blue)}
+.mini .mt{font:700 .9rem/1.2 var(--ui);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.mini .ms{font-size:.75rem;color:rgba(255,255,255,.6)}
+.mini .pp{width:40px;height:40px;border-radius:50%;background:var(--gold);color:var(--ink);display:grid;place-items:center}
+.mini .pp svg{width:20px;height:20px}
+.mini .bar{position:absolute;inset-inline:12px;bottom:4px;height:3px;border-radius:3px;background:rgba(255,255,255,.18)}
+.mini .bar i{display:block;height:100%;width:0;border-radius:3px;background:var(--gold)}
+.tabs{position:fixed;inset-inline:0;bottom:0;z-index:31;display:grid;grid-template-columns:repeat(5,1fr);padding:8px 4px calc(8px + var(--safe-b));background:rgba(247,243,234,.88);backdrop-filter:blur(18px);border-top:1px solid var(--line)}
+.tabs a{position:relative;display:flex;flex-direction:column;align-items:center;gap:3px;text-decoration:none;color:var(--faint);font:600 .72rem var(--ui);transition:color .25s}
+.tabs a svg{width:23px;height:23px;transition:transform .35s var(--spring)}
+.tabs a.on{color:var(--ink)}
+.tabs a.on svg{transform:translateY(-2px) scale(1.12)}
+.tabs a.on::before{content:"";position:absolute;top:-8px;width:26px;height:3px;border-radius:3px;background:var(--gold)}
 
-/* ---------- NOW PLAYING ---------- */
-.np{position:fixed;inset:0;z-index:40;background:var(--blue2);color:#fff;transform:translateY(100%);transition:transform .38s cubic-bezier(.2,.8,.2,1);display:flex;flex-direction:column;overflow:hidden}
-@media (prefers-reduced-motion:reduce){.np{transition:none}}
-.np.on{transform:none}
-.np-bg{position:absolute;inset:0;z-index:-1}
-.np-bg img{width:100%;height:100%;object-fit:cover;filter:blur(36px) saturate(1.3);transform:scale(1.3);opacity:.95}
-.np-bg::after{content:"";position:absolute;inset:0;background:linear-gradient(rgba(16,22,80,.15),rgba(16,22,80,.55))}
-.np-top{display:flex;align-items:center;justify-content:space-between;padding:calc(14px + var(--safe-t)) 18px 6px}
-.np-top button{width:40px;height:40px;display:grid;place-items:center;color:#fff}
-.np-top svg{width:26px;height:26px}
-.np-top .label{text-align:center;color:rgba(255,255,255,.8)}
-.np-body{flex:1;overflow-y:auto;padding:0 22px 30px;max-width:620px;width:100%;margin:0 auto}
-.np-cover{width:min(78vw,340px);aspect-ratio:1;margin:12px auto 18px;border-radius:20px;overflow:hidden;box-shadow:0 24px 60px rgba(10,14,60,.45)}
+.np{position:fixed;inset:0;z-index:50;color:#fff;display:none;flex-direction:column;overflow:hidden;background:#141b5c}
+.np.on{display:flex}
+.np-bg{position:absolute;inset:-10%;z-index:-1}
+.np-bg img{width:100%;height:100%;object-fit:cover;filter:blur(40px) saturate(1.35);opacity:.95}
+.np-bg::after{content:"";position:absolute;inset:0;background:linear-gradient(rgba(14,21,80,.1),rgba(14,21,80,.6))}
+.np-top{display:flex;align-items:center;justify-content:space-between;padding:calc(12px + var(--safe-t)) 16px 4px}
+.np-top button{width:42px;height:42px;display:grid;place-items:center;border-radius:50%;background:rgba(255,255,255,.12)}
+.np-top svg{width:24px;height:24px}
+.np-top small{font:600 .8rem var(--ui);color:rgba(255,255,255,.8)}
+.np-body{flex:1;overflow-y:auto;padding:0 22px 40px;max-width:620px;width:100%;margin:0 auto}
+.np-stage{perspective:900px;margin:14px auto 20px;width:min(80vw,350px)}
+.np-cover{position:relative;aspect-ratio:1;border-radius:24px;overflow:hidden;box-shadow:0 30px 70px rgba(5,8,40,.55);view-transition-name:npcover;transform-style:preserve-3d}
 .np-cover img{width:100%;height:100%;object-fit:cover}
-.np-title{font:900 1.6rem/1.2 var(--display)}
+.np-title{font:900 1.65rem/1.2 var(--display)}
 .np-sub{color:var(--gold);font-weight:600;font-size:.92rem}
 .scrub{margin-top:16px}
 .scrub input{width:100%;accent-color:var(--gold);direction:ltr}
-.times{display:flex;justify-content:space-between;font-size:.76rem;color:rgba(255,255,255,.75);font-variant-numeric:tabular-nums;direction:ltr}
-.ctrls{direction:ltr;display:flex;align-items:center;justify-content:space-between;margin:6px 0 0}
+.times{display:flex;justify-content:space-between;direction:ltr;font-size:.76rem;color:rgba(255,255,255,.75);font-variant-numeric:tabular-nums}
+.ctrls{direction:ltr;display:flex;align-items:center;justify-content:space-between;margin-top:6px}
 .ctrls button{width:48px;height:48px;display:grid;place-items:center;color:#fff}
 .ctrls svg{width:28px;height:28px}
-.ctrls .main{width:70px;height:70px;border-radius:50%;background:var(--gold);color:var(--ink);box-shadow:0 10px 30px rgba(242,181,68,.4)}
+.ctrls .main{width:72px;height:72px;border-radius:50%;background:var(--gold);color:var(--ink);box-shadow:0 12px 34px rgba(245,185,66,.45);transition:transform .2s var(--spring)}
+.ctrls .main:active{transform:scale(.92)}
 .ctrls .main svg{width:30px;height:30px}
-.speed{font:700 .86rem var(--ui);color:rgba(255,255,255,.8)}
-.lyrics{margin-top:22px;background:rgba(255,255,255,.12);backdrop-filter:blur(10px);border-radius:20px;padding:18px 18px 22px}
-.lyrics .hd{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;gap:10px}
-.lyrics .hd b{font:800 1rem var(--ui)}
-.lyrics .hd small{color:rgba(255,255,255,.6);font-size:.72rem}
-.lines{max-height:46vh;overflow-y:auto;scroll-behavior:smooth;mask-image:linear-gradient(to bottom,transparent,#000 12%,#000 85%,transparent)}
-.lines p{margin:0;padding:7px 0;font:700 1.2rem/1.45 var(--ui);color:rgba(255,255,255,.45);cursor:pointer;transition:color .25s}
+.speed{font:700 .86rem var(--ui);color:rgba(255,255,255,.85)}
+.lyrics{margin-top:22px;border-radius:22px;padding:16px 18px 20px;background:rgba(255,255,255,.12);backdrop-filter:blur(12px)}
+.lyrics .hd{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-bottom:8px}
+.lyrics .hd small{font-size:.72rem;color:rgba(255,255,255,.6)}
+.lines{max-height:44vh;overflow-y:auto;scroll-behavior:smooth;mask-image:linear-gradient(transparent,#000 12%,#000 85%,transparent)}
+.lines p{margin:0;padding:7px 0;font:700 1.22rem/1.45 var(--ui);color:rgba(255,255,255,.42);cursor:pointer;transition:color .3s,transform .3s var(--spring);transform-origin:right center}
 .lines p.past{color:rgba(255,255,255,.75)}
-.lines p.now{color:var(--gold)}
-.lines p:first-child{margin-top:30px}.lines p:last-child{margin-bottom:60px}
-.about{margin-top:16px;background:rgba(255,255,255,.12);border-radius:20px;padding:18px}
-.about .label{color:var(--gold)}
-.about p{color:rgba(255,255,255,.92);margin:.4rem 0 0}
+.lines p.now{color:var(--gold);transform:scale(1.04)}
+.lines p:first-child{margin-top:28px}.lines p:last-child{margin-bottom:60px}
+.about{margin-top:16px;border-radius:22px;padding:18px;background:rgba(255,255,255,.12)}
+.about b{color:var(--gold);font-size:.82rem}
+.about p{margin:.35rem 0 0;color:rgba(255,255,255,.92)}
 
 /* ---------- SHABBAT ---------- */
-.page-h{padding-top:30px}
-.page-h h1{font:900 2.3rem/1.05 var(--display)}
-.page-h p{color:var(--dim);margin:.4rem 0 0}
-.page-h .label{display:inline-block;background:#e6ebff;color:var(--blue);padding:4px 10px;border-radius:999px;margin-bottom:10px}
-.sheet{margin:22px auto 0;background:#fffdf8;color:#1d1a15;border-radius:6px;padding:34px 26px 26px;font:400 1.04rem/1.75 var(--sheet);box-shadow:0 2px 4px rgba(26,31,75,.05),0 22px 50px rgba(26,31,75,.12);max-width:720px;position:relative}
-.sheet::before{content:"";position:absolute;inset:10px;border:1px solid #e3d6b8;pointer-events:none;border-radius:2px}
+.page-h{padding-top:calc(26px + var(--safe-t))}
+.page-h h1{font:900 2.3rem/1.05 var(--display);margin-top:8px}
+.sheet{margin:20px auto 0;max-width:720px;background:var(--paper);border-radius:8px;padding:34px 26px 26px;font:400 1.04rem/1.75 var(--display);box-shadow:var(--sh2);position:relative}
+.sheet::before{content:"";position:absolute;inset:10px;border:1px solid #e6d9bc;border-radius:3px;pointer-events:none}
 .sheet .bsd{position:absolute;top:18px;inset-inline-end:24px;font-size:.8rem;color:#7a6c52}
-.mast{text-align:center;padding-bottom:14px;border-bottom:2px solid #1d1a15;margin-bottom:6px}
-.mast .series{font:700 .82rem var(--ui);color:var(--blue)}
-.mast h2{font:900 3rem/1 var(--sheet);margin:.3rem 0 .2rem}
-.mast .meta{font-size:.9rem;color:#5c513f}
-.rule{height:4px;border-bottom:1px solid #1d1a15;margin-bottom:16px}
-.sheet blockquote{margin:0 0 16px;text-align:center;font:700 1.25rem/1.4 var(--sheet);color:#9a5a12}
-.sheet blockquote small{display:block;font:400 .8rem var(--ui);color:#7a6c52;margin-top:3px}
-.sheet h3{font:900 1.35rem var(--sheet);margin:18px 0 4px}
-.sheet .body{columns:2 300px;column-gap:28px;column-rule:1px solid #e3d6b8}
+.mast{text-align:center;padding-bottom:14px;border-bottom:2px solid var(--ink);margin-bottom:6px}
+.mast .series{font:700 .8rem var(--ui);color:var(--blue)}
+.mast h2{font:900 3rem/1 var(--display);margin:.3rem 0 .2rem}
+.mast .m{font-size:.9rem;color:#5c513f}
+.rule{height:4px;border-bottom:1px solid var(--ink);margin-bottom:16px}
+.sheet blockquote{margin:0 0 14px;text-align:center;font:700 1.25rem/1.4 var(--display);color:#94540e}
+.sheet blockquote small{display:block;font:400 .8rem var(--ui);color:#7a6c52}
+.sheet h3{font:900 1.35rem var(--display);margin:16px 0 4px}
+.sheet .body{columns:2 300px;column-gap:28px;column-rule:1px solid #e6d9bc}
 .sheet .body p{margin:0 0 .7em;text-align:justify}
-.sheet .body p:first-child::first-letter{font:900 3.2rem/.8 var(--sheet);float:right;margin:6px 0 0 8px;color:var(--blue)}
-.lesson{background:#fff3d6;border-radius:8px;padding:14px 16px;margin:16px 0}
+.sheet .body p:first-child::first-letter{font:900 3.2rem/.8 var(--display);float:right;margin:6px 0 0 8px;color:var(--blue)}
+.lesson{background:#fff3d6;border-radius:10px;padding:14px 16px;margin:16px 0}
 .lesson h3{margin-top:0}
 .trio{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:12px;margin:14px 0}
 .trio div{border-top:3px solid var(--gold);padding-top:8px;font-size:.95rem;line-height:1.55}
-.trio b{display:block;font:900 1.05rem var(--sheet)}
+.trio b{display:block;font:900 1.05rem var(--display)}
 .two{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:22px}
 .sheet ol{margin:.2rem 0;padding-inline-start:22px}
-.sheet ol li{margin:.25rem 0}
-.sheet ol small{color:var(--blue);font-family:var(--ui);font-size:.78rem}
-.sheet .foot{margin-top:18px;padding-top:10px;border-top:1px solid #1d1a15;text-align:center;font:400 .78rem var(--ui);color:#5c513f}
-.note{margin:18px auto 0;max-width:720px;display:flex;gap:10px;font-size:.88rem;color:#6b4a12;background:#fff3d6;border-radius:14px;padding:12px 14px}
-.note b{color:var(--gold2)}
+.sheet ol small{color:var(--blue);font:500 .78rem var(--ui)}
+.sheet .foot{margin-top:18px;padding-top:10px;border-top:1px solid var(--ink);text-align:center;font:400 .78rem var(--ui);color:#5c513f}
+.note{max-width:720px;margin:16px auto 0;display:flex;gap:10px;padding:12px 14px;border-radius:16px;background:#fff3d6;color:#6b4a12;font-size:.88rem}
+.kids{max-width:720px;margin:22px auto 0;border-radius:26px;padding:24px 22px;background:linear-gradient(160deg,#e9f1ff,#fdf0ff);box-shadow:var(--sh1)}
+.kids h3{font:900 1.6rem var(--display);margin:6px 0}
+.kids p{font-size:1.06rem;line-height:1.75}
+.kids ul{padding-inline-start:20px}
 
 /* ---------- STUDIO ---------- */
-.studio-grid{display:grid;grid-template-columns:minmax(0,1fr);gap:14px;margin-top:22px}
-.panel{min-width:0;background:var(--card);border-radius:22px;padding:18px;box-shadow:var(--shadow)}
+.fmt{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:12px;margin-top:18px}
+.fmt a{position:relative;display:block;text-decoration:none;color:var(--ink);padding:16px;border-radius:22px;background:var(--card);box-shadow:var(--sh1);overflow:hidden;transform-style:preserve-3d}
+.fmt a i{display:grid;place-items:center;width:44px;height:44px;border-radius:14px;font-style:normal;font-size:1.35rem;margin-bottom:10px}
+.fmt a b{display:block;font:700 .98rem/1.25 var(--ui)}
+.fmt a small{color:var(--dim);font-size:.78rem}
+.panel{margin-top:16px;border-radius:26px;padding:20px;background:var(--card);box-shadow:var(--sh1);scroll-margin-top:16px}
 .panel-h{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-bottom:12px}
-.panel-h h2{font:800 1.15rem var(--ui)}
-.chip{font:700 .72rem var(--ui);border-radius:999px;padding:4px 10px;background:#fff1d0;color:#9a5a12}
-.chip.ok{background:#dff3e6;color:#1d7a45}
-.chip.next{background:#e6ebff;color:var(--blue)}
+.panel-h h2{font:800 1.18rem var(--ui)}
+.tag{font:700 .72rem var(--ui);padding:4px 10px;border-radius:999px;background:#fff1d0;color:#94540e}
+.tag.ok{background:#dff3e6;color:#1d7a45}.tag.new{background:#e8ecff;color:var(--blue)}
 .kv{display:grid;grid-template-columns:auto 1fr;gap:6px 14px;font-size:.92rem}
-.kv dt{color:var(--dim)}
-.kv dd{margin:0;font-weight:600}
+.kv dt{color:var(--dim)}.kv dd{margin:0;font-weight:600}
 .chapters{list-style:none;margin:10px 0 0;padding:0}
 .chapters li{display:flex;gap:12px;padding:8px 0;border-top:1px solid var(--line);font-size:.92rem}
-.chapters li span{color:var(--blue);font-weight:700;font-variant-numeric:tabular-nums;min-width:44px;direction:ltr;text-align:end}
-.wa{background:#e7f8ec;border-radius:16px 16px 4px 16px;padding:14px 16px;white-space:pre-wrap;font-size:.94rem;line-height:1.6;color:#173a26}
-.candles{display:grid;grid-template-columns:repeat(8,1fr);gap:6px;margin:6px 0 14px}
-.candle{text-align:center;font-size:.68rem;color:var(--dim)}
-.candle i{display:block;height:46px;margin:0 auto 4px;width:10px;border-radius:3px;background:#e3dccd;position:relative}
-.candle.lit i{background:linear-gradient(#fff,#f0e3c5)}
-.candle.lit i::before{content:"";position:absolute;top:-15px;left:50%;width:10px;height:15px;transform:translateX(-50%);border-radius:50% 50% 50% 50%/60% 60% 40% 40%;background:radial-gradient(circle at 50% 70%,#fff6d6,#f2b544 45%,#ff8a3d 80%,transparent 82%);animation:flick 2.4s infinite ease-in-out}
-@keyframes flick{0%,100%{transform:translateX(-50%) scaleY(1)}50%{transform:translateX(-50%) scaleY(.88) skewX(3deg)}}
-@media (prefers-reduced-motion:reduce){.candle.lit i::before{animation:none}}
-.candle b{display:block;color:var(--ink);font-size:.76rem}
-.timeline{list-style:none;margin:0;padding:0}
-.timeline li{display:grid;grid-template-columns:70px 1fr;gap:12px;padding:10px 0;border-top:1px solid var(--line);font-size:.92rem}
-.timeline li span{color:var(--blue);font-weight:700;font-variant-numeric:tabular-nums}
+.chapters li span{color:var(--blue);font-weight:700;min-width:46px;direction:ltr;text-align:end;font-variant-numeric:tabular-nums}
+.wa{white-space:pre-wrap;padding:14px 16px;border-radius:18px 18px 4px 18px;background:#e5f7ea;color:#173a26;font-size:.94rem;line-height:1.6}
+.timeline{list-style:none;margin:0;padding:0;position:relative}
+.timeline li{position:relative;display:grid;grid-template-columns:86px 1fr;gap:12px;padding:10px 0;border-top:1px solid var(--line);font-size:.92rem}
+.timeline li span{color:var(--blue);font-weight:700}
 .timeline li b{display:block}
-.reels{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:12px}
-.reel{display:flex;flex-direction:column;gap:6px}
-.reel video{width:100%;aspect-ratio:9/16;border-radius:16px;background:#1a1f4b;display:block;object-fit:cover}
-.reel b{font-size:.92rem;line-height:1.3}
-.reel small{color:var(--dim);font-size:.76rem}
-.reel .when{color:var(--blue);font-weight:700;font-size:.74rem}
 .evt{padding:12px 0;border-top:1px solid var(--line)}
 .evt:first-of-type{border-top:0;padding-top:0}
-.evt b{font-size:1rem}
-.evt p{margin:.2rem 0 0;color:#4b4a5e;font-size:.92rem}
-.evt small{color:var(--coral);font-size:.78rem;font-weight:700}
-.grid-tbl{overflow-x:auto}
-.grid-tbl table{border-collapse:collapse;width:100%;font-size:.88rem;min-width:520px}
-.grid-tbl th,.grid-tbl td{text-align:start;padding:8px;border-top:1px solid var(--line);vertical-align:top}
-.grid-tbl th{color:var(--dim);font-weight:600;font-size:.78rem;border-top:0}
+.evt small{color:var(--coral);font-weight:700;font-size:.78rem}
+.evt p{margin:.25rem 0 0;color:#4a4860;font-size:.92rem}
+.quiz .q{font:800 1.12rem/1.35 var(--ui);margin:4px 0 12px}
+.quiz .opts{display:grid;gap:8px}
+.quiz .opt{text-align:start;padding:13px 16px;border-radius:16px;background:#f4eee2;font-weight:600;transition:all .25s var(--ease)}
+.quiz .opt:hover{background:#ece3d2}
+.quiz .opt.right{background:#d8f2e2;color:#14653a;transform:scale(1.02)}
+.quiz .opt.wrong{background:#ffe1dc;color:#9b2b17;animation:shake .4s}
+@keyframes shake{25%{transform:translateX(-6px)}75%{transform:translateX(6px)}}
+.quiz .prog{display:flex;gap:4px;margin-bottom:12px}
+.quiz .prog i{flex:1;height:5px;border-radius:5px;background:#eee6d6}
+.quiz .prog i.done{background:var(--gold)}
+.lp ol{padding-inline-start:0;list-style:none;margin:0}
+.lp ol li{display:grid;grid-template-columns:62px 1fr;gap:10px;padding:10px 0;border-top:1px solid var(--line)}
+.lp ol li span{font:700 .82rem var(--ui);color:var(--blue)}
+.lp ol li b{display:block}
+.lp ol li p{margin:.15rem 0 0;color:#4a4860;font-size:.92rem}
+.ideas{display:grid;gap:10px}
+.idea{display:grid;grid-template-columns:44px 1fr;gap:12px;align-items:start;padding:12px;border-radius:18px;background:#f8f4ec}
+.idea i{font-style:normal;font-size:1.4rem;display:grid;place-items:center;width:44px;height:44px;border-radius:14px;background:#fff}
+.idea b{display:block}
+.idea p{margin:.15rem 0 0;font-size:.9rem;color:#4a4860}
+
+/* ---------- SEARCH ---------- */
+.sbox{position:relative;margin-top:16px}
+.sbox input{width:100%;font:500 1.08rem var(--ui);padding:16px 50px 16px 18px;border-radius:20px;border:0;background:var(--card);box-shadow:var(--sh2);color:var(--ink)}
+.sbox svg{position:absolute;right:18px;top:50%;transform:translateY(-50%);width:22px;height:22px;color:var(--faint)}
+.sugg{margin-top:12px}
+.res{margin-top:16px;display:grid;gap:10px}
+.hit{display:grid;grid-template-columns:52px 1fr;gap:12px;padding:12px;border-radius:18px;background:var(--card);box-shadow:var(--sh1)}
+.hit img{width:52px;height:52px;border-radius:12px}
+.hit b{font-size:.92rem}
+.hit small{color:var(--dim);font-size:.78rem}
+.hit p{margin:.25rem 0 0;font-size:.93rem;color:#3c3b52}
+.hit mark{background:#ffe7a6;color:inherit;border-radius:4px;padding:0 2px}
+.hit .go{margin-top:6px;font:700 .8rem var(--ui);color:var(--blue)}
+.loading{display:flex;align-items:center;gap:10px;color:var(--dim);margin-top:16px}
+.loading i{width:18px;height:18px;border-radius:50%;border:3px solid #e5dccb;border-top-color:var(--blue);animation:spin .8s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
 
 /* ---------- LIBRARY ---------- */
-.libstats{display:flex;gap:12px;margin-top:16px}
-.libstats div{background:var(--card);box-shadow:var(--shadow);border-radius:16px;padding:12px 16px;flex:1}
-.libstats div b{display:block;font:900 1.8rem/1 var(--display);font-variant-numeric:tabular-nums;color:var(--blue)}
-.libstats div span{color:var(--dim);font-size:.8rem}
-.progress{height:8px;background:var(--bg2);border-radius:8px;margin:16px 0 4px;overflow:hidden}
-.progress i{display:block;height:100%;background:linear-gradient(90deg,var(--gold),var(--coral));border-radius:8px}
-.lib{display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:18px 14px;margin-top:18px}
-.disc{position:relative}
-.disc img{width:100%;aspect-ratio:1;border-radius:16px;box-shadow:var(--shadow)}
-.disc .st{display:inline-block;margin-top:6px;font:700 .7rem var(--ui);padding:3px 9px;border-radius:999px;background:var(--bg2);color:var(--dim)}
-.disc.done .st{background:var(--gold);color:var(--ink)}
-.disc.run .st{background:#e6ebff;color:var(--blue)}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:16px}
+.stats div{padding:14px;border-radius:20px;background:var(--card);box-shadow:var(--sh1)}
+.stats b{display:block;font:900 1.9rem/1 var(--display);color:var(--blue);font-variant-numeric:tabular-nums}
+.stats span{font-size:.78rem;color:var(--dim)}
+.year{display:grid;grid-auto-flow:column;grid-auto-columns:min(70%,260px);gap:12px;overflow-x:auto;padding:6px 2px 14px;scroll-snap-type:x mandatory;scrollbar-width:none}
+.year::-webkit-scrollbar{display:none}
+.month{scroll-snap-align:start;border-radius:22px;padding:16px;background:linear-gradient(160deg,var(--night),var(--night2));color:#fff;box-shadow:var(--sh2)}
+.month h3{font:900 1.6rem var(--display);color:var(--gold)}
+.month p{margin:.2rem 0 .6rem;font-size:.88rem;color:rgba(255,255,255,.85)}
+.month .ds{display:flex;flex-wrap:wrap;gap:6px}
+.month .ds button{font:600 .76rem var(--ui);padding:5px 10px;border-radius:999px;background:rgba(255,255,255,.14);color:#fff}
+.month .ds button.ready{background:var(--gold);color:var(--ink)}
+.lib{display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:18px 14px;margin-top:16px}
+.disc{text-align:start;position:relative}
+.disc .art{position:relative;border-radius:18px;overflow:hidden;box-shadow:var(--sh1);transform-style:preserve-3d}
+.disc img{width:100%;aspect-ratio:1}
 .disc b{display:block;margin-top:8px;font:700 .92rem/1.3 var(--ui)}
 .disc small{color:var(--dim);font-size:.76rem}
-.pipe{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-top:14px}
-.pipe div{background:var(--card);box-shadow:var(--shadow);border-radius:14px;padding:10px;font-size:.78rem;color:var(--dim)}
-.pipe div b{display:block;color:var(--ink);font-size:.86rem;margin-bottom:2px}
-@media (max-width:420px){.pipe{grid-template-columns:repeat(2,1fr)}}
+.disc .pill{display:inline-block;margin-top:5px;font:700 .68rem var(--ui);padding:3px 9px;border-radius:999px;background:#efe8da;color:var(--dim)}
+.disc .pill.ready{background:var(--gold);color:var(--ink)}
+.toast{position:fixed;left:50%;bottom:calc(150px + var(--safe-b));transform:translate(-50%,20px);opacity:0;z-index:60;padding:10px 16px;border-radius:999px;background:var(--ink);color:#fff;font:600 .88rem var(--ui);transition:all .35s var(--spring);pointer-events:none;white-space:nowrap}
+.toast.on{opacity:1;transform:translate(-50%,0)}
 </style>
 </head>
 <body>
 
 <!-- HOME -->
 <main id="v-home" class="view on">
-  <header class="hero">
-    <canvas id="heroCanvas" aria-hidden="true"></canvas>
-    <div class="pad">
-      <div class="kicker">🕎 פרק חדש לחנוכה</div>
-      <h1>מעטים<br>כנגד רבים</h1>
-      <div class="by">הרב אריה מאיר · סיפורי צדיקים</div>
-      <div class="sub">ארבעה סיפורי חנוכה · 64 דקות</div>
-      <div class="actions">
-        <button class="bigplay" id="playAll" aria-label="נגן הכל"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M7 5v14l11-7z" /></svg></button>
-        <a class="ghost" href="#shabbat">דף לשבת</a>
-        <a class="ghost" href="#studio">סטודיו</a>
-      </div>
+  <header class="hero" id="hero">
+    <img class="fallback" src="covers/track01-plain.jpg" alt="">
+    <canvas id="h3d" aria-hidden="true"></canvas>
+    <div class="over">
+      <span class="kick">🕯️ פודקאסט · שבת · וידאו</span>
+      <h1 id="heroTitle">סיפורי צדיקים</h1>
+      <div class="by">הרב אריה מאיר</div>
+      <div class="meta">39 דיסקים · 44 שעות של סיפורים</div>
+      <div class="cta"><button class="btn gold" id="heroPlay"><svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M7 5v14l11-7z"/></svg>להאזנה</button><a class="btn" href="#search">חיפוש בסיפורים</a></div>
     </div>
+    <div class="hint">גררו לסובב את החנוכייה</div>
   </header>
-  <div class="pad">
-    <div class="section-h"><h2>פרקים</h2><span class="label">חנוכה תשפ"ז</span></div>
-    <div id="eps"></div>
-
-    <div class="thesis">
-      <q>"מָסַרְתָּ רַבִּים בְּיַד מְעַטִּים"</q>
-      <span>מתוך "על הניסים"</span>
-      <p>הרב מראה את השורה הזאת בארבע תקופות ובארבע ארצות. בכל סיפור המלחמה נמצאת בתוך האדם. מעט מצוות ומעט אור מנצחים הרבה חושך.</p>
-    </div>
-
-    <div class="section-h"><h2>עוד מהאוסף</h2><a class="label" href="#library" style="color:var(--dim);text-decoration:none">לכל 39 הדיסקים ←</a></div>
-    <div class="shelf" id="shelf"></div>
-  </div>
+  <div class="flow-wrap"><div class="flow" id="flow"></div></div>
+  <div class="pad" id="album"></div>
 </main>
 
 <!-- SHABBAT -->
-<main id="v-shabbat" class="view">
-  <div class="pad page-h">
-    <span class="label">דף לשבת · מוכן להדפסה</span>
-    <h1>שבת וישב · שבת חנוכה</h1>
-    <p>כ"ה בכסלו תשפ"ז · 5.12.2026 · לחלוקה ביום חמישי</p>
-    <div style="margin-top:14px"><button class="copybtn" data-copy="sheetText">העתקת הטקסט</button></div>
-  </div>
-  <div class="pad">
-  <article class="sheet" id="sheetText">
-    <span class="bsd">בס"ד</span>
-    <div class="mast">
-      <div class="series">סיפורי צדיקים · הרב אריה מאיר</div>
-      <h2>מעטים כנגד רבים</h2>
-      <div class="meta">גיליון לשבת פרשת וישב · שבת חנוכה · תשפ"ז</div>
-    </div>
-    <div class="rule"></div>
-    <blockquote>"מָסַרְתָּ גִבּוֹרִים בְּיַד חַלָּשִׁים, וְרַבִּים בְּיַד מְעַטִּים"<small>מתוך תפילת "על הניסים"</small></blockquote>
-
-    <h3>החברותא מז'יטומיר</h3>
-    <div class="body">
-      <p>מנחם פרנק ישב ולמד בבית המדרש בז'יטומיר, עד שהתחתן ועבר לגור בברוד, על שולחן חותנו העשיר. המשפחה לחצה: "מה אכפת לך? פעם אחת תעזור לחלק את הכסף של כמה סוחרים." הפעם האחת נעשתה פעם נוספת, והפעמים נעשו הרגל. לאט לאט התברר שהסוחרים הם חבורת שודדים, ומנחם הפך לאחד מהם. הוא עזב את הבית. אשתו מינה נשארה לבד, ועוד לא הספיקה לספר לו שהיא בהיריון.</p>
-      <p>שנים אחר כך, בליל חנוכה, בסופת שלגים, משה החסיד נתקע בדרך אל רבו, רבי ישראל מרוז'ין, ולן באכסניה. באמצע הלילה פרצו שודדים לאכסניה. משה ישב בחדרו מול נרות החנוכה, והתחיל ללמוד בניגון. מנהיג השודדים שמע את הקול ובעט בדלת. משה אמר "שמע ישראל" והתכונן למות. כשפקח את עיניו, ראה את הרוצח בוכה מול הנרות ומול הגמרא הפתוחה. "אתה משה מז'יטומיר? אני מנחם פרנק, החברותא שלך."</p>
-      <p>מנחם שחרר את כולם. למחרת עלה לעגלה של משה ונסע איתו לרוז'ין. "שנים לא הרגשתי את האור היהודי," אמר שם, "ופתאום ראיתי גמרא ונרות חנוכה, כאילו העירו אותי מחלום בלהות."</p>
-      <p>שנתיים אחר כך, במסיבת חנוכה בתלמוד התורה בברוד, ילד בשם גד עמד לבד מול החידון, בלי אבא. איש גבוה ניגש אליו מפינת האולם: "אני אבא של גד. אתה מרשה לי לעזור לך?" ומאחור עמדה מינה, וראתה איך מאות התפילות שלה פתחו לבעלה את הדרך הביתה.</p>
-    </div>
-
-    <div class="lesson">
-      <h3>המסר</h3>
-      <p style="margin:0">"מעטים כנגד רבים" הוא לא רק סיפור על המכבים בשדה הקרב. בתוך כל יהודי יש "רבים", החטאים והחושך, ויש "מעטים", כמה מצוות, כמה נקודות טובות. חנוכה מלמד שהמעט מנצח. נר אחד מאיר חדר שלם. ואין יהודי שבורא עולם לא קורא לו: "בוא אליי, בני."</p>
-    </div>
-
-    <div class="trio">
-      <div><b>באושוויץ</b>רב זחל לאסוף פירורי מרגרינה, לא בשביל לאכול אלא בשביל להדליק נר חנוכה בלב התופת.</div>
-      <div><b>בסיני</b>שני אחים מתימן, שהופרדו בילדותם, מצאו זה את זה אחרי 24 שנה בזכות חנוכיות הכסף שאמם עשתה.</div>
-      <div><b>בוולי פורג'</b>חייל יהודי הדליק נר, וחיזק בכך את ג'ורג' וושינגטון ברגע הייאוש.</div>
-    </div>
-
-    <div class="two">
-      <div>
-        <h3>שאלות לשולחן השבת</h3>
-        <ol>
-          <li>מנחם לא נפל בבת אחת. איך "רק פעם אחת" הופך להרגל, וכיצד עוצרים את זה בזמן?</li>
-          <li>מה בדיוק בחדר של משה העיר את מנחם: הנרות, הגמרא, הניגון או הפנים של חבר ישן?</li>
-          <li>מינה לא יכלה להחזיר את בעלה בכוח. מה כן היה בידיה?</li>
-          <li>מה "המעט" שלי, הנקודה הטובה שאני מוסיף בחנוכה הזה?</li>
-        </ol>
-      </div>
-      <div>
-        <h3>חידון לילדים</h3>
-        <ol>
-          <li>באיזו עיר למדו מנחם ומשה יחד? <small>ז'יטומיר</small></li>
-          <li>אל איזה צדיק נסע משה? <small>רבי ישראל מרוז'ין</small></li>
-          <li>מה ראה מנהיג השודדים בחדר? <small>נרות חנוכה וגמרא פתוחה</small></li>
-          <li>איך קראו לבן של מנחם ומינה? <small>גד</small></li>
-          <li>במה עזר האבא לבנו? <small>בחידון החנוכה</small></li>
-        </ol>
-      </div>
-    </div>
-    <div class="foot">הגיליון מכיל דברי תורה – נא לשמור על קדושתו · הסיפור המלא בפודקאסט "סיפורי צדיקים"</div>
-  </article>
-  <div class="note"><b>!</b><span>בהקלטה הרב מציין את השנה 1860. רבי ישראל מרוז'ין נפטר כבר בשנת 1850 (ג' בחשוון תרי"א), אז בגיליון הושמטה השנה.</span></div>
-  </div>
-</main>
+<main id="v-shabbat" class="view"><div class="pad page-h"><span class="eyebrow">דפים לשבת</span><h1>גיליון לשולחן השבת</h1><div class="chiprow" id="shChips" style="margin-top:14px"></div></div><div class="pad" id="shabbatBody"></div></main>
 
 <!-- STUDIO -->
-<main id="v-studio" class="view">
-  <div class="pad page-h">
-    <span class="label">סטודיו · חבילת תוכן לדיסק 35</span>
-    <h1>מהקלטה אחת, עשרה תוצרים</h1>
-    <p>כל מה שצריך כדי להפיץ את הדיסק הזה בחנוכה.</p>
-  </div>
-  <div class="pad studio-grid">
+<main id="v-studio" class="view"><div class="pad page-h"><span class="eyebrow">סטודיו</span><h1>מהקלטה אחת, חבילה שלמה</h1><p class="muted" style="margin:.4rem 0 0">כל מה שנוצר מכל דיסק, מוכן להפצה.</p><div class="chiprow" id="stChips" style="margin-top:14px"></div></div><div class="pad" id="studioBody"></div></main>
 
-    <section class="panel">
-      <div class="panel-h"><h2>לוח הפצה לחנוכה</h2><span class="chip">4–12.12</span></div>
-      <div class="candles" id="candles"></div>
-      <ul class="timeline">
-        <li><span>ג' 1.12</span><div><b>פרסום הפרק המלא</b>הודעת וואטסאפ וקישור לפרק</div></li>
-        <li><span>ה' 3.12</span><div><b>חלוקת הדף לשבת</b>"החברותא מז'יטומיר" לשבת וישב–חנוכה</div></li>
-        <li><span>ו' 4.12</span><div><b>נר ראשון · קליפ 1</b>"אני מנחם פרנק"</div></li>
-        <li><span>א' 6.12</span><div><b>נר שלישי · קליפ 2</b>"נס חנוכה!" באושוויץ</div></li>
-        <li><span>ג' 8.12</span><div><b>נר חמישי · קליפ 3</b>האחים בסיני</div></li>
-        <li><span>ה' 10.12</span><div><b>נר שביעי · קליפ 4</b>וושינגטון. ודף לשבת מקץ, זאת חנוכה</div></li>
-        <li><span>א' 20.12</span><div><b>עשרה בטבת</b>"המרגרינה של אושוויץ" ליום הקדיש הכללי</div></li>
-      </ul>
-    </section>
-
-    <section class="panel">
-      <div class="panel-h"><h2>קליפים לרילס ולסטטוס</h2><span class="chip ok">4 מוכנים</span></div>
-      <div class="reels" id="clips"></div>
-      <p style="color:var(--dim);font-size:.85rem;margin:12px 0 0">קליפים אנכיים עם הקול של הרב וכתוביות מוגהות. הקבצים באיכות מלאה (1080×1920) נמצאים בצ'אט ובריפו, בתיקייה web/clips.</p>
-    </section>
-
-    <section class="panel">
-      <div class="panel-h"><h2>פרק לפודקאסט</h2><button class="copybtn" data-copy="podText">העתקה</button></div>
-      <div id="podText">
-        <dl class="kv">
-          <dt>תוכנית</dt><dd>סיפורי צדיקים עם הרב אריה מאיר</dd>
-          <dt>פרק</dt><dd>מעטים כנגד רבים: ארבעה סיפורי חנוכה</dd>
-          <dt>אורך</dt><dd>64:17</dd>
-        </dl>
-        <p style="color:#d9d1c4;font-size:.93rem">שודד שמתעורר מול נרות חנוכה באכסניה ביערות אוקראינה. רב שזוחל לאסוף מרגרינה באושוויץ. שני אחים מתימן שמוצאים זה את זה אחרי 24 שנה. וחייל יהודי שמחזק את ג'ורג' וושינגטון. בארבעה סיפורים הרב אריה מאיר מראה שהנס של חנוכה קורה גם בתוכנו: מעט אור מנצח הרבה חושך.</p>
-        <ul class="chapters">
-          <li><span>00:00</span>החברותא מז'יטומיר</li>
-          <li><span>22:38</span>"מעטים כנגד רבים" – מה אמרו ברוז'ין</li>
-          <li><span>24:09</span>מסיבת החנוכה בברוד</li>
-          <li><span>31:16</span>המרגרינה של אושוויץ</li>
-          <li><span>41:11</span>חנוכיות הכסף מצנעא</li>
-          <li><span>54:54</span>החייל היהודי וג'ורג' וושינגטון</li>
-        </ul>
-      </div>
-    </section>
-
-    <section class="panel">
-      <div class="panel-h"><h2>הודעה לוואטסאפ</h2><button class="copybtn" data-copy="waText">העתקה</button></div>
-      <div class="wa" id="waText">🕎 לקראת חנוכה: פרק חדש ב"סיפורי צדיקים" עם הרב אריה מאיר
-
-*מעטים כנגד רבים*, ארבעה סיפורים על אור קטן שמנצח חושך גדול:
-• השודד שהתעורר מול נרות החנוכה
-• המרגרינה של אושוויץ
-• חנוכיות הכסף מצנעא
-• החייל היהודי וג'ורג' וושינגטון
-
-להאזנה: [קישור]
-שתפו לזיכוי הרבים 🙏</div>
-    </section>
-
-    <section class="panel">
-      <div class="panel-h"><h2>אירועים</h2><span class="chip">4 רעיונות</span></div>
-      <div class="evt"><small>מוצ"ש 5.12 · נר שני</small><br><b>ערב "מעטים כנגד רבים" בקהילה</b><p>הדלקה משותפת, השמעה של "החברותא מז'יטומיר" ושיח סביב השאלות מהגיליון. כל משתתף כותב על פתק את "המעט" שהוא מקבל על עצמו, והפתקים נאספים ליד החנוכייה.</p></div>
-      <div class="evt"><small>בימי החנוכה</small><br><b>"אבא, תעזור לי בחידון": מסיבה לילדים</b><p>חידון חנוכה שבו כל ילד עונה יחד עם אבא או סבא, כמו בסוף הסיפור, ודואגים שאף ילד לא נשאר לבד. בפעילות היצירה מקשטים חנוכייה אישית, כמו של האמא מצנעא.</p></div>
-      <div class="evt"><small>ביחידות ובבסיסים</small><br><b>חנוכה עם לוחמי מילואים</b><p>הדלקה והשמעה של "חנוכיות הכסף מצנעא", שמתרחש בעצמו במילואים בסיני, וחלוקת חנוכיות קטנות.</p></div>
-      <div class="evt"><small>א' 20.12 · עשרה בטבת</small><br><b>"אור בתוך התופת": ערב עיון לנוער</b><p>השמעה של "המרגרינה של אושוויץ" והדלקת נר זיכרון. מתאים מגיל 12.</p></div>
-    </section>
-
-    <section class="panel">
-      <div class="panel-h"><h2>ניתוח הסיפורים</h2><span class="chip">דמויות · מקומות · תקופה</span></div>
-      <div class="grid-tbl"><table>
-        <thead><tr><th>סיפור</th><th>דמויות</th><th>מקומות</th><th>תקופה</th></tr></thead>
-        <tbody>
-          <tr><td>החברותא מז'יטומיר</td><td>מנחם פרנק, מינה, גד, משה החסיד, שבתאי, איוון, רבי ישראל מרוז'ין</td><td>ז'יטומיר, ברוד, רוז'ין</td><td>המאה ה-19, לפני 1850</td></tr>
-          <tr><td>המרגרינה של אושוויץ</td><td>הרב, הקאפו, אישה עם כפתורי כסף</td><td>אושוויץ</td><td>חנוכה 1942</td></tr>
-          <tr><td>חנוכיות הכסף מצנעא</td><td>יוסף צנעני, האם, סאלם/שלומי, יחיא/חיים</td><td>צנעא, מחנות העולים, סיני</td><td>העלייה מתימן · 1973</td></tr>
-          <tr><td>החייל היהודי וושינגטון</td><td>חייל יהודי מפולין, ג'ורג' וושינגטון</td><td>ולי פורג', ניו יורק</td><td>1777 והלאה</td></tr>
-        </tbody>
-      </table></div>
-      <p style="color:var(--dim);font-size:.85rem;margin:12px 0 0">הסיפור על ג'ורג' וושינגטון הוא מסורת עממית בלי תיעוד היסטורי. כדאי להציג אותו כ"מסופר".</p>
-    </section>
-  </div>
-</main>
+<!-- SEARCH -->
+<main id="v-search" class="view"><div class="pad page-h"><span class="eyebrow">חיפוש</span><h1>חיפוש בכל 44 השעות</h1><p class="muted" style="margin:.4rem 0 0">חפשו שם של צדיק, מקום, חג או מילה, ותגיעו לרגע המדויק בהקלטה.</p>
+  <div class="sbox"><input id="q" type="search" placeholder="למשל: רבי זושא, נר, אושוויץ…" autocomplete="off" aria-label="חיפוש"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg></div>
+  <div class="chiprow sugg" id="sugg"></div><div id="sStatus"></div><div class="res" id="res"></div></div></main>
 
 <!-- LIBRARY -->
-<main id="v-library" class="view">
-  <div class="pad page-h">
-    <span class="label">הספרייה</span>
-    <h1>סיפורי צדיקים</h1>
-    <p>האוסף המלא של הרב אריה מאיר, מהדרייב.</p>
-    <div class="libstats"><div><b>39</b><span>דיסקים</span></div><div><b id="doneCount">39</b><span>תומללו</span></div><div><b>44</b><span>שעות תומללו</span></div></div>
-    <div class="progress"><i id="prog"></i></div>
-    <div class="pipe">
-      <div><b>1 · תמלול</b>כל 39 הדיסקים ✓</div>
-      <div><b>2 · למידה</b>סיפורים, דמויות, מסר</div>
-      <div><b>3 · תוכן</b>שבת · פודקאסט · אירועים</div>
-      <div><b>4 · וידאו</b>4 קליפים מוכנים</div>
-    </div>
-  </div>
-  <div class="pad"><div class="lib" id="lib"></div></div>
-</main>
+<main id="v-library" class="view"><div class="pad page-h"><span class="eyebrow">הספרייה</span><h1>כל האוסף</h1>
+  <div class="stats"><div><b>39</b><span>דיסקים</span></div><div><b>39</b><span>תומללו</span></div><div><b id="readyN">2</b><span>עם חבילה מלאה</span></div></div>
+  <div class="sec"><div class="sec-h"><h2 class="h2">לוח השנה</h2><span class="muted" style="font-size:.82rem">איזה דיסק מתי</span></div><div class="year" id="year"></div></div>
+  <div class="sec"><h2 class="h2">39 הדיסקים</h2><div class="lib" id="lib"></div></div></div></main>
 
-<!-- MINI PLAYER + TABS -->
-<div class="mini" id="mini">
-  <img id="miniCover" alt="">
-  <button class="open" id="openNp"><div class="mt" id="miniT"></div><div class="ms">הרב אריה מאיר</div></button>
-  <button class="pp" id="miniPP" aria-label="נגן או השהה"></button>
-  <div class="bar"><i id="miniBar"></i></div>
-</div>
+<!-- MINI + TABS -->
+<div class="mini" id="mini"><img id="miniCover" alt=""><button class="open" id="openNp"><div class="mt" id="miniT"></div><div class="ms" id="miniS"></div></button><button class="pp" id="miniPP" aria-label="נגן או השהה"></button><div class="bar"><i id="miniBar"></i></div></div>
 <nav class="tabs" aria-label="ניווט">
   <a href="#home" data-v="home"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 3 3 10v11h6v-6h6v6h6V10z"/></svg>בית</a>
-  <a href="#shabbat" data-v="shabbat"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M8 3v3M16 3v3"/><path d="M8 6c-1 1-1 2 0 3s1 2 0 3M16 6c-1 1-1 2 0 3s1 2 0 3" opacity=".0"/><rect x="6" y="9" width="4" height="12" rx="1"/><rect x="14" y="9" width="4" height="12" rx="1"/><path d="M8 4.5c.8.8.8 1.8 0 2.5-.8-.7-.8-1.7 0-2.5zM16 4.5c.8.8.8 1.8 0 2.5-.8-.7-.8-1.7 0-2.5z" fill="currentColor"/></svg>שבת</a>
-  <a href="#studio" data-v="studio"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></svg>סטודיו</a>
+  <a href="#shabbat" data-v="shabbat"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="6" y="10" width="4" height="11" rx="1"/><rect x="14" y="10" width="4" height="11" rx="1"/><path d="M8 4.5c.9.9.9 2 0 2.8-.9-.8-.9-1.9 0-2.8zM16 4.5c.9.9.9 2 0 2.8-.9-.8-.9-1.9 0-2.8z" fill="currentColor"/></svg>שבת</a>
+  <a href="#studio" data-v="studio"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="3" width="7" height="7" rx="2"/><rect x="14" y="3" width="7" height="7" rx="2"/><rect x="3" y="14" width="7" height="7" rx="2"/><rect x="14" y="14" width="7" height="7" rx="2"/></svg>סטודיו</a>
+  <a href="#search" data-v="search"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>חיפוש</a>
   <a href="#library" data-v="library"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M5 3v18M10 3v18M15 4l5 16"/></svg>ספרייה</a>
 </nav>
 
 <!-- NOW PLAYING -->
 <div class="np" id="np" role="dialog" aria-label="מנגן עכשיו">
   <div class="np-bg"><img id="npBg" alt=""></div>
-  <div class="np-top">
-    <button id="closeNp" aria-label="סגירה"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m6 9 6 6 6-6"/></svg></button>
-    <div class="label">מנגן מתוך · מעטים כנגד רבים</div>
-    <span style="width:40px"></span>
-  </div>
+  <div class="np-top"><button id="closeNp" aria-label="סגירה"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="m6 9 6 6 6-6"/></svg></button><small id="npAlbum"></small><span style="width:42px"></span></div>
   <div class="np-body">
-    <div class="np-cover"><img id="npCover" alt=""></div>
-    <div class="np-title" id="npT"></div>
-    <div class="np-sub">הרב אריה מאיר</div>
+    <div class="np-stage"><div class="np-cover tilt" id="npCoverWrap"><img id="npCover" alt=""><span class="glare"></span></div></div>
+    <div class="np-title" id="npT"></div><div class="np-sub">הרב אריה מאיר</div>
     <div class="scrub"><input type="range" id="seek" min="0" max="1000" value="0" aria-label="מיקום בהקלטה"><div class="times"><span id="tCur">0:00</span><span id="tDur">0:00</span></div></div>
     <div class="ctrls">
       <button class="speed" id="speed" aria-label="מהירות">1×</button>
-      <button id="next" aria-label="הסיפור הבא"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M6 6h2v12H6zM9.5 12 18 6v12z" transform="scale(-1,1) translate(-24,0)"/></svg></button>
-      <button id="back15" aria-label="15 שניות אחורה"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M20 12a8 8 0 1 1-2.3-5.6"/><path d="M20 4v5h-5"/><text x="12" y="15.5" font-size="7" text-anchor="middle" fill="currentColor" stroke="none" font-family="Heebo">15</text></svg></button>
-      <button class="main" id="pp" aria-label="נגן או השהה"></button>
-      <button id="fwd15" aria-label="15 שניות קדימה"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 12a8 8 0 1 0 2.3-5.6"/><path d="M4 4v5h5"/><text x="12" y="15.5" font-size="7" text-anchor="middle" fill="currentColor" stroke="none" font-family="Heebo">15</text></svg></button>
       <button id="prev" aria-label="הסיפור הקודם"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M6 6h2v12H6zM9.5 12 18 6v12z"/></svg></button>
+      <button id="back15" aria-label="15 שניות אחורה"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 12a8 8 0 1 0 2.3-5.6"/><path d="M4 4v5h5"/><text x="12" y="15.5" font-size="7" text-anchor="middle" fill="currentColor" stroke="none">15</text></svg></button>
+      <button class="main" id="pp" aria-label="נגן או השהה"></button>
+      <button id="fwd15" aria-label="15 שניות קדימה"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M20 12a8 8 0 1 1-2.3-5.6"/><path d="M20 4v5h-5"/><text x="12" y="15.5" font-size="7" text-anchor="middle" fill="currentColor" stroke="none">15</text></svg></button>
+      <button id="next" aria-label="הסיפור הבא"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M16 6h2v12h-2zM14.5 12 6 18V6z"/></svg></button>
       <span style="width:48px"></span>
     </div>
-    <div class="lyrics">
-      <div class="hd"><b>תמלול</b><small>אוטומטי · ivrit-ai · לחצו על שורה כדי לקפוץ אליה</small></div>
-      <div class="lines" id="lines"></div>
-    </div>
-    <div class="about"><span class="label">על הסיפור</span><p id="npAbout"></p></div>
+    <div class="lyrics"><div class="hd"><b>תמלול</b><small>אוטומטי · לחצו על שורה כדי לקפוץ אליה</small></div><div class="lines" id="lines"></div></div>
+    <div class="about"><b>על הסיפור</b><p id="npAbout"></p></div>
   </div>
 </div>
-
+<div class="toast" id="toast"></div>
 <audio id="audio" preload="metadata"></audio>
 
+<script src="data.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
 <script>
-const SEGS = {"track01":[[25.6,"ז'יטומיר."],[28.1,"ז'יטומיר הייתה עיירת יהודית טיפוסית."],[31.7,"לפני כמאתיים שנה,"],[33.9,"ולב העיירה היה בית מדרש, שם ישבו,"],[37.4,"הצטופפו להם עשרות בחורים,"],[39.2,"עשרות יהודים,"],[40.7,"בחברות ולמדו את התורה הקדושה."],[44.4,"מדי זמן נשלף אחד מהבחורים היוצא לשידוך"],[52.2,"והיה חוזר עם בשורת נישואים ועם עתיד חדש."],[55.9,"כך גם קרה למנחם,"],[58.0,"מנחם פרנק."],[60.5,"מנחם פרנק זכה להשתדך עם בת, בת של סוחר,"],[64.9,"סוחר עשיר מהעיר, מעיירה ברוד."],[73.5,"הוא נפרד, עזב את הבית מדרש ועקר לעיירה ברוד בעקבות אשתו."],[80.2,"שם הוא היה סמוך על שולחן החותן שלו."],[84.5,"כך הוא ישב"],[87.0,"זמן מה,"],[88.6,"אבל לאט לאט, בהתחלה הוא שם לב לזה קצת,"],[91.3,"אבל עד זה הלך והתגבר הרמיזות, השתיקה הרועמת."],[97.4,"משפחת אשתו לא היו כל כך מרוצים מכך שהחתן החדש שלהם יושב כל היום ולומד."],[104.3,"הם היו מעדיפים קצת שהוא יעבוד, קצת יעזור להם בעסקים."],[108.3,"אבל הוא,"],[109.9,"הוא עמד על שלו,"],[116.2,"עד לאותו לילה."],[118.0,"באותו לילה אשתו"],[120.7,"נכנסה"],[122.2,"באמצע אלימות ואומרת לו, מנחם, אבא שלח אותי, תראה."],[125.2,"מנחם, תמיד אנחנו אומרים לאבא ואימא לא."],[127.9,"אבל תראה, עכשיו בסך הכול יש איזו חבורה שמה,"],[130.7,"קבוצה של גויים שזקוקים להנהלת חשבונות,"],[135.6,"לחלק קצת הרווחים שהם הרוויחו."],[139.2,"אז בוא, בוא,"],[140.3,"בוא תעזור להם, והם מוכנים לשלם על זה דמי תיווך."],[144.7,"מה אכפת לך? כמה אנחנו צריכים לבקש מאבא שלי טובות?"],[153.2,"מנחם עשה חשבון קצר,"],[155.7,"אמרת לו אולי יהיה לי קצת שקט."],[158.2,"והוא הסכים."],[162.1,"קבוצת הגויים לא הייתה קבוצה של סוחרים צדיקים ותמימים,"],[166.6,"בלשון עדינה."],[168.6,"מה אכפת לך? הם גויים, מנחם. הם גויים, מה אכפת לך?"],[171.7,"מה הזניין שלנו?"],[173.7,"טוב, פעם אחת וזהו."],[178.4,"תוך מחצית השעה נגמר הכל, נסגר הכל."],[184.6,"הם היו מרוצים,"],[186.4,"והם שילמו סכום יפה לכל הדירות."],[197.4,"חודש אחר כך,"],[199.6,"מנחם."],[200.7,"מנחם."],[202.2,"בכתה."],[203.4,"בכתה אשתו עוד פעם אחת."],[205.4,"עוד פעם אחת, מה יקרה?"],[207.7,"מה יקרה?"],[211.2,"אז עוד פעם אחת תתווך שם ותדמה, מה בסך הכל אתה עושה?"],[215.1,"מחלק ביניהם את הכסף"],[217.6,"ומקבל על זה סכום בכלל לא רע."],[228.3,"טוב, זו הפעם האחרונה, אמר מנחם."],[232.5,"אבל זו לא הייתה הפעם האחרונה, עוד לחץ ועוד לחץ."],[236.5,"ולאט לאט"],[238.8,"כבר לא היה צריך ללחוץ."],[240.8,"זה נהפך להרגל,"],[242.4,"להיות המנהל החשבונות"],[244.5,"של אותה חבורה,"],[246.3,"חבורת שודדים."],[248.5,"ולאט לאט מנחם נהפך למנהל החלוקה"],[252.2,"של אותה חבורה."],[257.8,"אדם עושה עבירה קלה, נראה לו כבסדר, לא נורא."],[262.3,"בהתחלה זה חמור, לאט לאט זה יורד ההשפעה, לאחרי זה נהפך לו כהרגל ובכלל כהיתר."],[267.5,"ומנחם התחיל להרגיש שבעצם יש לו פרנסה לא רעה, קצת מהצד."],[292.3,"הדפיקות ההיסטריות בדלת העירו אותם."],[295.1,"מי באמצע הלילה דופק ככה?"],[297.6,"מנחם פתח את הדלת."],[307.0,"בפתח"],[308.4,"עמד לו איוון."],[309.5,"מראשי חבורת השודדים,"],[313.1,"הבגדים שלו היו ספוגים מדם."],[315.5,"מנחם,"],[316.6,"אנחנו עשינו פעולה הלילה."],[318.5,"אנחנו תקפנו רוזן מקומי והתברר,"],[322.4,"התברר לנו שיש לו שומרים שנמצאים איתו במרכבה."],[332.9,"מנחם, אנחנו נמצאים בעיצומו של קרב לא רחוק מכאן."],[337.2,"אנחנו חייבים עזרה."],[339.8,"מנחם נרתע כאילו הוא נכווה, מה קשור? אני לא קשור לזה."],[343.3,"מה אתם רוצים ממני?"],[345.0,"מה הקשר שלי לזה?"],[346.8,"אני בסך הכל הייתי מנהל חלוקה שלכם."],[349.2,"אתה טועם, מנחם, אם אנחנו נפסיד, אם אנחנו ניפול,"],[353.7,"השם שלך יימסר גם מול המשטרה."],[357.6,"תבין, מנחם, אנחנו חייבים כל, כל כוח,"],[360.5,"כל יד, אתה חייב לבוא ולעזור,"],[363.0,"ולו רק לפעם אחת."],[369.1,"מנחם, אתה חייב ללכת איתם."],[372.2,"אתה חייב ללכת איתם, מנחם."],[375.1,"איזו בושה."],[380.4,"אין ברירה."],[382.0,"חייבים ללכת."],[385.5,"והמילים"],[387.7,"עוד התדהדו בראשו כשהוא יצא."],[390.1,"יצא בעקבות איוון."],[393.3,"מובל לידי כוח שטני שהשתלט עליו."],[404.9,"מנחם חזר הביתה."],[407.5,"מיקץ מספר שעות."],[409.4,"הוא הלך, התקלח במשך שעות,"],[414.7,"ונכנס למיטה שותק."],[417.5,"למחרת הוא התעורר ויצא מהבית שלו."],[422.3,"מנחם"],[423.5,"כבר לא היה אותו אדם."],[428.0,"מה קורה איתך בלילות, מנחם?"],[430.4,"שאלה מינה אשתו בדאגה,"],[432.6,"אבל הוא כבר לא ענה."],[434.4,"בזמן האחרון הוא מרבה בשתיקה."],[439.7,"מינה,"],[441.7,"ששמה לב שבעלה נעלם בלילות,"],[445.1,"התחילה ללחוץ,"],[446.7,"לספר איפה אתה נעלם?"],[449.2,"איפה אתה נעלם?"],[450.7,"אני רוצה לדעת."],[454.8,"אבל המבט בעיניו"],[458.6,"של מנחם גרם לה לעצור."],[460.8,"נמאס לי."],[462.3,"נמאס לי מכם, אתם הרחקתם אותי מהתורה,"],[465.7,"הכנסתם אותי מאור לחושך."],[468.1,"כבר אין לי מה להפסיד, סינן מנחם."],[472.0,"ומינה הבינה בפעם הראשונה את הטעות האיומה שהיא עשתה."],[479.7,"זה היה מנחם אחר,"],[481.4,"מנחם עם הרבה חושך,"],[483.3,"שמסתיר את האור בנשמה שלו."],[510.5,"ככל שמחוגי השעון"],[514.0,"התקדמו להם עוד ועוד,"],[516.7,"השינוי"],[518.4,"במנחם הלך והתעצם, ומינה לא יכלה לעצור את זה."],[523.1,"היא מרגישה שהיא מאבדת את בעלה, אבל מה היא תעשה?"],[526.8,"מה היא תעשה? עכשיו זה כבר מאוחר."],[529.3,"היא התחילה לבכות,"],[531.0,"היא התחילה להתפלל השם."],[533.2,"חודשים היא לא התפללה, כמו שצריך."],[539.7,"וסוף סוף היא לוקחת את הסידור,"],[541.6,"ונחל של דמעות מרטיב את הסידור."],[544.6,"בורא עולם תחזיר לי את בעלי,"],[553.8,"אבל כאילו הכל נאטם מסביב."],[555.6,"מנחם עזב את הבית."],[563.4,"מנחם הצטרף לחבורת השודדים,"],[567.4,"ומינה נשארה מאחור,"],[570.1,"בודדה וגלמודה."],[573.1,"היא לא הספיקה,"],[574.8,"היא לא הספיקה לספר למנחם שבבטן שלה היא נושאת הבן שלהם."],[584.5,"אם עד, עד לפני כמה זמן העתיד היה ורוד מבחינתה,"],[589.7,"היום כבר היא לא יודעת לאן, לאיזו מציאות."],[592.5,"הילד שלה יוולד."],[595.5,"ומינה התחילה בתהליך ארוך,"],[598.1,"איטי,"],[602.7,"של תשובה."],[609.0,"כל צעד,"],[610.7,"כל צעד אל השם יתברך,"],[612.8,"חשף בפניה את הטעויות שהיא עשתה,"],[619.6,"את העוצמה של האסון שהיא הנחיתה על עצמה,"],[626.4,"והיא החלה לפתוח"],[628.3,"במעשי חסד, במעשים של זיכוי רבים,"],[631.9,"על מנת לכפר,"],[633.5,"לכפר על עצמה."],[636.8,"אולי לתת לילד של העתיד,"],[639.5,"עתיד טוב יותר."],[641.4,"לילה-לילה אישה בודדה"],[643.7,"מרטיבה את הקר בבכי, עברו להם שנים."],[668.2,"הרחק מברוד,"],[670.1,"בדרך המובילה לרוז'ין."],[673.0,"בדרך המובילה"],[675.9,"אל האדמו״ר,"],[677.4,"רבי ישראל מרוז'ין, זכר צדיק וקדוש לברכה."],[682.7,"סופת הגשמים הייתה איומה,"],[686.7,"והעגלה שהתנודדה לה בחוץ,"],[689.4,"מתנסה להתקדם קדימה, מנסה לפלס לה דרך"],[692.3,"במעבה היער חשבה להישבר."],[697.9,"האיש על העגלה"],[700.0,"הטה אותה אל דרך העפר המוליכה"],[703.2,"אל בית האכסניה כל דקה בחוץ."],[712.4,"משמעה סכנה."],[714.2,"הוא חייב להגיע לאכסניה."],[718.0,"דלת האכסניה נפתחה."],[720.3,"בעל האכסניה, שבתאי,"],[724.6,"הכיר את האיש."],[726.3,"משה, תיכנס."],[727.3,"משה, תיכנס. בוא, מה קרה?"],[728.9,"בשעה כזאת, איך הגעת לכאן?"],[740.7,"הגשמים בחוץ, הסערות,"],[743.2,"סיפרו את סיפורו של משה שנתקע בדרך,"],[745.7,"שהגשמים והשלוליות"],[748.0,"וסופות השלגים"],[751.0,"מנעו ממנו להגיע."],[752.8,"הוא היה צריך להגיע בבוקר לאכסניה, הוא הגיע בערב."],[759.5,"משה חסיד"],[761.4,"ותלמיד של רבי ישראל מרוז'ין,"],[764.4,"כתלמיד נאמן, עשה את הדרך אל רבו,"],[767.3,"כמדי שנה, תמיד הוא היה נעצר שם באכסניה,"],[770.3,"מתארח וממשיך הלאה. גם השנה,"],[775.5,"רק לא היה צפוי כל כך שיגיע בשעות כאלה, הוא לא הספיק אפילו להדליק נר של חנוכה."],[781.8,"משה התפלל ערבית,"],[783.4,"אחר כך הדליק נר של חנוכה."],[786.2,"כולם ישנים,"],[787.7,"חוץ ממשה, שיושב סגור לו בחדר, מביט בנרות החנוכה,"],[792.5,"ולאט לאט"],[794.7,"נרדם."],[796.5,"העייפות"],[797.9,"השתלטה עליו."],[821.6,"נקישות נשמעו בדלת."],[825.2,"הן בהתחלה היו חלושות,"],[827.4,"אבל לאט לאט הן התחזקו."],[829.1,"עוד ועוד נקישות שהלכו והתחזקו ונהפכו לחבטות."],[833.5,"בני הבית שהתעוררו למשמע החבטות נעמדו כמו מסומרים למקומותיהם מפחד."],[839.8,"ולפתע נשמעו זעקות מקפיאות דם מבחוץ."],[844.4,"זעה קרה חילחלה לה במורד גבו של שבתאי בעל האכסניה."],[851.0,"מכת גרזן,"],[852.4,"מכת גרזן בדלת,"],[854.0,"והנה נפרצה הדלת."],[856.3,"וחבורה,"],[857.9,"חבורה של בריונים, חבורה של שודדים, פרצה אל תוך הבית."],[861.8,"בחסות סופת השלגים בחוץ,"],[865.5,"אף אחד לא ישמע כלום,"],[867.3,"אף אחד לא ידע."],[870.4,"והשודדים,"],[871.8,"תוך דקות,"],[874.7,"התנפלו על בני הבית חסרי ישע, היכו אותם מכות באכזריות,"],[878.1,"וקשרו אותם"],[879.6,"אל גרם המדרגות."],[881.5,"אחרי זה, בצומה מאורגנת, הם התחילו להתחלק לשני קבוצות, אחת אוספת שלל,"],[885.3,"והשנייה פורצת, פותחת, שוברת."],[889.4,"כל רהיט בבית, וכך הם עברו חדר-חדר."],[894.6,"למעלה בחדר"],[896.5,"יושב לו משה."],[898.2,"משה היה חיוור כמו מת."],[900.8,"ליבו הולם בחוזקה."],[903.2,"הם לא גילו אותו."],[905.2,"הוא הציץ מחור המנעול, רואה את השודדים,"],[907.4,"מבין שכוונתם,"],[911.0,"כוונתם לרצוח את הקורבנות."],[913.8,"הם אפילו לא טרחו לכסות את הפנים שלהם."],[916.8,"לא הייתה להם כוונה להשאיר אחריהם עדים."],[927.0,"מלאך המוות"],[929.4,"מרחף לו מהלך, סניה."],[933.3,"טוב, מה אני יכול לעשות במצב כזה?"],[935.3,"שאל את עצמו,"],[937.0,"משה."],[938.6,"ומשה"],[940.6,"החל לגרוס"],[942.9,"את הלימוד שלו בניגון חרישי, בדבקות,"],[947.0,"תוך שהוא שם את מבטחו בקדוש ברוך הוא."],[951.6,"ממול נרות חנוכה"],[953.5,"שלחו אליו את עורם,"],[956.1,"ושלהבת הנרות נראית לה כנעל את זילי הלימוד."],[960.3,"ככל שגברה הדבקות של משה,"],[962.9,"ככל שהוא שקע בלימוד,"],[965.1,"ככה גבר קולו,"],[967.2,"והוא לא שם לב"],[968.8,"איך קול הלימוד נשמע אל מחוץ לחדר."],[1005.2,"קולות הניגון,"],[1006.9,"קולות הניגון הגיעו לאוזניו של מנהיג חבורת השודדים,"],[1011.2,"והוא פתח בריצה,"],[1012.9,"הוא פתח בריצה מהירה אל דלת חדרו של משה."],[1021.4,"בעיטה אדירה,"],[1023.4,"והדלת נפרצה לרווחה."],[1029.2,"משה קפץ בבהלה,"],[1031.1,"לרגע הוא קפא,"],[1031.9,"הוא ניצב,"],[1034.7,"הוא ניצב מולו,"],[1036.8,"מנהיג השודדים, רוצח אכזרי וקשוח."],[1041.1,"משה התעשת מיד."],[1044.2,"הוא עצם את עיניו והחל קורא, שמע ישראל,"],[1048.7,"אדוני אלוהינו,"],[1050.4,"אדוני אחד,"],[1052.1,"תוך שהוא מכין את עצמו למוות הקרב ובא."],[1055.6,"דממה השתררה לה בחדר,"],[1058.0,"דממת מוות,"],[1062.2,"ומשה פקח. ולפתע,"],[1068.1,"הוא רואה מולו את הרוצח,"],[1070.2,"לוטש עיניים פעורות לרווחה"],[1073.4,"בנרות החנוכה,"],[1078.0,"בנרות החנוכה שיבהבו כנגדו."],[1084.4,"היום חנוכה?"],[1086.9,"כן,"],[1087.8,"חנוכה,"],[1090.2,"נרות,"],[1091.6,"שמן."],[1096.2,"מה זה?"],[1097.2,"הצביע הרוצח אל הגמרא הפתוחה."],[1100.7,"זו גמרא?"],[1106.2,"מלמל משה."],[1108.5,"והרוצח"],[1109.8,"הפנה את פניו, והנרות, הנרות האירו לו את הפנים,"],[1116.3,"וללא קול החלו דמעות זולגות מעיניו במורד לחיו."],[1124.8,"הרוצח נשא את עיניו,"],[1126.8,"עיניים דומעות,"],[1128.4,"עיניים ספוגות בכאב,"],[1131.5,"והתבונן במשה"],[1133.2,"במבט מוזר."],[1134.9,"אתה משה, נכון?"],[1137.8,"הוא אומר לו, כן."],[1140.0,"משה מז'יתומיר,"],[1141.7,"כן,"],[1144.7,"איך אתה יודע?"],[1146.8,"אתה יודע מי אני?"],[1151.7,"אני החברותא שלך מבית המדרש בז'יתומים."],[1155.1,"אני מנחם פרנק!"],[1157.8,"זה אני!"],[1167.1,"ומשה החל לרעוד בכל גופו."],[1171.6,"דקות ארוכות הם אחזו."],[1174.4,"איש ביד רעהו,"],[1177.5,"במבט"],[1179.4,"שאומר הכל מקץ מספר דקות."],[1204.5,"התנתק מנחם לפתע,"],[1207.7,"ומבטו התחלף."],[1209.4,"מעצב למבט קר,"],[1211.8,"תישאר כאן, אל תצא."],[1214.5,"הוא כינס את כל בני החבורה שלהם ואמר,"],[1217.3,"תקשיבו עכשיו,"],[1219.0,"אלה"],[1219.9,"זה המשפחה שלי."],[1222.8,"אנחנו עוזבים אותם פה, משחררים אותם וחוזרים הביתה."],[1230.1,"השודדים צייתו לכל מה שהוא אמר,"],[1233.2,"ותוך דקות התרוקנה האכסניה מאימת המוות ששרתה בה."],[1246.4,"למחרת בבוקר,"],[1248.3,"רסה משה את דרכו לרוז'ין,"],[1250.8,"תוך שהוא נפרד מבעל האכסניה שלו, הפסיק להודות"],[1254.0,"ולהלל את השם יתברך על נס החנוכה שנעשה לו ולמשפחתו."],[1259.7,"וככה העגלה עושה את דרכה במהירות,"],[1264.6,"כשמשה מנווט את דרך במיומנות."],[1267.9,"אבל אז,"],[1269.0,"אז על אם הדרך, ניצבה לדמות."],[1272.1,"וכשהעגלה התקרבה,"],[1274.5,"הרימה הדמות את ידה,"],[1279.4,"משה עצר את העגלה,"],[1282.0,"ומנחם פרנק עלה עליה."],[1293.1,"העגלה המשיכה לנוע כששני הידידים,"],[1296.7,"החברותה,"],[1298.5,"שוב ביחד, כמו אז בז'יטומיר,"],[1301.9,"ביחד על העגלה בדרך המובילה אל רבם של ישראל,"],[1306.6,"אל רבי ישראל מרוז'ין,"],[1322.4,"שם ברוז'ין מול הרב."],[1325.2,"אמר מנחם,"],[1326.9,"שנים לא הרגשתי את האור, את האור,"],[1330.1,"את האור היהודי,"],[1331.8,"ולפתע נכנסתי לחדר,"],[1334.0,"והייתה שם גמרה,"],[1335.6,"היו שם נרות חנוכה,"],[1338.4,"בתיקות התורה,"],[1339.9,"אור היהדות,"],[1341.7,"נשמה, שבת,"],[1345.2,"משפחה."],[1347.5,"כאילו העירו אותי מאיזה חלום בלהות של שנים."],[1356.9,"כך אמרו ברוז'ין,"],[1358.8,"כך אמרו ברוז'ין."],[1362.0,"בחג החנוכה ניצחו מעטים את הרבים."],[1369.5,"מה זה ניצחו מעטים את הרבים?"],[1371.8,"לא רק במלחמה,"],[1373.5,"אלא בחג החנוכה ניצחו מעטים יהודים עם מעט מעט מעט מעשים טובים,"],[1380.7,"מעט מעט מצוות,"],[1382.5,"מעט מעט אור."],[1384.3,"ניצחו את הרבים, את החטאים,"],[1386.8,"את הרבה חטאים שיש להם,"],[1388.5,"את הרבה החושך שיש להם."],[1390.6,"זה המעטים שניצחו את הרבים."],[1393.9,"כמו שמעטים ניצחו את הרבים בשדה המערכה,"],[1397.3,"גם יהודים עם מעט מעשים טובים והרבה חטאים"],[1401.4,"יכולים המעטים לנצח את הרבים."],[1405.1,"יכול האור, הקצת אור, להניס את החושך."],[1414.3,"בתום חג החנוכה, משה חזר לביתו,"],[1417.4,"לבד."],[1418.7,"מנחם נשאר ברוז'ים."],[1449.3,"שנתיים,"],[1450.8,"שנתיים אחר כך,"],[1454.0,"חג החנוכה."],[1456.7,"בברוד,"],[1459.9,"בתלמוד תורה."],[1464.8,"מסיבת חנוכה."],[1465.9,"כל הילדים,"],[1467.4,"כל הילדים לבושים חגיגית."],[1469.9,"מסיבת חנוכה וחידון חנוכה,"],[1472.0,"הילדים עליזים,"],[1473.8,"נעמדים ליד ההורים שלהם, כולם מצפים, כולם אוהבים את המסיבות,"],[1478.3,"את האור המיוחד שמלווה את החגים."],[1487.6,"האימהות היו"],[1489.8,"מביטות מאחור בגאווה,"],[1492.1,"בהערצה באב ובבן שלו."],[1495.1,"אף אחד כמעט לא שם לב"],[1496.8,"שבקצה השני של האולם עמד לו ילד,"],[1500.4,"ילד עצוב,"],[1504.1,"ילד בלי שמחה,"],[1505.8,"ילד בודד,"],[1506.9,"בלי אבא."],[1508.8,"מתאמץ לענות על החידון לבד,"],[1511.0,"כשכולם עם מבט של שמחה בעיניים,"],[1513.7,"הוא עמד לו עם העיניים הגדולות שלו,"],[1516.9,"והן היו כל כך עצובות."],[1519.3,"מדי פעם,"],[1520.5,"מדי פעם הוא הרשה לעצמו לחטוף איזה מבט אל מקום האימהות."],[1526.3,"טר במבטו אחר אמא, אמא שלו,"],[1531.3,"אבל היא לא הייתה שם,"],[1544.4,"באולם התלמוד תורה החידון בעיצומו."],[1547.3,"כל ילד"],[1548.8,"נשאל מספר שאלות, הוא יכול להיעזר באבא שלו."],[1552.9,"וככה נמשך החידון,"],[1555.2,"ועכשיו הגיעו"],[1556.8,"אל הילד הבודד בפינה,"],[1562.5,"שכאילו נדבק לקיר"],[1564.9,"כמחפש לו הגנה, הוא היה לבד,"],[1568.1,"זה לא קל."],[1570.2,"הוא קיבל את השאלות,"],[1573.0,"הביט בשאלון,"],[1575.7,"הרים את העיניים אל עבר מקום האימהות."],[1578.8,"אמא הגיעה?"],[1581.2,"ואז,"],[1582.4,"אז הוא ראה אותה."],[1584.0,"היא עמדה שם,"],[1585.4,"אימא,"],[1586.7,"עומדת מביטה בו בפנים קורנות."],[1590.3,"אבל,"],[1592.4,"מה היא מסמנת לי?"],[1594.6,"אימא החלה מסמנת לו משהו."],[1596.7,"הוא לא כל כך הבין."],[1601.9,"מה היא מסמנת?"],[1603.9,"ואז אימא הרימה את היד שלה"],[1606.6,"לכיוון האיש,"],[1608.3,"האיש שעמד לו בפינה."],[1611.2,"מניעת השפתיים."],[1612.3,"מינה,"],[1618.8,"מינה עיננה,"],[1622.2,"מנסה לרמוז לילד שלה,"],[1624.7,"שסוף סוף החלום התגשם."],[1628.0,"לילד אין אבא,"],[1629.8,"אמר אחד השמשים לצוות הרבנים, אין מה לעשות, אין לו אבא, אז הוא יצטרך לענות לבד?"],[1636.0,"לילד יש אבא."],[1638.5,"נשמע הכל,"],[1640.3,"וכולם,"],[1641.5,"כולם עשו את מבטם אל האיש הגבוה שהתקרב מפינת האולם."],[1647.4,"אני אבא של גד,"],[1649.2,"אמר האיש,"],[1651.2,"ונעמד"],[1652.8,"מאחורי הילד,"],[1654.8,"מאחורי הבן שלו."],[1657.6,"אתה מרשה לי לעזור לך?"],[1660.6,"הוא לחש בקול רועד,"],[1668.1,"וגד."],[1669.7,"הילד הנהן בדמעות."],[1673.3,"כן,"],[1674.6,"כן,"],[1676.0,"כן אבא,"],[1678.6,"כן."],[1684.0,"ומיחד החלו לענות על החידון,"],[1688.8,"ושם מאחור,"],[1690.7,"בביתה מינה,"],[1692.7,"רואה את כל התפילות שלה."],[1695.5,"מאות תפילות"],[1697.7,"שעשו את הדרך לשמיים וסללו את הדרך"],[1703.7,"למנחם לחזור"],[1705.5,"חזרה הביתה."],[1707.4,"לתקן, לתקן את מה?"],[1710.6,"את מה שהם עוללו לעצמם."],[1719.3,"נס חנוכה,"],[1720.9,"1860,"],[1723.3,"משפחת פרנק"],[1726.5,"חזרה"],[1728.1,"להיות משפחה,"],[1733.5,"מעטים כנגד רבים."],[1736.1,"חג החנוכה בא ואמר ואומר לנו,"],[1739.0,"מעטים ניצחו את הרבים?"],[1741.5,"אל תסתכל רק על שדה המערכה."],[1744.5,"בכל יהודי,"],[1746.0,"בכל יהודי יש נשמה,"],[1748.2,"בכל יהודי יש נפש,"],[1751.3,"גם בך,"],[1752.8,"גם בך."],[1754.7,"יש מלחמה ויש מעטים ויש רבים."],[1760.3,"תדע לך, תדעי לך, גם אם המעשים הטובים,"],[1764.5,"גם אם המצוות הן מעטות,"],[1767.2,"גם אם המעשים הטובים הם מעטים,"],[1769.7,"הם ינצחו את הרבים."],[1772.1,"כי האור היהודי, כי המעט"],[1775.4,"שיש בנשמה, ידחה את החושך."],[1779.7,"חג החנוכה."],[1790.7,"בא חג החנוכה לומר לנו,"],[1792.8,"מעטים כנגד רבים, וזה לא רק החג החנוכה."],[1797.0,"כל יום,"],[1798.4,"כל יום,"],[1800.2,"תכניסו את זה טוב-טוב לנשמה."],[1803.8,"אין יהודי,"],[1805.5,"אין יהודי שבורא עולם לא חפץ בעיקרו,"],[1810.9,"שבורא עולם לא מתפלל, מבקש."],[1814.1,"בוא, בוא אליי, בני."],[1817.0,"תאמין בעצמך."],[1819.2,"גם אם אתה מרגיש את הפחות, אתה מרגיש אסור לך להרגיש ככה."],[1823.1,"כי המעט טוב שבך, על זה תסתכל."],[1826.2,"כי המעטים מנצחים את הרבים."],[1828.9,"גם בך הנקודות הטובות שלך, המצוות שלך,"],[1832.5,"מה שאתם עושים לכבוד השם יתברך,"],[1834.7,"מנצחים את הרבים."],[1840.2,"אז מה שנשאר לנו זה רק להוסיף עוד נקודה טובה,"],[1843.1,"עוד מצווה,"],[1844.3,"עוד אמונה, עוד תורה, עוד אחדות, עוד אהבה לכבוד השם יתברך."],[1850.9,"כי צריך לדעת, אין יהודי בעולם, אין יהודייה בעולם שלא מקושרים אל השם יתברך,"],[1859.0,"שלא בורא להם יבוא ויגאל את כולנו בזכות המעט הזה."],[1865.1,"המעט אור שיש לכל אחד מאיתנו."]],"track03":[[0.7,"בכל דור"],[2.4,"יש מלחמת"],[4.0,"בני אור בבני חושך."],[7.0,"בכל דור"],[8.8,"יש למעשה מלחמה סמויה אולי לפעמים,"],[12.8,"מתחת לפני השטח,"],[15.7,"בין אנשי הנשמה"],[18.7,"לאנשי הגוף."],[21.9,"בכל דור יש מלחמה בין הנצח לבין הזמני לבין החולף."],[27.1,"כך זה היה אפילו בתקופת השואה."],[31.1,"מלחמת העולם השנייה, כל העולם נלחם,"],[34.7,"אבל מבעד לפגזים,"],[37.1,"מבעד ליריות,"],[38.7,"מבעד להריסות,"],[40.4,"מבעד למוות המשתולל,"],[42.8,"התנהלה לה המערכה העיקרית,"],[49.6,"המערכה על הרוחניות,"],[51.7,"על הנפש,"],[53.0,"על הנצח."],[54.5,"מצד אחד נציג הגוף, היצרים והחושך, הגרמנים,"],[59.3,"הנאצים ימח שמם,"],[61.3,"עמלק,"],[62.7,"ומצד שני נציגי הנצח, המצפון והאור היהודים אושוויץ."],[72.0,"1942. כל משלוח"],[79.7,"שהיה מגיע לאושוויץ היה מוצא את עצמו במאבק אכזרי על הסיכוי"],[84.0,"בכלל לשרוד,"],[85.7,"להחזיק מעמד"],[87.5,"במוות הזה."],[90.5,"אותו לילה שהגיע המשלוח היה חנוכה."],[98.2,"ובחנוכה,"],[99.9,"כשהגרמנים הבינו שזה חג של יהודים,"],[105.4,"וכשהם הבינו את המשמעות של החג הזה,"],[109.9,"הם החליטו לארגן משחק,"],[113.2,"משחק אכזרי."],[116.0,"הם החליטו שבחג החנוכה הם ישחקו ביהודים."],[119.5,"מה הם החליטו לעשות?"],[121.3,"הרי כולם היו שם רעבים, רעבים ללחם."],[125.7,"הם החליטו, הם יספקו אוכל דווקא לחלשים."],[131.0,"ואז למעשה כל החזקים, עכשיו זה מלחמת הישרדות,"],[135.6,"זה יהיה תמריץ לחזקים"],[138.3,"לנסות לקחת את האוכל."],[141.1,"והם יעזבו את השטח הגרמני, אם לא יהיו פתאום שומרים,"],[144.4,"אז ודאי שהמחורים החזקים יתנפלו על החלשים ויקחו מהם הכל."],[149.6,"וככה עד מהרה יפרוץ קרב אכזרי,"],[152.9,"ואז הם ייכנסו באמצע ויוכלו לראות, לחזור ככה משחק דמים בשידור חי,"],[164.4,"והם העמידו את"],[165.7,"את היהודים מהמשלוח האחרון,"],[168.7,"והחלו לעבור בין הקהל היהודי המורעב."],[176.0,"אתם יודעים מה הם תכוננו לחלק?"],[178.3,"על מה מדובר?"],[179.2,"על שני גרם מרגרינה לכל אחד."],[182.3,"שני גרם מרגרינה 700 קלוריות."],[186.1,"שני גרם מרגרינה זה חיות למספר ימים."],[190.3,"ואז,"],[191.5,"מי שיקבל מרגרינה זוכה בחיים קרה הגרמני."],[196.8,"מי שיקבל מרגרינה הוא זה שיחיה,"],[199.0,"והוא זה שישרוד."],[201.5,"אתה, אתה,"],[203.0,"אתה שם, זקן,"],[204.9,"תקבל מנה כפולה,"],[206.8,"צחק הקאפו."],[210.2,"הוא פנה אל הרב"],[212.4,"כשהוא אמר,"],[214.1,"אתה, זקן, תקבל מנה כפולה."],[216.5,"וכולם נעמדים, כל היהודים, מביטים אל הרב,"],[219.8,"הרב שתמיד היה לגביהם מקור של חיזוק,"],[222.9,"והם שומעים את הרב ממלמל, נס מן השמיים."],[226.9,"נס מן השמיים, וכולו אחוז התלהבות,"],[230.4,"ומאות עיניים מורעבות ננעצו בו."],[234.8,"הגרמני זרק את פירוי המרגרינה לרצפה,"],[240.2,"וכל כך נהנה לראות את הרב"],[242.2,"משתטח בלוא קומתו ואוסף"],[245.2,"כל פירור של מרגרינה,"],[247.9,"כל פירור של חיות."],[258.8,"אווירת המשבר,"],[260.5,"אווירת הלחץ,"],[262.1,"הייתה תלויה בחלל האוויר."],[264.9,"לגרמנים לא נותר רק מה לצאת למספר דקות,"],[267.7,"לתת זמן ליהודים ככה להתבשל בתוך עצמם ו..."],[271.7,"והחגיגה תתחיל."],[275.2,"ובאמת הם סימנו אחד לשני ויצאו מהאולם הגדול בו היו מרוכזים היהודים."],[285.7,"מצפים לחזור בעוד כמה דקות לראות איך היהודים מתנפלים על הרעב שלהם,"],[290.2,"מתנפלים על כל האנשים המבוגרים ותולשים מהם את האוכל."],[299.8,"זה מה שהם ציפו, בגלל זה הם יצאו."],[302.1,"יצאו,"],[303.6,"משאירים את היהודים להתמודד עם הגורל,"],[308.1,"הגורל האכזר שהם העידו להם."],[320.9,"היהודים בתוכם,"],[322.3,"אף אחד לא הבין."],[324.3,"הרב,"],[325.4,"אתה זה שהיית מקור חיזוק,"],[327.3,"לפני כולנו פתאום אתה נשבר,"],[329.9,"משפיל את עצמך בשביל כמה פירורי מרגרינה,"],[332.8,"מתנפל כאילו לא ראית?"],[334.9,"מה זה?"],[336.4,"הרב, אתה,"],[337.5,"אתה זה שאמרת לנו לשמור על דרך ארץ,"],[341.1,"על היהדות שלנו גם בתוך המוות הזה?"],[344.7,"גם אתה?"],[349.2,"לפתע נשמע קולו של הרב, נשמות טובות, נס!"],[353.6,"נס חנוכה!"],[355.5,"על ידי המרגרינה אפשר להדליק נרות חנוכה, חנוכה היום!"],[359.7,"אפשר להדליק נרות חנוכה, קרא הרב!"],[363.6,"ושקט,"],[365.3,"ושקט השתרר לו באולם."],[369.5,"לפתע הכל היה מובן,"],[372.4,"לפתע הכל היה ברור."],[375.8,"הרב לא קרע ברך עבור אוכל,"],[380.0,"הרב קרע ברך עבור"],[384.1,"נרות חנוכה."],[387.2,"על מנת להאיר לכולם את הנשמה,"],[391.9,"ועתה הכל היה נראה אחרת."],[396.3,"עתה כולם הבינו, הגרמני הגס, שבע מגושם, זרק אוכל לגוף,"],[404.6,"והרבי אסף"],[406.5,"מזון לנשמה."],[411.2,"לפתע הכל השתנה."],[412.8,"לפתע כל האווירה באחת התחלפה לה."],[416.1,"נר של חנוכה."],[417.5,"נר של חנוכה! פשטה הקריאה בכל המחנה."],[420.8,"נר של חנוכה!"],[426.1,"והפנים המעונות זרחו להם,"],[428.8,"והעיניים של כולם זרו באור מיוחד,"],[431.8,"אור של חנוכה,"],[435.6,"אור של אמונה."],[440.9,"והרב פרם את הבגדים שלו העליונים,"],[444.2,"ועשה מהם פתילות."],[447.9,"לא היה אכפת לו שאולי מאבד את המעיל שהגן עליו מהקור הגרמני,"],[455.7,"שהוא מסכן את"],[457.3,"הבריאות שלו, לא היה אכפת לו."],[460.2,"אישה"],[461.1,"הלכה ונתנה את כפתורי הכסף שהיו לה,"],[464.5,"ועד מהרה עמדה חנוכיה מאולתרת עם כפתורי כסף,"],[469.8,"עם פתילות"],[471.4,"ועם מרגרינה להדלקה,"],[475.3,"והרב ברך והדליק"],[479.1,"נרות של חנוכה."],[482.7,"בלב התופת,"],[484.1,"בלב אושוויץ,"],[486.1,"שלהבת קודש בערה לה בלבבות"],[490.4,"של כל היהודים."],[496.2,"משב רוח מקפיא"],[498.3,"חדר אל האולם כשהגרמנים חזרו פנימה."],[502.6,"במקום קרב,"],[504.4,"דמים,"],[505.9,"הם ראו אור בעיניים,"],[507.9,"הם ראו אחדות בלב!"],[511.3,"המפקד הגרמני לא הבין, הזעם חנק את גרונו! הוא לא הבין איך אפשר לעשות דבר כזה! איך אפשר שהעם היהודי יתעלה מעליהם עם כל מה שהשפילו?"],[524.6,"אני אראה לכם, הוא זעק, אתם תשלמו ביוקר!"],[529.3,"ולפתע הוא יצא,"],[531.0,"יצא וברח משם,"],[532.9,"כדי שלא יראו אותו נשבר,"],[535.0,"כי בתוך תוכו הוא ידע את האמת,"],[537.1,"הוא יטט את הגדלות של עם הנצח שמוותר על האוכל,"],[543.6,"מוותר על הגוף שלו למען הנשמה שלו."],[548.4,"ניצחון של הנשמה היה כניצחון של הנצח."],[555.6,"הם פגעו בגוף אבל בנשמה, את הנשמה אי אפשר לכבות."],[562.5,"האור הזה דלק אז ודולק עד היום."],[568.4,"כך זה היה,"],[570.0,"כך זה הווה,"],[570.7,"וכך זה יהיה מעטים כנגד רבינו מעטים כנגד רבינו."]],"track04":[[0.7,"העיר צנעה שבתימן."],[5.4,"הקהילה היהודית שם, בתימן,"],[8.1,"בתקופה שאנחנו מדברים עליה,"],[11.2,"הייתה בלחץ גדול."],[13.3,"באותה תקופה"],[15.0,"היה הנסיך אחמד הוא זה ששלט למעשה בתימן,"],[18.2,"והיה מרד כנגדו."],[20.4,"וכתוצאה מהמרד, שאומנם באמת דוכא, היה חשש בכל אופן לפגיעות ביהודים, היה פחד שעוד פעם יהיה מרד, שעוד פעם יקרה משהו,"],[27.7,"ותמיד, מי אשם? מה שקורה היהודים."],[36.5,"וככה,"],[38.8,"אז באמת באותה תקופה הייתה אוזן קשבת"],[41.4,"לשני האנשים שנראו ככה כבני תורה שהגיעו מארץ ישראל לארץ הקדושה."],[48.7,"והם החלו לשכנע שם יהודים לעזוב את תימן,"],[52.4,"לעלות לארץ המובטחת אל חיי קדושה וטהרה."],[61.3,"יוסף צנעני."],[62.9,"יוסף צנעני היה מתוח מאוד. למה?"],[66.0,"למה הוא היה מתוח? כי השני הבנים שלו,"],[68.1,"סלם ויחיה,"],[70.1,"היו אמורים להיות בין הנושאים."],[72.5,"הם היו בניו היחידים"],[74.2,"של יוסף"],[75.5,"ושל רעייתו המסורה."],[78.5,"הם נעשה היו אומרים לנסוע עם הדודים שלהם,"],[81.3,"כי יוסף היה חייב עדיין לסגור את העסקים שלו, הוא היה צורף ידוע,"],[86.3,"וזה לא פשוט ככה לעזוב את הכל ולנסוע,"],[89.5,"אז הוא אמר, טוב, קודם כל אתם תיסעו עם הדוד,"],[92.9,"ואני אגיע, אני אגיע בהמשך, בסבב הבא."],[96.8,"אפילו בדמיון הפרוע שלהם הם לא דמיינו מה יכול לקרות."],[103.5,"בינתיים בארץ התקבלו דיווחי השליחים בשמחה."],[108.0,"אלפי עולים מתעתדים לעלות ארצה,"],[110.7,"כשהמשמעות היא כוח עבודה."],[113.2,"תוספת של כוח עבודה,"],[114.8,"תוספת של כוח צבאי שהארץ שיבעה לה,"],[117.5,"תנופה כלכלית."],[120.0,"הבעיה היחידה הייתה"],[122.0,"שהעולים שומרים תורה ומצוות ובארץ לא כל כך התלהבו מזה."],[126.8,"אבל כבר נמצא פתרון לכך,"],[131.2,"כך הם אמרו,"],[142.3,"את הפרידה"],[143.9,"את הפרידה מהאימא,"],[150.5,"קשה לתאר במילים."],[152.5,"האימא, האימא המסורה והאהובה,"],[156.1,"תפסה את הילדים כתופסת את החיים. זה היו הילדים שהיא כל כך השקיעה בהם."],[164.6,"הדמעות ירדו"],[166.9,"מעליהם."],[169.0,"סלם,"],[170.3,"סלם תשמור על עצמך."],[172.8,"סלם, אני אבוא אחריכם, אל תדאגו, תשמרו על עצמכם רק."],[177.6,"אני אתפלל עליכם."],[179.0,"תשמר על עצמך,"],[182.5,"אנחנו מבטיחים,"],[184.4,"אמרו האחים כאחד."],[188.8,"ואז האימא הוציאה מהתיק שהיא לקחה איתה."],[192.6,"הוציאה חנוכיית כסף."],[196.2,"כסף טהור."],[198.8,"חנוכיית כסף שהיא עשתה."],[201.3,"מעשה ידיה."],[203.6,"והיא הגישה לסלם,"],[207.0,"בנה הבכור, ואמרה לו, קח סלם,"],[210.0,"זה שלך."],[212.4,"כל פעם שתדליק תזכור אותי."],[215.1,"כל פעם שתדליק תזכור את אבא,"],[217.2,"כל פעם שתדליק"],[219.3,"תזכור את כל מה שנתנו לך."],[225.1,"ואחרי זה,"],[226.5,"היא הסתובבה כלפי יחיא והוציאה חנוכיית כסף"],[230.5,"עוד אחת."],[232.2,"עוד אחת מעשה ידיה."],[234.3,"עוד אחת"],[235.4,"עוד חנוכייה שיצאה למעשה מהלב שלה."],[240.0,"ליבה של אימא."],[242.0,"והיא הגישה את החנוכייה ואמרה ליחיא,"],[246.9,"אל תשכח אף פעם"],[248.7,"מי הטב ומאיפה באת."],[257.0,"יותר מאוחר,"],[258.5,"ארץ ישראל,"],[260.9,"סלם ויחי הם מצאו את עצמם"],[264.0,"במאבק אדיר"],[266.4,"על אמונתם."],[267.8,"הם לא דמיינו בחלומות הפרועים שלהם שיכול להיות מצב כזה."],[279.2,"וכשבאו,"],[282.8,"כשבאו ולקחו"],[285.6,"את סלם,"],[288.3,"בוא תנסה לציון. אם לא, אני מחזיר אותך מיד,"],[290.0,"אמר המדריך"],[293.6,"וסאלם האמין שבסך הכל לוקחים אותו לראות מקום שאם ימצא חן בעיניו"],[301.5,"הוא יוכל לבוא ולהגיד לאחיו"],[303.8,"יחיא להצטרף אליו"],[308.3,"וסאלם עלה לרכב"],[310.9,"והם נסעו"],[312.8,"וככה יחיא וסאלם שהופרדו נשארו לבד במערכה על האמונה שלהם,"],[322.2,"על היהדות שלהם ויום רודף יום"],[325.4,"ויום רודף יום, שנה רדפה שנה,"],[328.6,"וכור ההיתוך בלע את כולם."],[339.2,"כור ההיתוך בלע את כולם אל קרבו,"],[342.4,"ומשאיר בדרך עקבות."],[345.1,"פאות, כיפה, תורה, שבת,"],[354.9,"כך עברו להם"],[356.8,"עשרים וארבע שנים."],[359.1,"עשרים וארבע שנים אחר כך,"],[365.0,"מלחמת יום הכיפורים פורצת."],[370.9,"המלחמה האיומה הזאת."],[378.0,"עם ישראל,"],[378.7,"בהשגחה מהשם יתברך בניסי ניסים מצליח"],[384.1,"מצליח"],[385.6,"למגר את הצבאות הסורים והמצריים."],[389.0,"ובדרום שם במדבר סיני השטח המדברי בתום המלחמה, בתום הקרבות מאויש בחטיבת חייר."],[400.5,"ימי מילואים ארוכים"],[402.7,"ממתינים לחיילים שם בחולות של מדבר סיני."],[409.8,"בין האוהלים"],[411.4,"בין האוהלים של החטיבה בשעת ערב מוקדמת"],[416.0,"נדלק אור מיוחד,"],[420.0,"אורה של חנוכיה,"],[423.8,"חנוכיית כסף."],[428.4,"חנוכיית כסף"],[430.2,"שנעשתה על ידי אימא."],[433.2,"בערה לה בלילה השקט,"],[437.8,"שם,"],[439.2,"שם במדבר מול החנוכיה,"],[441.6,"עמד לו חיים."],[443.0,"חיים מביט באור המרצד,"],[445.3,"והאור ככה מקפץ לו ומרצד למול עיניו."],[449.9,"שעתו הייתה שעת השקט,"],[452.1,"ואז הציפו אותו הזיכרונות,"],[457.4,"תימן,"],[458.5,"אבא, אמא,"],[462.5,"סאלם,"],[465.2,"הניתוק,"],[469.0,"כבר הוא לא יחיה, הוא חיים,"],[473.2,"כבר יש לו משפחה,"],[475.2,"והוא כל כך רחוק"],[479.2,"מאבא שבשמיים."],[481.6,"ולפתע הוא הרגיש איך צער ממלא את כל ישותו,"],[485.3,"והוא הרגיש צורך, אני חייב ללכת,"],[487.5,"להרגיע את הנשמה שלי."],[489.0,"הוא החל צועד להרגיע את הנשמה שלו,"],[491.2,"את הנשמה הסוערת שבתוכו."],[493.5,"והוא הולך והסתובב."],[507.0,"לפתע הוא נעצר."],[509.2,"לפתע הוא נעצר."],[510.8,"זה היה מולו."],[513.3,"הוא התקדם לא מאמין,"],[518.4,"כאילו מפחד להגיע,"],[520.1,"כאילו מפחד ממה שהוא עתיד לגלות עכשיו."],[525.8,"חיים"],[527.1,"עמד"],[528.4,"מול אור מרצד"],[531.2,"של נרות חנוכה"],[533.4,"שבהבו מולו מתוך חנוכיית כסף,"],[538.1,"מתוך חנוכיית כסף"],[540.2,"שנעשתה על ידי אמא."],[546.7,"של מי החנוכיה הזאת?"],[549.2,"הוא קרא בקול משונה."],[551.3,"אפילו הוא עצמו לא זיהה את הקול שלו. של מי החנוכיה הזאת?"],[557.3,"זו החנוכיה של שלומי."],[559.6,"שלומי,"],[560.7,"מי זה שלומי?"],[563.4,"תקראו לו לפה."],[564.8,"מי זה שלומי?"],[581.8,"שניות אחר כך"],[583.5,"הם עמדו זה מול זה."],[588.4,"קראת לי?"],[590.1,"שאל שלומי."],[594.4,"חיים."],[598.7,"חיים הביט."],[600.1,"מבעד לבלורית,"],[603.0,"מבעד לשנים שחלפו."],[608.4,"לשלומי היה קול של בית אבא."],[617.6,"קול שהזכיר את אמא."],[623.6,"סלם!"],[626.1,"סלם!"],[630.9,"צמרמורת אחזה בגופו של שלומי,"],[634.8,"או יותר נכון של סלם."],[637.0,"אחי!"],[646.0,"אני לא יכול לתאר את המילים,"],[649.4,"את המילים שזרמו מגרונו של"],[654.6,"חיים."],[658.0,"אני לא יכול לתאר את ההתרגשות"],[659.7,"שנראתה על פניו של שלומי,"],[661.8,"של סאלם."],[664.1,"אפילו החיילים הקשוחים ביותר התרגשו."],[669.8,"סאלם, ראית את אבא מאז?"],[673.6,"ראית את אמא מאז?"],[677.1,"לא."],[679.7,"ושניהם פרצו בבכי."],[684.1,"שני האחים שגנבו להם את בית אבא,"],[687.3,"ובאו נרות חנוכה,"],[689.4,"והחזירו אותם זה לזה."],[692.5,"אותה חנוכיית כסף"],[694.8,"שאמא עשתה."],[696.5,"אני לא יודע אם זה מעשה ידיה או מעשה הלב שלה."],[702.1,"עברו שנים, שנים אחר כך,"],[704.5,"יחיא וסלם העמיקו את הקשרים שלהם."],[708.0,"הם חיפשו את אבא ואימא שלהם"],[710.4,"ללא הצלחה,"],[714.1,"אבל,"],[717.6,"אבל שניהם,"],[719.1,"שניהם התקרבו ליהדות."],[721.8,"שניהם,"],[725.6,"שניהם הצליחו בעזרת המעט,"],[729.1,"מעט מעשים טובים שלהם."],[731.7,"בעזרת המעט יהדות שעוד נותרה להם,"],[735.1,"להפוך את כל הבית שלהם"],[738.5,"למשכן של תורה."],[743.1,"הם עשו את כל הדרך הביתה"],[745.1,"כדי לא לבייש את יוסף צנעני"],[747.3,"ואת האימא המסורה שבנתה בית יהודי,"],[757.3,"שאת הלב שלה השקיעה בחנוכיית הכסף"],[760.3,"ואותה חנוכיית כסף לא אכזבה."],[764.4,"גם אחרי עשרות שנים"],[766.5,"היא באה ולקחה את האחים והחזיר אותם."],[770.1,"החזירה אותם אחד אל זרועות השני."]],"track05":[[15.5,"אחד המעוזים האחרונים,"],[18.3,"אחד משדה המערכות האחרונות שנשארו באותה תקופה,"],[22.7,"לפני כ-200 שנה,"],[24.2,"אולי קצת יותר."],[26.8,"בארצות הברית,"],[28.8,"עוד לפני שהייתה ארצות הברית התחולל קרב"],[32.2,"בין האנגלים ששלטו בארצות הברית"],[36.1,"לבין גנרל בשם ג'ורג' וושינגטון,"],[39.1,"עם צבא קטן של אזרחים שרצו להפוך את ארצות הברית לדמוקרטיה ולארץ של"],[48.9,"אמריקנית חדשה."],[52.3,"והצבא,"],[53.5,"הצבא האמריקני היה שבור,"],[57.9,"היה כבר על סף ייאוש, הרבה ערקו."],[62.3,"גנרל וושינגטון היה לפני כבר מפלה,"],[68.3,"וכשכולם חנו שם,"],[72.7,"גנרל וושינגטון ידע שמצבו בכי רע הוא התחיל להסתובב בין כולם."],[77.4,"לעודד את כולם, להמריץ את כולם."],[82.3,"דבר שהיה קשה מאוד."],[89.4,"בין החיילים"],[91.0,"היה יהודי אחד."],[94.2,"אותו יהודי"],[96.6,"היגר לארצות הברית,"],[98.0,"אולי שם הוא יוכל למצוא מקום בלי להתקל בפריצים הפולנים."],[106.1,"אותו לילה"],[107.5,"היה ערב חנוכה,"],[109.9,"והיהודי יוצא מהמתחתו חנוכיה."],[116.6,"וכשמסביב הסכנה,"],[118.8,"מסביב המלחמה,"],[124.1,"הוא יצא לעצמו איזה איש של שקט,"],[127.7,"הוציא חנוכיה והתכונן להדליק נר של חנוכה."],[134.8,"מקץ שעה קלה בערה לה פתילה נפלאה"],[141.8,"עם אור של חנוכה."],[144.0,"כשהיהודי מביט, מביט בפתילה,"],[147.3,"מביט באש,"],[148.9,"וזיכרונות מציפים את מוחו."],[153.2,"נזכר באבא,"],[154.6,"אבא שבפולין היה מוכה על ידי הפריצים שכיסו אותו בכל מיני פרוות וביקשו שירקוד לפניהם."],[165.8,"באבא שמביט במבט מושפל"],[169.2,"בבן שלו שמביט"],[171.4,"איך מתעלים באבא."],[176.2,"ברור העולם,"],[177.5,"ריבונו של עולם, עשיתי את כל הדרך כדי שאני לא אצטרך לרקוד עם פרווה של דוב,"],[184.5,"והבן שלי יוכלע, יצטרך להביט בי"],[186.8,"בצער כה עמוק,"],[188.3,"כמו שקרה לי עם אבא שלי,"],[190.8,"אני מבקש ממך, בוראי בונו של עולם, תעזור לי, בונו של עולם."],[194.8,"אולי הצבא פה האמריקני,"],[198.0,"אולי בוראי עולם יהיה זכות שינצח,"],[201.1,"ולו בשביל לתת אולי ליהודים אפשרות לכמה שנים, אני לא יודע לכמה,"],[205.6,"אבל לכמה זמן לפחות אולי יוכלו להיות פה במדינה הזאת בשקט,"],[211.8,"בשקט קצת כמה שנים."],[214.2,"בוראי עולם אולי תעזור לנו שננצח."],[216.6,"ותוך כדי שהוא ככה נושא תפילה,"],[221.5,"לשם יתברך מעמקי דה-ליבה,"],[224.0,"מעמקי הלב שלו,"],[226.0,"מרגיש איזו יד"],[228.0,"אוחזת בכתפו."],[229.8,"הוא הסתובב,"],[231.7,"מולו עמד ג'ורג' וושינגטון,"],[235.3,"הגנרל,"],[237.0,"מביט בו"],[239.5,"ושואל מה אתה עושה, החייל?"],[244.5,"אמר לו החייל היהודי, תראה,"],[246.7,"תראה גנרל וושינגטון,"],[248.5,"כולם מיואשים, כולם חושבים שאתה הולך להפסיד,"],[252.3,"כולם רוצים איך אולי לברוח מפה לערוק."],[255.4,"אבל אני, אני יהודי."],[258.4,"ואני מתפלל להשם יתברך, כי רק השם יתברך הוא מי שקובע בעולם שאתה תנצח, שאנחנו ננצח."],[265.3,"כי אני לא רוצה,"],[267.3,"כי אני לא רוצה עוד להסתובב בעולם לחפש לי מקום."],[270.4,"אני מאמין אולי, אולי בורא עולם,"],[273.2,"אולי בורא עולם בשביל האפשרות הזאת שיהיה כמה זמן"],[276.2,"מדינה לכמה זמן מדינה שתיתן קצת מנוחה ליהודים."],[283.3,"אולי בזכות זה העולם יעזור לנו לנצח את המלחמה."],[291.3,"מה זה? מה הנר הזה?"],[292.8,"שואל ג'ורג' וושינגטון."],[294.9,"והיהודי הסביר לו, זה נר חנוכה,"],[297.8,"בו נלחמו מעטים כנגד רבים,"],[300.7,"וניצחו המעטים כנגד הרבים,"],[303.3,"כי בורא העולם הוא זה שקובע את העניינים."],[305.9,"וג'ורג' וושינגטון,"],[306.9,"אני אומר לך עכשיו, אתה צריך להתחזק."],[309.2,"אתה צריך לדעת שגם כשאנחנו מעטים,"],[311.7,"גם כשקשה לנו, בורא עולם יכול לעזור לנו לנצח,"],[315.7,"ואנחנו ננצח."],[317.1,"אני מאמין באמונה שלמה, ואני מתפלל לאבא שבשמיים, בורא עולם."],[321.3,"תן לנו לנצח."],[323.1,"אני מתפלל לך, ג'ורג' וושינגטון,"],[325.8,"וג'ורג' וושינגטון"],[328.8,"התרגש,"],[330.3,"הסתובב,"],[332.3,"ולפני שחזר"],[333.9,"לאוהל שלו, אמר תודה רבה."],[336.6,"חיזקת אותי."],[338.2,"תודה רבה לך, חייל."],[347.6,"ג'ורג' וושינגטון והצבא שלו"],[350.7,"נלחמו וגם ניצחו."],[357.1,"האנגלים עזבו את ארצות הברית,"],[360.1,"והאמריקנים הקימו שם את ארצות הברית שאנחנו מכירים אותה עד היום."],[366.0,"וג'ורג' וושינגטון היה הנשיא הראשון של ארצות הברית של אמריקה."],[379.3,"החייל היהודי כבר לא חייל אזרח,"],[381.8,"יושב לו בניו יורק, בבית שלו."],[385.4,"חג החנוכה הוא מדליק נר באותה חנוכייה שלו,"],[391.7,"ולפתע נשמעות דפיקות בדלת."],[396.1,"הוא ניגש ופותח את הדלת."],[399.1,"בפתח הדלת עמד לו נשיא ארצות הברית ג'ורג' וושינגטון,"],[406.4,"שעשה את כל הדרך"],[409.4,"על מנת"],[410.9,"לאתר ולמצוא את אותו חייל יהודי שריזק אותו כל כך עז בווליף רייג'"],[422.9,"אז"],[424.6,"בקרב הקשה והמר כשנראה לכאורה שאין סיכוי,"],[428.7,"שהפיח בו תקווה ואמונה שעזרה לו כל כך לנצח."],[435.3,"אז הוא אמר לו תדע לך עזרת לי מאוד באותם רגעים"],[439.1,"ובאתי לתת לך מדליית הוקרה קטנה"],[444.6,"והוא הוציא מדליית זהב"],[447.2,"ושם על השולחן"],[449.9,"ויצא כלעומת שבה."],[452.9,"והיהודי"],[454.0,"ניגש למדליית הזהב,"],[458.0,"מרים אותה"],[459.7,"ואז הוא רואה שבמדליית הזהב"],[462.5,"הייתה חרוטה לחנוכיה,"],[465.6,"חנוכיה יהודית,"],[470.1,"סמל האור,"],[472.1,"סמל האמונה,"],[474.2,"סמל הנצח,"],[475.8,"סמל הניצחון, מעטים כנגד רבים גם בשדה המלחמה וגם בתוכנו."],[483.6,"בתוכנו המעשים הטובים, הנקודות הטובות ואפילו הן מעטות יניסו,"],[489.2,"יסלקו את כל הרע,"],[491.8,"את כל הלא טוב,"],[493.3,"ואנחנו המנצחים."],[518.9,"כי צריך לדעת"],[520.3,"שמים רבים"],[523.2,"לא יכסו את ים האהבה של השם יתברך."],[529.0,"שום עבר שבעולם, שום דבר שבעולם לא ישטוף"],[533.9,"ולא יכסה את ים האהבה של הקדוש ברוך הוא אל בניו ובנותיו."],[539.3,"פה העולם כל כך אוהב אותנו, עד בכך שאומר כל מעשה קטן שלכם יקר בעיניי."],[548.6,"אז בואו בעזרת השם,"],[550.8,"בואו בעזרת השם, ניתן לנשמה שלנו להתנגן,"],[554.9,"להתנגן בניגון האמונה."]]};
-const EPS = [
-  {id:"track01", title:"החברותא מז'יטומיר", dur:1876, pal:[[38,92,62],[22,95,55],[8,80,40]],
-   short:"שודד שמתעורר מול נרות חנוכה ומוצא את החברותא שלו",
-   about:"מנחם פרנק, בחור ישיבה, נגרר צעד אחר צעד אל חבורת שודדים. בליל חנוכה, באמצע שוד באכסניה, הוא פורץ לחדר של החברותא הישן שלו ומוצא אותו לומד גמרא מול הנרות. הנרות מעוררים אותו. הוא נוסע לרבי ישראל מרוז'ין, ושנתיים אחר כך חוזר הביתה לבן שמעולם לא פגש."},
-  {id:"track03", title:"המרגרינה של אושוויץ", dur:595, pal:[[4,70,45],[350,60,30],[20,30,60]],
-   short:"רב זוחל לאסוף פירורים, בשביל נר חנוכה בלב התופת",
-   about:"חנוכה 1942. הנאצים זורקים מרגרינה לחלשים, כדי לצפות ביהודים הרעבים נלחמים זה בזה. הרב אוסף כל פירור, ואז קורא: 'נס! אפשר להדליק נרות חנוכה!' מבגדיו נעשות פתילות ומכפתורי כסף נבנית חנוכייה. כשהגרמנים חוזרים, הם לא מוצאים קרב אלא אור."},
-  {id:"track04", title:"חנוכיות הכסף מצנעא", dur:823, pal:[[190,30,70],[42,85,60],[210,40,35]],
-   short:"שני אחים מתימן מוצאים זה את זה אחרי 24 שנה",
-   about:"לפני שנפרדו, אמם של סאלם ויחיא נתנה לכל אחד מהם חנוכיית כסף שעשתה בעצמה. בארץ מפרידים ביניהם, והיהדות שלהם נמחקת. 24 שנה אחר כך, במילואים בסיני, 'חיים' מזהה חנוכיה זהה לשלו באוהל של 'שלומי'. שני האחים חוזרים זה לזה, ושניהם חוזרים ליהדות."},
-  {id:"track05", title:"החייל היהודי וג'ורג' וושינגטון", dur:563, pal:[[220,55,45],[40,90,58],[230,40,22]],
-   short:"נר חנוכה אחד בוולי פורג' מחזק את המצביא",
-   about:"ולי פורג', 1777. חייל יהודי מדליק נר חנוכה ומתפלל לניצחון. הגנרל וושינגטון שואל מה זה, והחייל מסביר: מעטים כנגד רבים. שנים אחר כך הנשיא מגיע לביתו ומעניק לו מדליית זהב שחרוטה עליה חנוכייה. (מסורת עממית.)"}
-];
-const OFF=[0,1876,2471,3294];
-const CLIPS=[
-  {ep:0,from:1041,to:1159,title:"\"אני מנחם פרנק\"",sub:"החברותא מז'יטומיר · 2:00",q:"אתה משה מז'יטומיר? אני החברותא שלך מבית המדרש"},
-  {ep:1,from:334,to:404,title:"\"נס חנוכה!\"",sub:"המרגרינה של אושוויץ · 1:19",q:"על ידי המרגרינה אפשר להדליק נרות חנוכה"},
-  {ep:2,from:583,to:689,title:"האחים בסיני",sub:"חנוכיות הכסף מצנעא · 1:50",q:"לשלומי היה קול של בית אבא. קול שהזכיר את אמא"},
-  {ep:3,from:229,to:330,title:"וושינגטון והנר",sub:"החייל היהודי · 1:47",q:"גם כשאנחנו מעטים, בורא עולם יכול לעזור לנו לנצח"}
-];
-const DISCS=["1א|בוץ שווה זהב","2ב|הלב","3ג|בת השך","4ד|דוד המלך","5ה|השרשרת","6ו|התפקיד","7ז|זעקה","8ח|חזק","9ט|לעולם לא לבד","10י|יהודי יחודי","11יא|לתת","12יב|ליבו של רש\"י","13יג|תכלית","14יד|בעלי תשובה","15יד|יוסלה מסלוצק","16יז|החוזה מלובלין","17יח|המהר\"ל מפראג","18יט|המהרש\"א","19כ|רבי זושא","20ל|רבי עקיבא","21מ|הגלגל","22נ|מסירות נפש","23ס|נוגע ללב","24ס|סוד השמן","25ע|קרבן הלב","28צ|הרוגי מלכות","29ק|סוד האומץ","30ר|אמא","31ר|בת של מלך","32ר|כבוד שמים","33ש|בין המצרים א","34ש|בין המצרים ב","35ת|חנוכה – מעטים כנגד רבים","36ת|פה שח – לפסח","37ת|פורים – שמחת האמונה","38תת|אל מלא רחמים","39תת|שאיפות קטלניות","שמשון|לוחם יהודי א","שמשון|לוחם יהודי ב"];
-const READY=new Set(["35ת"]);const RUN=new Set([]);const TRANS=new Set(DISCS.map(d=>d.split("|")[0]).filter(k=>!READY.has(k)&&!RUN.has(k)));const DONE=new Set([...READY,...TRANS]);
+const $=s=>document.querySelector(s),$$=s=>[...document.querySelectorAll(s)];
+const REDUCED=matchMedia("(prefers-reduced-motion: reduce)").matches;
+const ICO={play:'<svg viewBox="0 0 24 24" fill="currentColor"><path d="M7 5v14l11-7z"/></svg>',pause:'<svg viewBox="0 0 24 24" fill="currentColor"><path d="M7 5h4v14H7zM13 5h4v14h-4z"/></svg>'};
+const fmt=s=>{s=Math.max(0,Math.floor(s||0));return Math.floor(s/60)+":"+String(s%60).padStart(2,"0")};
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+function toast(t){const el=$("#toast");el.textContent=t;el.classList.add("on");clearTimeout(el._t);el._t=setTimeout(()=>el.classList.remove("on"),2200)}
+const DISCS=["1א|בוץ שווה זהב","2ב|הלב","3ג|בת השך","4ד|דוד המלך","5ה|השרשרת","6ו|התפקיד","7ז|זעקה","8ח|חזק","9ט|לעולם לא לבד","10י|יהודי ייחודי","11יא|לתת","12יב|ליבו של רש\"י","13יג|תכלית","14יד|בעלי תשובה","15יד|יוסלה מסלוצק","16יז|החוזה מלובלין","17יח|המהר\"ל מפראג","18יט|המהרש\"א","19כ|רבי זושא","20ל|רבי עקיבא","21מ|הגלגל","22נ|מסירות נפש","23ס|נוגע ללב","24ס|סוד השמן","25ע|קרבן הלב","28צ|הרוגי מלכות","29ק|סוד האומץ","30ר|אמא","31ר|בת של מלך","32ר|כבוד שמים","33ש|בין המצרים א","34ש|בין המצרים ב","35ת|חנוכה – מעטים כנגד רבים","36ת|פה שח – לפסח","37ת|פורים – שמחת האמונה","38תת|אל מלא רחמים","39תת|שאיפות קטלניות","שמשון|לוחם יהודי א","שמשון|לוחם יהודי ב"];
+const discNum=k=>(k.match(/^\d+/)||[""])[0];
+const discIdx=num=>DISCS.findIndex(d=>discNum(d.split("|")[0])===num);
+const READY=new Set(ALBUMS.map(a=>a.disc));
+let curAlbum=ALBUMS[0];
 
-/* ---------- hero: live menorah lighting ---------- */
-(function(){const c=document.getElementById("heroCanvas"),x=c.getContext("2d"),W=1080,H=1920;let CLIP={dur:12.2,seed:11,theme:"amber"};
-const THEMES={
-  amber:{bg:["#14206b","#3b2a8f","#e0703c"],glow:"255,190,90",acc:"#ffd36b"},
-  violet:{bg:["#10184f","#2c2a7a","#7b3f8f"],glow:"255,200,120",acc:"#ffd36b"},
-  teal:{bg:["#0b2f5e","#11607a","#d99b4c"],glow:"255,215,140",acc:"#ffe08a"},
-  royal:{bg:["#0c1b55","#1d48a8","#5aa0e0"],glow:"255,210,120",acc:"#ffd36b"}
-};
-function rng(s){return()=>((s=Math.imul(s^s>>>15,1|s)+0x6D2B79F5|0,((s^s>>>14)>>>0)/4294967296))}
-const ease=t=>t<0?0:t>1?1:1-Math.pow(1-t,3);
-const back=t=>{t=Math.max(0,Math.min(1,t));const c1=1.7,c3=c1+1;return 1+c3*Math.pow(t-1,3)+c1*Math.pow(t-1,2)};
-let parts=[];
-function setup(clip){CLIP=clip;const r=rng(clip.seed||7);parts=[];for(let i=0;i<46;i++)parts.push({x:r()*W,y:r()*H,s:6+r()*26,v:14+r()*40,a:.08+r()*.22,ph:r()*6.28,g:r()<.5});}
+/* ---------- 3D tilt ---------- */
+function tilt(el,max=10){if(REDUCED||el._tilt)return;el._tilt=1;el.classList.add("tilt");if(!el.querySelector(".glare")){const g=document.createElement("span");g.className="glare";el.style.position=el.style.position||"relative";el.appendChild(g)}
+  const mv=e=>{const r=el.getBoundingClientRect(),px=(e.clientX-r.left)/r.width,py=(e.clientY-r.top)/r.height;el.classList.add("live");el.style.transform=`perspective(700px) rotateX(${(.5-py)*max}deg) rotateY(${(px-.5)*max}deg) scale(1.02)`;el.style.setProperty("--gx",px*100+"%");el.style.setProperty("--gy",py*100+"%")};
+  const lv=()=>{el.classList.remove("live");el.style.transform=""};
+  el.addEventListener("pointermove",mv);el.addEventListener("pointerleave",lv);el.addEventListener("pointerup",lv);el.addEventListener("pointercancel",lv)}
 
-/* candle schedule: shamash first, then 8 candles right->left across the clip */
-const SLOT=[4,8,7,6,5,3,2,1,0];
-function litTime(k){const d=CLIP.dur;if(k===0)return 0.8;return 3.5+(k-1)*((d-9)/7);}
+/* ---------- routing with view transitions ---------- */
+const ORDER=["home","shabbat","studio","search","library"];let curView="home";
+function show(v){$$(".view").forEach(x=>x.classList.toggle("on",x.id==="v-"+v));$$(".tabs a").forEach(a=>a.classList.toggle("on",a.dataset.v===v));scrollTo(0,0);curView=v;
+  if(v==="shabbat")renderShabbat();if(v==="studio")renderStudio();if(v==="library")renderLibrary();if(v==="search")initSearch()}
+function route(){const v=(location.hash||"#home").slice(1);const nv=ORDER.includes(v)?v:"home";if(nv===curView&&document.querySelector(".view.on"))return;
+  document.documentElement.dataset.dir=ORDER.indexOf(nv)<ORDER.indexOf(curView)?"back":"fwd";
+  if(document.startViewTransition&&!REDUCED)document.startViewTransition(()=>show(nv));else show(nv)}
+addEventListener("hashchange",route);
 
-function bg(t,th){
-  const g=x.createLinearGradient(0,0,0,H);g.addColorStop(0,th.bg[0]);g.addColorStop(.55,th.bg[1]);g.addColorStop(1,th.bg[2]);x.fillStyle=g;x.fillRect(0,0,W,H);
-  // menorah glow grows with the light
-  let lit=0;for(let k=0;k<9;k++)if(t>=litTime(k))lit++;
-  const gr=x.createRadialGradient(540,1420,0,540,1420,300+lit*70);gr.addColorStop(0,`rgba(${th.glow},${.18+lit*.045})`);gr.addColorStop(1,`rgba(${th.glow},0)`);x.fillStyle=gr;x.fillRect(0,0,W,H);
-  // drifting bokeh
-  for(const p of parts){const y=((p.y-p.v*t)%H+H)%H,xx=p.x+Math.sin(t*.6+p.ph)*24;const a=p.a*(.7+.3*Math.sin(t*1.3+p.ph));
-    const r=x.createRadialGradient(xx,y,0,xx,y,p.s);r.addColorStop(0,p.g?`rgba(255,214,120,${a})`:`rgba(255,255,255,${a})`);r.addColorStop(1,"rgba(255,255,255,0)");x.fillStyle=r;x.beginPath();x.arc(xx,y,p.s,0,6.283);x.fill();}
-}
+/* ---------- hero title letters ---------- */
+(()=>{const h=$("#heroTitle");const words=h.textContent.split(" ");let i=0;h.innerHTML=words.map(w=>`<span style="animation-delay:${(i++)*120+200}ms">${w}</span>`).join(" ")})();
 
-function flame(fx,fy,t,seed,scale){
-  const f=1+.08*Math.sin(t*9+seed)+.05*Math.sin(t*14.3+seed*2),sw=Math.sin(t*5+seed)*3;
-  const h=60*scale*f,w=21*scale;
-  const g=x.createRadialGradient(fx,fy-h*.35,0,fx,fy-h*.35,h*2.2);g.addColorStop(0,"rgba(255,200,90,.55)");g.addColorStop(1,"rgba(255,200,90,0)");x.fillStyle=g;x.beginPath();x.arc(fx,fy-h*.35,h*2.2,0,6.283);x.fill();
-  x.beginPath();x.moveTo(fx+sw,fy-h);x.bezierCurveTo(fx+w,fy-h*.45,fx+w*.85,fy,fx,fy);x.bezierCurveTo(fx-w*.85,fy,fx-w,fy-h*.45,fx+sw,fy-h);
-  const fg=x.createLinearGradient(0,fy-h,0,fy);fg.addColorStop(0,"#ffb347");fg.addColorStop(.55,"#ffe38a");fg.addColorStop(1,"#fffbe8");x.fillStyle=fg;x.fill();
-}
+/* ---------- coverflow ---------- */
+const UPCOMING=[["37","פורים","פורים – שמחת האמונה"],["36","פסח","פה שח – לפסח"],["24","עשרה בטבת","סוד השמן"],["20","ל\"ג בעומר","רבי עקיבא"],["16","ט' באב","החוזה מלובלין"]];
+function renderFlow(){const f=$("#flow");f.innerHTML="";
+  ALBUMS.forEach((a,i)=>{const b=document.createElement("button");b.className="alb"+(a===curAlbum?" sel":"");b.innerHTML=`<div class="art"><img src="${a.cover}" alt=""></div><b>${a.title}</b><small>דיסק ${a.disc} · ${a.season}</small>`;b.onclick=()=>{selectAlbum(a);b.scrollIntoView({behavior:REDUCED?"auto":"smooth",inline:"center",block:"nearest"})};f.appendChild(b)});
+  UPCOMING.forEach(([n,s,t])=>{const i=discIdx(n);const b=document.createElement("button");b.className="alb";b.innerHTML=`<div class="art"><span class="soon">בקרוב</span><img src="covers/disc${i}.jpg" alt=""></div><b>${t}</b><small>דיסק ${n} · ${s}</small>`;b.onclick=()=>toast(`דיסק ${n} תומלל. החבילה המלאה בהכנה`);f.appendChild(b)});
+  const upd=()=>{const r=f.getBoundingClientRect(),c=r.left+r.width/2;f.querySelectorAll(".alb").forEach(el=>{const e=el.getBoundingClientRect(),d=(e.left+e.width/2-c)/e.width;const cl=Math.max(-2.2,Math.min(2.2,d));
+    el.style.transform=REDUCED?"":`translateZ(${-Math.abs(cl)*120}px) rotateY(${-cl*38}deg) scale(${1-Math.min(.18,Math.abs(cl)*.09)})`;el.style.zIndex=10-Math.round(Math.abs(cl)*3);el.style.opacity=1-Math.min(.55,Math.abs(cl)*.22)})};
+  let raf=0;f.addEventListener("scroll",()=>{cancelAnimationFrame(raf);raf=requestAnimationFrame(upd)},{passive:true});addEventListener("resize",upd);requestAnimationFrame(upd);
+  setTimeout(()=>{const s=f.querySelector(".sel");s&&s.scrollIntoView({inline:"center",block:"nearest"});upd()},60)}
 
-function menorah(t,th){
-  const gold=x.createLinearGradient(0,1300,0,1760);gold.addColorStop(0,"#ffe6a0");gold.addColorStop(.5,"#e9b545");gold.addColorStop(1,"#b9822a");
-  x.strokeStyle=gold;x.lineCap="round";x.lineWidth=13;
-  const cx=540,cupY=1470,sp=92;
-  for(let k=1;k<=4;k++){x.beginPath();x.arc(cx,cupY,k*sp,0,Math.PI,false);x.stroke();}
-  x.beginPath();x.moveTo(cx,1400);x.lineTo(cx,1690);x.stroke();
-  x.fillStyle=gold;x.beginPath();x.moveTo(cx-130,1745);x.lineTo(cx+130,1745);x.lineTo(cx+60,1690);x.lineTo(cx-60,1690);x.closePath();x.fill();
-  for(let i=0;i<9;i++){
-    const px=cx+(i-4)*sp,py=i===4?1400:cupY;
-    x.fillStyle=gold;x.beginPath();x.ellipse(px,py,26,10,0,0,6.283);x.fill();
-    // candle
-    x.fillStyle="#fff6e4";x.fillRect(px-9,py-78,18,72);x.fillStyle="rgba(0,0,0,.08)";x.fillRect(px+3,py-78,6,72);
-    const k=SLOT.indexOf(i),lt=litTime(k);
-    if(t>=lt){
-      const age=t-lt,sc=Math.min(1,ease(age/0.5));flame(px,py-80,t,i*1.7,sc*(i===4?1.1:1));
-      if(age<0.9){const r=20+age*160,a=1-age/0.9;x.strokeStyle=`rgba(255,226,140,${a*.8})`;x.lineWidth=4;x.beginPath();x.arc(px,py-100,r,0,6.283);x.stroke();
-        for(let s=0;s<8;s++){const an=s*.785+i,rr=r*1.1;x.fillStyle=`rgba(255,240,190,${a})`;x.beginPath();x.arc(px+Math.cos(an)*rr,py-100+Math.sin(an)*rr,5,0,6.283);x.fill();}}
-    } else {x.strokeStyle="#5a4630";x.lineWidth=3;x.beginPath();x.moveTo(px,py-78);x.lineTo(px,py-90);x.stroke();}
-  }
-}
+function selectAlbum(a){if(a===curAlbum&&$("#album").children.length){return}curAlbum=a;$$(".alb").forEach((el,i)=>el.classList.toggle("sel",ALBUMS[i]===a));
+  const go=()=>renderAlbum();if(document.startViewTransition&&!REDUCED){document.documentElement.dataset.dir="fwd";document.startViewTransition(go)}else go()}
 
+function renderAlbum(){const a=curAlbum,el=$("#album");let k=0;
+  el.innerHTML=`<div class="ahead st" style="--i:${k++}"><div><span class="eyebrow">${a.when}</span><h2 style="margin-top:8px">${a.title}</h2><p class="muted">${a.sub} · ${a.total}</p></div><button class="playall" id="playAll" aria-label="נגן את האלבום">${ICO.play}</button></div>
+  <div class="eps">${a.tracks.map((t,i)=>`<button class="ep st" style="--i:${k++}" data-i="${i}"><img src="${t.cover}" alt="" loading="lazy"><div><div class="t">${t.title}</div><div class="s">${t.short}</div></div><span class="d">${fmt(t.dur)}</span></button>`).join("")}</div>
+  <div class="thesis st" style="--i:${k++}"><q>${a.thesis.q}</q><span>${a.thesis.src}</span><p>${a.thesis.p}</p></div>
+  <div class="sec st" style="--i:${k++}"><div class="sec-h"><h2 class="h2">קליפים</h2><a href="#studio" style="font-size:.85rem">לסטודיו ←</a></div><div class="row reels">${a.clips.map(c=>`<div class="reel"><video src="${c.file}.mp4" poster="${c.file}.jpg" controls playsinline preload="none"></video><small>${c.when}</small><b>${c.title}</b></div>`).join("")}</div></div>
+  <div class="sec st" style="--i:${k++}"><div class="sec-h"><h2 class="h2">ציטוטים לשיתוף</h2></div><div class="row">${a.quotes.map(q=>`<div class="qcard"><img src="${q}" alt="כרטיס ציטוט" loading="lazy"></div>`).join("")}</div></div>`;
+  el.querySelectorAll(".ep").forEach(b=>{tilt(b,6);b.onclick=()=>play(a,+b.dataset.i,0,b.querySelector("img"))});
+  $("#playAll").onclick=()=>{if(player.album===a&&!A.paused)A.pause();else if(player.album===a)A.play();else play(a,0,0,el.querySelector(".ep img"))};
+  el.querySelectorAll(".reel video").forEach(v=>v.addEventListener("play",()=>{A.pause();el.querySelectorAll(".reel video").forEach(o=>o!==v&&o.pause())}));
+  el.querySelectorAll(".qcard").forEach(q=>tilt(q,12));markPlaying()}
 
-c.width=1080;c.height=1500;setup(CLIP);const t0=performance.now();const still=matchMedia("(prefers-reduced-motion: reduce)").matches;
-function draw(t){const th=THEMES.amber;x.save();x.translate(0,-420);bg(t,th);menorah(t,th);x.restore();}
-function loop(now){if(!document.hidden&&document.getElementById("v-home").classList.contains("on"))draw(still?20:(now-t0)/1000);if(!still)requestAnimationFrame(loop)}
-requestAnimationFrame(loop);})();
-/* ---------- render home ---------- */
-const fmt=s=>{s=Math.max(0,Math.floor(s));return Math.floor(s/60)+":"+String(s%60).padStart(2,"0")};
-const epsEl=document.getElementById("eps");
-EPS.forEach((e,i)=>{
-  const b=document.createElement("button");b.className="ep";b.dataset.i=i;
-  b.innerHTML=`<img src="covers/${e.id}.jpg" alt="" loading="lazy">`;
-  const tx=document.createElement("div");tx.innerHTML=`<div class="t">${e.title}</div><div class="s">${e.short}</div>`;b.appendChild(tx);
-  const d=document.createElement("span");d.className="d";d.textContent=fmt(e.dur);b.appendChild(d);
-  b.onclick=()=>play(i,0,true);epsEl.appendChild(b);
-});
-
-
-const shelf=document.getElementById("shelf");
-[["36ת","פה שח – לפסח","פסח"],["37ת","פורים – שמחת האמונה","פורים"],["20ל","רבי עקיבא","ל\"ג בעומר"],["33ש","בין המצרים א","תמוז–אב"],["17יח","המהר\"ל מפראג","הילולא"],["30ר","אמא","כל השנה"]].forEach(([k,t,s],i)=>{
-  const idx=DISCS.findIndex(d=>d.startsWith(k));const el=document.createElement("a");el.className="tile";el.href="#library";
-  el.insertAdjacentHTML("beforeend",`<img src="covers/disc${idx}.jpg" alt="" loading="lazy">`);
-  el.insertAdjacentHTML("beforeend",`<b>${t}</b><small>מתאים ל: ${s}</small>`);shelf.appendChild(el);
-});
-
-/* ---------- library ---------- */
-const lib=document.getElementById("lib");
-DISCS.forEach((d,i)=>{const [k,t]=d.split("|");const done=DONE.has(k);const stTxt=READY.has(k)?"תוכן מוכן":TRANS.has(k)?"תומלל":RUN.has(k)?"בתמלול…":"בתור";
-  const el=document.createElement("div");el.className="disc"+(done?" done":RUN.has(k)?" run":"");
-  el.insertAdjacentHTML("beforeend",`<img src="covers/disc${i}.jpg" alt="" loading="lazy">`);
-  el.insertAdjacentHTML("beforeend",`<b>${t}</b><small>${k.startsWith("שמשון")?"סדרת שמשון":"דיסק "+k}</small><br><span class="st">${stTxt}</span>`);lib.appendChild(el)});
-document.getElementById("prog").style.width=(DONE.size/DISCS.length*100)+"%";
-
-/* ---------- candles + clips ---------- */
-const cd=document.getElementById("candles");const nights=["ו' 4.12","ש' 5.12","א' 6.12","ב' 7.12","ג' 8.12","ד' 9.12","ה' 10.12","ו' 11.12"];const litN=new Set([0,2,4,6]);
-nights.forEach((n,i)=>cd.insertAdjacentHTML("beforeend",`<div class="candle ${litN.has(i)?"lit":""}"><i></i><b>${i+1}</b>${n}</div>`));
-const clipsEl=document.getElementById("clips");const CLIP_FILES=["clip1-menachem-frank","clip2-margarine","clip3-silver-menorahs","clip4-washington"];const CLIP_WHEN=["נר ראשון · 4.12","נר שלישי · 6.12","נר חמישי · 8.12","נר שביעי · 10.12"];
-CLIPS.forEach((c,i)=>{const el=document.createElement("div");el.className="reel";
-  el.innerHTML=`<video src="clips/${CLIP_FILES[i]}.mp4" poster="clips/${CLIP_FILES[i]}.jpg" controls playsinline preload="none"></video><span class="when">${CLIP_WHEN[i]}</span><b>${c.title}</b><small>${c.sub}</small>`;
-  el.querySelector("video").addEventListener("play",()=>{if(!A.paused)A.pause();document.querySelectorAll(".reel video").forEach(v=>{if(v!==el.querySelector("video"))v.pause()})});
-  clipsEl.appendChild(el)});
 /* ---------- player ---------- */
-const A=document.getElementById("audio");let cur=-1,clipEnd=null,lineEls=[],lastLine=-1;
-const icoPlay=`<svg viewBox="0 0 24 24" fill="currentColor"><path d="M7 5v14l11-7z"/></svg>`,icoPause=`<svg viewBox="0 0 24 24" fill="currentColor"><path d="M7 5h4v14H7zM13 5h4v14h-4z"/></svg>`;
-function setIcons(){const p=A.paused;document.getElementById("pp").innerHTML=p?icoPlay:icoPause;document.getElementById("miniPP").innerHTML=p?icoPlay:icoPause;document.getElementById("playAll").innerHTML=p||cur<0?icoPlay.replace('<svg','<svg'):icoPause}
-function load(i){
-  cur=i;const e=EPS[i];A.src="audio/"+e.id+".mp3";
-  document.getElementById("npT").textContent=e.title;document.getElementById("miniT").textContent=e.title;document.getElementById("npAbout").textContent=e.about;
-  document.getElementById("npCover").src=`covers/${e.id}.jpg`;document.getElementById("npBg").src=`covers/${e.id}-plain.jpg`;document.getElementById("miniCover").src=`covers/${e.id}.jpg`;
-  const L=document.getElementById("lines");L.innerHTML="";lineEls=SEGS[e.id].map(([t,tx])=>{const p=document.createElement("p");p.textContent=tx;p.onclick=()=>{A.currentTime=t;A.play().catch(()=>{})};L.appendChild(p);return p});lastLine=-1;
-  document.querySelectorAll(".ep").forEach(b=>b.classList.toggle("playing",+b.dataset.i===i));
-  document.getElementById("mini").classList.add("on");
-}
-function play(i,t,open){clipEnd=null;if(i!==cur)load(i);const go=()=>{if(t!=null)A.currentTime=t;A.play().catch(err=>{document.getElementById("npAbout").textContent="לא הצלחתי לנגן את הקובץ. נסו שוב."})};if(A.readyState>=1)go();else A.addEventListener("loadedmetadata",go,{once:true});if(open)openNp()}
-function openNp(){document.getElementById("np").classList.add("on")}
-document.getElementById("closeNp").onclick=()=>document.getElementById("np").classList.remove("on");
-document.getElementById("openNp").onclick=openNp;
-const toggle=()=>{if(cur<0){play(0,0,true);return}A.paused?A.play().catch(()=>{}):A.pause()};
-document.getElementById("pp").onclick=toggle;document.getElementById("miniPP").onclick=toggle;
-document.getElementById("playAll").onclick=()=>{if(cur<0)play(0,0,true);else toggle()};
-document.getElementById("back15").onclick=()=>A.currentTime=Math.max(0,A.currentTime-15);
-document.getElementById("fwd15").onclick=()=>A.currentTime=Math.min(A.duration||0,A.currentTime+15);
-document.getElementById("next").onclick=()=>play((cur+1)%EPS.length,0,false);
-document.getElementById("prev").onclick=()=>{if(A.currentTime>5)A.currentTime=0;else play((cur-1+EPS.length)%EPS.length,0,false)};
-const speeds=[1,1.25,1.5,.85];let si=0;document.getElementById("speed").onclick=e=>{si=(si+1)%speeds.length;A.playbackRate=speeds[si];e.target.textContent=speeds[si]+"×"};
-const seek=document.getElementById("seek");let dragging=false;
-seek.oninput=()=>{dragging=true;document.getElementById("tCur").textContent=fmt(seek.value/1000*(A.duration||0))};
-seek.onchange=()=>{A.currentTime=seek.value/1000*(A.duration||0);dragging=false};
-["play","pause"].forEach(ev=>A.addEventListener(ev,setIcons));
-A.addEventListener("ended",()=>{if(cur<EPS.length-1)play(cur+1,0,false)});
-A.addEventListener("timeupdate",()=>{
-  const t=A.currentTime,d=A.duration||EPS[cur].dur;
-  if(clipEnd&&t>=clipEnd){A.pause();clipEnd=null}
-  if(!dragging)seek.value=t/d*1000;document.getElementById("tCur").textContent=fmt(t);document.getElementById("tDur").textContent=fmt(d);
-  document.getElementById("miniBar").style.width=(t/d*100)+"%";
-  const segs=SEGS[EPS[cur].id];let k=-1;for(let j=0;j<segs.length;j++){if(segs[j][0]<=t+.2)k=j;else break}
-  if(k!==lastLine){lineEls.forEach((p,j)=>{p.classList.toggle("now",j===k);p.classList.toggle("past",j<k)});
-    if(k>=0&&document.getElementById("np").classList.contains("on")){const L=document.getElementById("lines");const p=lineEls[k];L.scrollTop=p.offsetTop-L.offsetTop-L.clientHeight*.35}lastLine=k}
-});
-if("mediaSession" in navigator){navigator.mediaSession.setActionHandler("play",()=>A.play());navigator.mediaSession.setActionHandler("pause",()=>A.pause())}
-setIcons();
+const A=$("#audio");const player={album:null,i:-1,segs:[],lines:[],last:-1};let clipEnd=null;
+async function loadTrack(a,i){player.album=a;player.i=i;const t=a.tracks[i];A.src=t.audio;
+  $("#npT").textContent=t.title;$("#miniT").textContent=t.title;$("#miniS").textContent=a.title;$("#npAlbum").textContent=`מנגן מתוך · ${a.title}`;$("#npAbout").textContent=t.about;
+  $("#npCover").src=t.cover;$("#npBg").src=t.bg;$("#miniCover").src=t.cover;$("#mini").classList.add("on");
+  const L=$("#lines");L.innerHTML="<p>טוען תמלול…</p>";player.segs=[];player.last=-1;
+  try{const r=await fetch(t.segs);player.segs=await r.json()}catch(e){player.segs=[]}
+  if(player.album!==a||player.i!==i)return;L.innerHTML="";player.lines=player.segs.map(([tt,tx])=>{const p=document.createElement("p");p.textContent=tx;p.onclick=()=>{A.currentTime=tt;A.play().catch(()=>{})};L.appendChild(p);return p});markPlaying()}
+function markPlaying(){$$("#album .ep").forEach(b=>b.classList.toggle("playing",player.album===curAlbum&&+b.dataset.i===player.i))}
+async function play(a,i,t,fromImg){clipEnd=null;if(player.album!==a||player.i!==i)loadTrack(a,i);
+  const go=()=>{if(t)A.currentTime=t;A.play().catch(()=>toast("לא הצלחתי לנגן. נסו שוב"))};if(A.readyState>=1)go();else A.addEventListener("loadedmetadata",go,{once:true});
+  if(fromImg!==false)openNp(fromImg)}
+function openNp(fromImg){const np=$("#np");if(np.classList.contains("on"))return;
+  if(fromImg&&document.startViewTransition&&!REDUCED){fromImg.style.viewTransitionName="npcover";$("#npCoverWrap").style.viewTransitionName="none";
+    const tr=document.startViewTransition(()=>{fromImg.style.viewTransitionName="";$("#npCoverWrap").style.viewTransitionName="npcover";np.classList.add("on");document.body.style.overflow="hidden"});tr.finished.finally(()=>{})}
+  else{np.classList.add("on");document.body.style.overflow="hidden";if(!REDUCED)np.animate([{transform:"translateY(100%)"},{transform:"none"}],{duration:420,easing:"cubic-bezier(.2,.8,.2,1)"})}}
+function closeNp(){const np=$("#np");const done=()=>{np.classList.remove("on");document.body.style.overflow=""};
+  if(document.startViewTransition&&!REDUCED){const img=$$("#album .ep")[player.i]?.querySelector("img");if(img&&player.album===curAlbum&&curView==="home"){$("#npCoverWrap").style.viewTransitionName="npcover";document.startViewTransition(()=>{$("#npCoverWrap").style.viewTransitionName="none";img.style.viewTransitionName="npcover";done()}).finished.then(()=>{img.style.viewTransitionName="";$("#npCoverWrap").style.viewTransitionName="npcover"});return}}
+  if(!REDUCED){np.animate([{transform:"none"},{transform:"translateY(100%)"}],{duration:320,easing:"cubic-bezier(.4,0,.2,1)"}).onfinish=done}else done()}
+$("#closeNp").onclick=closeNp;$("#openNp").onclick=()=>openNp();
+const toggle=()=>{if(!player.album){play(curAlbum,0,0);return}A.paused?A.play().catch(()=>{}):A.pause()};
+$("#pp").onclick=toggle;$("#miniPP").onclick=toggle;$("#heroPlay").onclick=()=>play(curAlbum,0,0,null);
+$("#back15").onclick=()=>A.currentTime=Math.max(0,A.currentTime-15);$("#fwd15").onclick=()=>A.currentTime=Math.min(A.duration||0,A.currentTime+15);
+$("#next").onclick=()=>play(player.album,(player.i+1)%player.album.tracks.length,0,false);
+$("#prev").onclick=()=>{if(A.currentTime>5)A.currentTime=0;else play(player.album,(player.i-1+player.album.tracks.length)%player.album.tracks.length,0,false)};
+const speeds=[1,1.25,1.5,.85];let si=0;$("#speed").onclick=e=>{si=(si+1)%speeds.length;A.playbackRate=speeds[si];e.currentTarget.textContent=speeds[si]+"×"};
+const seek=$("#seek");let drag=false;seek.oninput=()=>{drag=true;$("#tCur").textContent=fmt(seek.value/1000*(A.duration||0))};seek.onchange=()=>{A.currentTime=seek.value/1000*(A.duration||0);drag=false};
+function icons(){const p=A.paused;$("#pp").innerHTML=p?ICO.play:ICO.pause;$("#miniPP").innerHTML=p?ICO.play:ICO.pause;const pa=$("#playAll");if(pa)pa.innerHTML=(!p&&player.album===curAlbum)?ICO.pause:ICO.play}
+["play","pause"].forEach(e=>A.addEventListener(e,icons));
+A.addEventListener("ended",()=>{const a=player.album;if(a&&player.i<a.tracks.length-1)play(a,player.i+1,0,false)});
+A.addEventListener("timeupdate",()=>{const t=A.currentTime,d=A.duration||1;if(clipEnd&&t>=clipEnd){A.pause();clipEnd=null}
+  if(!drag)seek.value=t/d*1000;$("#tCur").textContent=fmt(t);$("#tDur").textContent=fmt(d);$("#miniBar").style.width=(t/d*100)+"%";
+  const s=player.segs;let k=-1;for(let j=0;j<s.length;j++){if(s[j][0]<=t+.2)k=j;else break}
+  if(k!==player.last&&player.lines.length){player.lines.forEach((p,j)=>{p.classList.toggle("now",j===k);p.classList.toggle("past",j<k)});
+    if(k>=0&&$("#np").classList.contains("on")){const L=$("#lines"),p=player.lines[k];L.scrollTop=p.offsetTop-L.offsetTop-L.clientHeight*.35}player.last=k}});
+tilt($("#npCoverWrap"),14);icons();
 
-/* ---------- copy ---------- */
-document.querySelectorAll("[data-copy]").forEach(b=>b.onclick=async()=>{const t=document.getElementById(b.dataset.copy).innerText;const o=b.textContent;try{await navigator.clipboard.writeText(t);b.textContent="הועתק ✓";b.classList.add("ok")}catch(e){b.textContent="ההעתקה נחסמה"}setTimeout(()=>{b.textContent=o;b.classList.remove("ok")},1800)});
+/* ---------- SHABBAT ---------- */
+function chips(sel,onPick){const el=$(sel);el.innerHTML="";ALBUMS.forEach(a=>{const b=document.createElement("button");b.className="chip"+(a===curAlbum?" on":"");b.textContent=`${a.title} · ${a.season}`;b.onclick=()=>{curAlbum=a;$$(sel+" .chip").forEach(c=>c.classList.toggle("on",c===b));const go=()=>onPick();if(document.startViewTransition&&!REDUCED)document.startViewTransition(go);else go()};el.appendChild(b)})}
+function renderShabbat(){chips("#shChips",renderShabbat_);renderShabbat_()}
+function renderShabbat_(){const a=curAlbum,s=a.sheet;let k=0;
+  $("#shabbatBody").innerHTML=`<div style="margin-top:16px;display:flex;gap:8px;flex-wrap:wrap" class="st"><button class="btn" data-copy="sheet">העתקת הטקסט</button>${a.kidsStory?'<a class="btn soft" href="#kidsStory">גרסה לילדים ↓</a>':""}</div>
+  <article class="sheet st" style="--i:1" id="sheet"><span class="bsd">בס"ד</span><div class="mast"><div class="series">סיפורי צדיקים · הרב אריה מאיר</div><h2>${s.title}</h2><div class="m">גיליון ל${s.head}</div></div><div class="rule"></div>
+  <blockquote>${s.quote}<small>${s.quoteSrc}</small></blockquote><h3>${s.storyTitle}</h3><div class="body">${s.story.map(p=>`<p>${p}</p>`).join("")}</div>
+  <div class="lesson"><h3>המסר</h3><p style="margin:0">${s.lesson}</p></div><div class="trio">${s.trio.map(([b,t])=>`<div><b>${b}</b>${t}</div>`).join("")}</div>
+  <div class="two"><div><h3>שאלות לשולחן השבת</h3><ol>${s.questions.map(q=>`<li>${q}</li>`).join("")}</ol></div><div><h3>חידון לילדים</h3><ol>${s.kids.map(([q,a])=>`<li>${q} <small>${a}</small></li>`).join("")}</ol></div></div>
+  <div class="foot">הגיליון מכיל דברי תורה – נא לשמור על קדושתו · הסיפור המלא בפודקאסט "סיפורי צדיקים"</div></article>
+  <div class="note st" style="--i:2"><b>!</b><span>${s.note}</span></div>${a.kidsStory?kidsHTML(a.kidsStory):""}`;bindCopy()}
+function kidsHTML(k){return `<section class="kids st" style="--i:3" id="kidsStory"><span class="eyebrow">סיפור לילדים · ${k.age}</span><h3>${k.title}</h3>${k.paras.map(p=>`<p>${p}</p>`).join("")}<b>לשיחה אחרי הסיפור</b><ul>${k.ask.map(q=>`<li>${q}</li>`).join("")}</ul></section>`}
+function bindCopy(){$$("[data-copy]").forEach(b=>b.onclick=async()=>{const t=document.getElementById(b.dataset.copy).innerText;const o=b.textContent;try{await navigator.clipboard.writeText(t);b.textContent="הועתק ✓";b.classList.add("copied")}catch(e){b.textContent="ההעתקה נחסמה"}setTimeout(()=>{b.textContent=o;b.classList.remove("copied")},1800)})}
 
-/* ---------- routing ---------- */
-function route(){const v=(location.hash||"#home").slice(1);const ok=["home","shabbat","studio","library"].includes(v)?v:"home";
-  document.querySelectorAll(".view").forEach(x=>x.classList.toggle("on",x.id==="v-"+ok));document.querySelectorAll(".tabs a").forEach(a=>a.classList.toggle("on",a.dataset.v===ok));scrollTo(0,0)}
-addEventListener("hashchange",route);route();
-document.fonts&&document.fonts.ready.then(()=>{document.querySelectorAll(".tile,.disc").length&&0});
+/* ---------- STUDIO ---------- */
+function renderStudio(){chips("#stChips",renderStudio_);renderStudio_()}
+function renderStudio_(){const a=curAlbum;
+  const F=[["sheetP","📜","דף לשבת","גיליון מעוצב","#fff3d6"],["pod","🎙️","פרק פודקאסט",a.chapters.length+" פרקים","#e8ecff"],["clipsP","🎬","קליפים מונפשים",a.clips.length+" קליפים","#ffe4ef"],["quotesP","💬","כרטיסי ציטוט",a.quotes.length+" כרטיסים","#e5f7ea"],["waP","📱","הודעת וואטסאפ","מוכנה להעתקה","#e5f7ea"],["planP","🗓️","לוח הפצה",a.plan.length+" מועדים","#fff3d6"],["quizP","❓","חידון משפחתי",a.quiz.length+" שאלות","#e8ecff"],["eventsP","🕯️","אירועים",a.events.length+" רעיונות","#ffe4ef"],...(a.kidsStory?[["kidsP","🧒","סיפור לילדים","גילאי 6–10","#e8ecff"]]:[]),...(a.lessonPlan?[["lessonP","🍎","מערך שיעור","45 דקות","#fff3d6"]]:[]),["ideasP","✨","עוד אפשרויות","רעיונות להמשך","#f1ecff"]];
+  let k=0;
+  $("#studioBody").innerHTML=`<div class="fmt">${F.map(([id,ic,t,s,c])=>`<a href="javascript:void 0" data-to="${id}" class="st" style="--i:${k++}"><i style="background:${c}">${ic}</i><b>${t}</b><small>${s}</small></a>`).join("")}</div>
+  <section class="panel" id="clipsP"><div class="panel-h"><h2>קליפים מונפשים</h2><span class="tag ok">מוכן</span></div><div class="row reels">${a.clips.map(c=>`<div class="reel"><video src="${c.file}.mp4" poster="${c.file}.jpg" controls playsinline preload="none"></video><small>${c.when}</small><b>${c.title} · ${c.len}</b></div>`).join("")}</div><p class="muted" style="font-size:.85rem;margin:6px 0 0">חנוכייה או נר שנדלקים לאורך הקליפ, כתוביות שמודגשות מילה אחרי מילה, ופתיח וסיום. הקבצים באיכות מלאה נמצאים בצ'אט ובריפו.</p></section>
+  <section class="panel" id="quotesP"><div class="panel-h"><h2>כרטיסי ציטוט</h2><span class="tag new">חדש</span></div><div class="row">${a.quotes.map(q=>`<div class="qcard"><img src="${q}" alt="" loading="lazy"></div>`).join("")}</div><p class="muted" style="font-size:.85rem;margin:6px 0 0">ריבועיים, 1080×1080, לסטטוס, לאינסטגרם ולקבוצות.</p></section>
+  <section class="panel" id="pod"><div class="panel-h"><h2>פרק פודקאסט</h2><button class="btn soft" data-copy="podText" style="padding:8px 14px">העתקה</button></div><div id="podText"><dl class="kv"><dt>תוכנית</dt><dd>סיפורי צדיקים עם הרב אריה מאיר</dd><dt>פרק</dt><dd>${a.title}: ${a.sub}</dd><dt>אורך</dt><dd>${a.total}</dd></dl><p style="color:#4a4860;font-size:.93rem">${a.podDesc}</p><ul class="chapters">${a.chapters.map(([t,c])=>`<li><span>${t}</span>${c}</li>`).join("")}</ul></div></section>
+  <section class="panel" id="waP"><div class="panel-h"><h2>הודעת וואטסאפ</h2><button class="btn soft" data-copy="waText" style="padding:8px 14px">העתקה</button></div><div class="wa" id="waText">${esc(a.wa)}</div></section>
+  <section class="panel" id="planP"><div class="panel-h"><h2>לוח הפצה</h2><span class="tag">${a.season}</span></div><ul class="timeline">${a.plan.map(([d,t,s])=>`<li><span>${d}</span><div><b>${t}</b>${s}</div></li>`).join("")}</ul></section>
+  <section class="panel quiz" id="quizP"><div class="panel-h"><h2>חידון משפחתי</h2><span class="tag new">אינטראקטיבי</span></div><div id="quizBox"></div></section>
+  <section class="panel" id="eventsP"><div class="panel-h"><h2>אירועים</h2><span class="tag">${a.events.length} רעיונות</span></div>${a.events.map(([w,t,p])=>`<div class="evt"><small>${w}</small><br><b>${t}</b><p>${p}</p></div>`).join("")}</section>
+  ${a.kidsStory?`<section class="panel" id="kidsP"><div class="panel-h"><h2>סיפור לילדים</h2><span class="tag new">חדש</span></div><b style="font:900 1.3rem var(--display)">${a.kidsStory.title}</b><p class="muted" style="margin:.2rem 0 .6rem;font-size:.85rem">${a.kidsStory.age}</p><p style="margin:0">${a.kidsStory.paras[0]} ${a.kidsStory.paras[1]}</p><a class="btn soft" href="#shabbat" style="margin-top:12px">לסיפור המלא בעמוד השבת</a></section>`:""}
+  ${a.lessonPlan?lessonHTML(a.lessonPlan):""}
+  <section class="panel" id="ideasP"><div class="panel-h"><h2>עוד אפשרויות לתוכן הזה</h2><span class="tag">רעיונות</span></div><div class="ideas">${IDEAS.map(([i,t,p])=>`<div class="idea"><i>${i}</i><div><b>${t}</b><p>${p}</p></div></div>`).join("")}</div></section>`;
+  $$(".fmt a").forEach(x=>{tilt(x,12);x.onclick=()=>document.getElementById(x.dataset.to).scrollIntoView({behavior:REDUCED?"auto":"smooth"})});
+  $$("#studioBody .qcard").forEach(q=>tilt(q,12));bindCopy();quiz(a)}
+function lessonHTML(l){return `<section class="panel lp" id="lessonP"><div class="panel-h"><h2>מערך שיעור</h2><span class="tag new">חדש</span></div><b style="font:900 1.3rem var(--display)">${l.title}</b><p class="muted" style="margin:.2rem 0 .8rem;font-size:.85rem">${l.meta}</p><b>מטרות</b><ul style="margin:.3rem 0 .8rem;padding-inline-start:20px">${l.goals.map(g=>`<li>${g}</li>`).join("")}</ul><ol>${l.steps.map(([t,h,p])=>`<li><span>${t}</span><div><b>${h}</b><p>${p}</p></div></li>`).join("")}</ol><p class="muted" style="font-size:.85rem;margin:.8rem 0 0"><b>ציוד:</b> ${l.materials}</p></section>`}
+const IDEAS=[["📖","חוברת לעונה","כל הסיפורים של עונה אחת (למשל חנוכה עד עשרה בטבת) בחוברת מודפסת, להפצה בבתי כנסת."],["🤖","סוכן וואטסאפ \"שאל את הסיפורים\"","שולחים לסוכן \"#סיפור על רבי זושא\" ומקבלים סיפור, קטע שמע וזמן מדויק, מתוך כל 44 השעות."],["🗺️","מפת הסיפורים","כל המקומות מהסיפורים על מפה אחת, מז'יטומיר ועד צנעא, וכל נקודה מובילה לרגע בהקלטה."],["📅","יארצייטים","תזכורת שבועית לפי יום ההילולא של כל צדיק שמופיע באוסף, עם הסיפור שלו."],["🎧","סדרות נושא","\"סיפורי שואה ואמונה\", \"ילדים צדיקים\", \"סיפורי חסד\": פלייליסטים שחוצים דיסקים."],["🖍️","דפי צביעה ופעילות","דף פעילות לילדים לכל סיפור: צביעה, תפזורת מילים וחידה."]];
+function quiz(a){const box=$("#quizBox");let i=0,score=0;const Q=a.quiz;
+  const draw=()=>{if(i>=Q.length){box.innerHTML=`<div style="text-align:center;padding:10px 0"><div style="font:900 3rem var(--display);color:var(--blue)">${score}/${Q.length}</div><p>${score===Q.length?"מושלם! כל הכבוד 🎉":"יפה מאוד! אפשר לשחק שוב"}</p><button class="btn" id="qAgain">עוד פעם</button></div>`;$("#qAgain").onclick=()=>{i=0;score=0;draw()};return}
+    const [q,opts,ans]=Q[i];box.innerHTML=`<div class="prog">${Q.map((_,j)=>`<i class="${j<i?"done":""}"></i>`).join("")}</div><div class="q">${q}</div><div class="opts">${opts.map((o,j)=>`<button class="opt" data-j="${j}">${o}</button>`).join("")}</div>`;
+    box.querySelectorAll(".opt").forEach(b=>b.onclick=()=>{const j=+b.dataset.j;box.querySelectorAll(".opt").forEach(x=>x.disabled=true);if(j===ans){b.classList.add("right");score++}else{b.classList.add("wrong");box.querySelectorAll(".opt")[ans].classList.add("right")}setTimeout(()=>{i++;draw()},1100)})};draw()}
+
+/* ---------- SEARCH ---------- */
+let SIDX=null,SDATA=null,loadingS=null;
+const norm=s=>" "+s.replace(/[\u0591-\u05C7]/g,"").replace(/[״"׳'.,?!:;()\-–]/g," ").replace(/\s+/g," ").trim().replace(/א(?= |$)/g,"ה")+" ";
+function initSearch(){const sg=$("#sugg");if(!sg.children.length)["רבי זושא","נרות חנוכה","אושוויץ","הבעל שם טוב","שבת","תפילין","רבי עקיבא","פורים"].forEach(w=>{const b=document.createElement("button");b.className="chip";b.textContent=w;b.onclick=()=>{$("#q").value=w;doSearch()};sg.appendChild(b)});
+  setTimeout(()=>$("#q").focus({preventScroll:true}),300)}
+async function loadSearch(){if(SDATA)return;if(loadingS)return loadingS;
+  loadingS=(async()=>{$("#sStatus").innerHTML='<div class="loading"><i></i>טוען את כל האוסף…</div>';SIDX=await (await fetch("data/search/index.json")).json();
+    SDATA=await Promise.all(SIDX.map(([i])=>fetch(`data/search/${i}.json`).then(r=>r.json()).then(rows=>rows.map(r=>[r[0],r[1],r[2],norm(r[2])]))));$("#sStatus").innerHTML=""})();return loadingS}
+let st;$("#q").addEventListener("input",()=>{clearTimeout(st);st=setTimeout(doSearch,250)});
+async function doSearch(){const raw=$("#q").value.trim();const res=$("#res");if(raw.length<2){res.innerHTML="";return}await loadSearch();
+  const q=norm(raw);const hits=[];SDATA.forEach((rows,di)=>rows.forEach(r=>{if(r[3].includes(q))hits.push([di,r])}));
+  const per={};hits.forEach(([d])=>per[d]=(per[d]||0)+1);
+  $("#sStatus").innerHTML=`<p class="muted" style="margin:14px 0 0">${hits.length?`${hits.length} תוצאות ב-${Object.keys(per).length} דיסקים`:"לא נמצאו תוצאות. נסו מילה אחרת"}</p>`;
+  const shown=hits.slice(0,60);let k=0;
+  res.innerHTML=shown.map(([di,[tr,t,txt]])=>{const name=SIDX[di][1];const num=discNum(name);const alb=ALBUMS.find(a=>a.disc===num);const ti=alb?alb.tracks.findIndex(x=>x.id===tr.toLowerCase()):-1;
+    const i=norm(txt).indexOf(q);const words=txt;let snip=esc(words);try{const re=new RegExp(raw.replace(/[.*+?^${}()|[\]\\]/g,"\\$&"),"g");snip=esc(words).replace(re,m=>`<mark>${m}</mark>`)}catch(e){}
+    const go=alb&&ti>=0?`<button class="go" data-a="${alb.id}" data-t="${ti}" data-s="${t}">▶ השמעה מ-${fmt(t)}</button>`:`<a class="go" href="https://drive.google.com/drive/folders/${SIDX[di][2]}" target="_blank" rel="noopener">פתיחה בדרייב · ${tr} · ${fmt(t)}</a>`;
+    return `<div class="hit st" style="--i:${Math.min(k++,12)}"><img src="covers/disc${DISCS.findIndex(d=>discNum(d)===num||d.startsWith(name.slice(0,6)))}.jpg" alt="" onerror="this.style.visibility='hidden'"><div><b>${esc(name)}</b> <small>· ${tr} · ${fmt(t)}</small><p>${snip}</p>${go}</div></div>`}).join("");
+  res.querySelectorAll("button.go").forEach(b=>b.onclick=()=>{const a=ALBUMS.find(x=>x.id===b.dataset.a);play(a,+b.dataset.t,+b.dataset.s,null)})}
+
+/* ---------- LIBRARY ---------- */
+function renderLibrary(){$("#readyN").textContent=ALBUMS.length;
+  $("#year").innerHTML=YEAR.map(([m,what,ds,extra,ex])=>`<div class="month"><h3>${m}</h3><p>${what}</p><div class="ds">${ds.map(n=>discBtn(n)).join("")}</div>${extra?`<p style="margin-top:.8rem">${extra}</p><div class="ds">${ex.map(n=>discBtn(n)).join("")}</div>`:""}</div>`).join("");
+  $("#lib").innerHTML=DISCS.map((d,i)=>{const [k,t]=d.split("|");const num=discNum(k);const r=READY.has(num);return `<button class="disc st" style="--i:${Math.min(i,14)}" data-n="${num}"><div class="art"><img src="covers/disc${i}.jpg" alt="" loading="lazy"></div><b>${t}</b><small>${k==="שמשון"?"סדרת שמשון":"דיסק "+k}</small><br><span class="pill ${r?"ready":""}">${r?"חבילה מלאה":"תומלל"}</span></button>`}).join("");
+  $$(".disc,.month .ds button").forEach(b=>b.onclick=()=>openDisc(b.dataset.n));$$(".disc .art").forEach(x=>tilt(x,12))}
+function discBtn(n){const i=discIdx(n);const t=i>=0?DISCS[i].split("|")[1]:n;return `<button data-n="${n}" class="${READY.has(n)?"ready":""}">${n} · ${t}</button>`}
+function openDisc(n){const a=ALBUMS.find(x=>x.disc===n);if(a){curAlbum=a;location.hash="#home";setTimeout(()=>{renderFlow();renderAlbum()},50)}else toast(`דיסק ${n} תומלל. אפשר לחפש בו בלשונית החיפוש`)}
+
+/* ---------- 3D HERO (three.js) ---------- */
+function hero3d(){const hero=$("#hero"),cv=$("#h3d");if(!window.THREE){hero.classList.add("nogl");return}
+  let R;try{R=new THREE.WebGLRenderer({canvas:cv,antialias:true,alpha:true})}catch(e){hero.classList.add("nogl");return}
+  R.setPixelRatio(Math.min(devicePixelRatio,2));R.outputEncoding=THREE.sRGBEncoding;R.toneMapping=THREE.ACESFilmicToneMapping;R.toneMappingExposure=1.15;
+  const S=new THREE.Scene(),C=new THREE.PerspectiveCamera(34,1,.1,50);C.position.set(0,.35,6.4);
+  // environment for gold reflections
+  const ec=document.createElement("canvas");ec.width=512;ec.height=256;const g=ec.getContext("2d");const gr=g.createLinearGradient(0,0,0,256);gr.addColorStop(0,"#fff4dc");gr.addColorStop(.45,"#e9a25a");gr.addColorStop(.6,"#4b2f8a");gr.addColorStop(1,"#0e1550");g.fillStyle=gr;g.fillRect(0,0,512,256);
+  for(let i=0;i<6;i++){const x=40+i*85,rg=g.createRadialGradient(x,70,0,x,70,60);rg.addColorStop(0,"rgba(255,255,255,1)");rg.addColorStop(1,"rgba(255,255,255,0)");g.fillStyle=rg;g.fillRect(0,0,512,256)}
+  const et=new THREE.CanvasTexture(ec);et.mapping=THREE.EquirectangularReflectionMapping;et.encoding=THREE.sRGBEncoding;const pm=new THREE.PMREMGenerator(R);S.environment=pm.fromEquirectangular(et).texture;
+  const gold=new THREE.MeshStandardMaterial({color:0xe8b44c,metalness:1,roughness:.22});
+  const M=new THREE.Group();S.add(M);M.position.y=-1.05;
+  const add=(geo,mat,x,y,z,rx,rz)=>{const m=new THREE.Mesh(geo,mat);m.position.set(x||0,y||0,z||0);if(rx)m.rotation.x=rx;if(rz)m.rotation.z=rz;M.add(m);return m};
+  add(new THREE.CylinderGeometry(.5,.78,.16,64),gold,0,-1.62);add(new THREE.CylinderGeometry(.22,.4,.22,48),gold,0,-1.45);
+  add(new THREE.CylinderGeometry(.055,.09,1.95,24),gold,0,-.4);
+  const SP=.4;for(let k=1;k<=4;k++)add(new THREE.TorusGeometry(k*SP,.04,16,96,Math.PI),gold,0,0,0,0,Math.PI);
+  for(let k=1;k<=4;k++)add(new THREE.SphereGeometry(.06,20,16),gold,0,-k*SP);
+  const wax=new THREE.MeshStandardMaterial({color:0xfff6e6,roughness:.55,metalness:0,emissive:0x3a2a10,emissiveIntensity:.25});
+  // flame sprite texture
+  const fc=document.createElement("canvas");fc.width=64;fc.height=128;const f=fc.getContext("2d");const fg=f.createRadialGradient(32,84,2,32,74,60);fg.addColorStop(0,"rgba(255,255,240,1)");fg.addColorStop(.25,"rgba(255,226,140,1)");fg.addColorStop(.6,"rgba(255,140,50,.55)");fg.addColorStop(1,"rgba(255,120,40,0)");f.fillStyle=fg;f.beginPath();f.moveTo(32,6);f.bezierCurveTo(62,60,58,118,32,122);f.bezierCurveTo(6,118,2,60,32,6);f.fill();
+  const ftex=new THREE.CanvasTexture(fc);const glc=document.createElement("canvas");glc.width=glc.height=128;const gg=glc.getContext("2d");const ggr=gg.createRadialGradient(64,64,0,64,64,64);ggr.addColorStop(0,"rgba(255,200,110,.9)");ggr.addColorStop(1,"rgba(255,200,110,0)");gg.fillStyle=ggr;gg.fillRect(0,0,128,128);const gtex=new THREE.CanvasTexture(glc);
+  const flames=[];const order=[4,8,7,6,5,3,2,1,0];
+  for(let i=0;i<9;i++){const x=(i-4)*SP,top=i===4?.32:0;
+    add(new THREE.CylinderGeometry(.075,.04,.08,24),gold,x,top+.03);
+    add(new THREE.CylinderGeometry(.035,.035,.34,16),wax,x,top+.24);
+    const fl=new THREE.Sprite(new THREE.SpriteMaterial({map:ftex,blending:THREE.AdditiveBlending,depthWrite:false,transparent:true,toneMapped:false,color:0xffc070}));fl.position.set(x,top+.56,0);fl.scale.set(0,0,1);M.add(fl);
+    const gl=new THREE.Sprite(new THREE.SpriteMaterial({map:gtex,blending:THREE.AdditiveBlending,depthWrite:false,transparent:true,opacity:0,toneMapped:false,color:0xffa040}));gl.position.set(x,top+.48,0);gl.scale.set(.9,.9,1);M.add(gl);
+    flames.push({fl,gl,at:.7+order.indexOf(i)*.42,ph:i*1.7})}
+  const PL=new THREE.PointLight(0xffb45a,0,7,1.6);PL.position.set(0,.7,.6);M.add(PL);
+  S.add(new THREE.AmbientLight(0x6b5cff,.35));const key=new THREE.DirectionalLight(0xfff0d0,1.1);key.position.set(-3,4,5);S.add(key);
+  // rising sparks
+  const N=160,pos=new Float32Array(N*3),spd=new Float32Array(N);for(let i=0;i<N;i++){pos[i*3]=(Math.random()-.5)*6;pos[i*3+1]=Math.random()*5-2.5;pos[i*3+2]=(Math.random()-.5)*3-.5;spd[i]=.15+Math.random()*.35}
+  const pg=new THREE.BufferGeometry();pg.setAttribute("position",new THREE.BufferAttribute(pos,3));const pts=new THREE.Points(pg,new THREE.PointsMaterial({map:gtex,size:.09,transparent:true,depthWrite:false,blending:THREE.AdditiveBlending,color:0xffd58a}));S.add(pts);
+  // interaction: drag to rotate, gentle auto-sway
+  let rotY=0,vel=0,dragging=false,lx=0,px=0,py=0;cv.style.touchAction="pan-y";
+  hero.addEventListener("pointerdown",e=>{if(e.target.closest("button,a"))return;dragging=true;lx=e.clientX});addEventListener("pointerup",()=>dragging=false);
+  hero.addEventListener("pointermove",e=>{const r=hero.getBoundingClientRect();px=(e.clientX-r.left)/r.width-.5;py=(e.clientY-r.top)/r.height-.5;if(dragging){vel=(e.clientX-lx)*.012;lx=e.clientX;rotY+=vel}});
+  function size(){const w=hero.clientWidth,h=hero.clientHeight;R.setSize(w,h,false);C.aspect=w/h;C.position.z=w<500?7.2:6.4;C.position.y=w<500?.05:.35;C.updateProjectionMatrix()}size();addEventListener("resize",size);
+  let vis=true;new IntersectionObserver(es=>vis=es[0].isIntersecting).observe(hero);
+  const t0=performance.now();
+  (function loop(now){requestAnimationFrame(loop);if(!vis||curView!=="home"||document.hidden)return;const t=REDUCED?20:(now-t0)/1000;
+    if(!dragging){vel*=.94;rotY+=vel}M.rotation.y=rotY+Math.sin(t*.35)*.28+px*.35;M.rotation.x=py*.12;
+    let lit=0;flames.forEach(o=>{const a=t-o.at;if(a>0){lit++;const k=Math.min(1,a/.45),fl=1+.09*Math.sin(t*11+o.ph)+.06*Math.sin(t*17.3+o.ph*2);o.fl.scale.set(.2*k*(1+.05*Math.sin(t*7+o.ph)),.42*k*fl,1);o.gl.material.opacity=.45*k}});
+    PL.intensity=lit*.38;const p=pg.attributes.position;for(let i=0;i<N;i++){p.array[i*3+1]+=spd[i]*.012;if(p.array[i*3+1]>2.6)p.array[i*3+1]=-2.5;p.array[i*3]+=Math.sin(t+i)*.0015}p.needsUpdate=true;
+    R.render(S,C)})(t0)}
+
+/* ---------- boot ---------- */
+renderFlow();renderAlbum();hero3d();route();if(curView==="home")show("home");
 </script>
 </body>
 </html>
